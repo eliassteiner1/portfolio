@@ -1,3 +1,5 @@
+<!-- a reusable "wrapper" for each page. this way, the boilerplate can be reused and the nav is automatically inserted in each page. only the content has to be specified separately -->
+
 <!DOCTYPE html>
 
 <!-- html root element -->
@@ -18,12 +20,14 @@
 
 <!-- the body contains the actual content of the website. only one body. -->
 <body>
-    {% include nav.html %}
-    {{ content }}
+  <!-- this inserts the nav element -->
+  {% include nav.html %}
+  <!-- this will shows which content this default layout is "wrapped around" -->
+  {{ content }}
 
 
   <!-- all the scripts will go at the end of the body tag! -->
-  <!-- <script src="somescript.js"></script> -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 
 </html>

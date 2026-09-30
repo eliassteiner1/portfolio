@@ -1,4 +1,6 @@
 /* ================================================================================================================== */
+/* GLOBAL FORMATTING HANDLES */
+/* ================================================================================================================== */
 /* some main formatting handles to easily adjust colors and the size of some elements or variables. :root selects the <html> element -> applies to everything */
 :root {
   --bg: #f7f8fa;
@@ -15,6 +17,8 @@
 
 
 /* ================================================================================================================== */
+/* GENERIC CSS (RE)SETS */
+/* ================================================================================================================== */
 /* the wildcard selects EVERY element. this is helpful for (re)setting some basic properties to start with predictable formatting and remove defaults */
 *, *::before, *::after { 
   /* this makes absolutely everything use the border-box model (sizing applies to border+padding) */
@@ -24,20 +28,26 @@
   padding: 0;
 }
 
+/* display images and svgs as block and not as text (which can add weird spacing) */
+svg, img { 
+  display: block; 
+}
+
+/* makes sure that content occupies the entire screen (more predictable for designing & footer) */
+body {
+  min-height: 100vh;
+}
+
 
 /* ================================================================================================================== */
+/* NAV BAR FORMATTING */
+/* ================================================================================================================== */
 
-h1 {
-  color: red;
-}
 
-p {
-  color: green;
-}
-
-.nav-bar {
+nav {
+  background-color: white;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   height: 60px;
-  background-color: var(--accent);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -58,14 +68,99 @@ p {
   width: 100%;
 }
 
-
 .nav-button {
   height: 40px;
   width: 100px;
-  background-color: var(--bg);
+  background-color: lightblue;
+  color: black;
+  text-decoration: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
 }
+
+.nav-button:hover {
+  background-color: aqua;
+}
+
+.menu-button {
+  display: none;
+}
+
+.sidebar {
+  background-color: lightsteelblue;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+  /* translates element by 100% of ITS width - so 100% is perfect amount */
+  transform: translateX(100%);
+  transition: transform 250ms cubic-bezier(.79,.14,.15,.86), visibility 300ms;
+  visibility: hidden;
+}
+
+/* this selector applies to elements that have BOTH classes */
+.sidebar.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.sidebar .nav-button {
+  width: 100%;
+  justify-content: left;
+  padding-left: 10px;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  /* shorthand for top/right/bottom/left: 0, so it covers the whole screen */
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms, visibility 250ms;
+}
+
+.sidebar-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media(max-width: 600px) {
+  .hideOnMobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+@media(max-width: 400px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+/* adding a background to the main body, and making sure the image is scaled to fill the screen and centered */
+body {
+  background-image: url(../images/background.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+h1 {color: red;}
+p {color: black;}

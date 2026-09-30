@@ -1,6 +1,30 @@
-<nav class="nav-bar">
-    <a href="{{ '/' | relative_url }}" class="nav-home"><img src="{{ '/assets/images/favicon.png' | relative_url }}" class="nav-home-icon"></a>
+<!-- reusable nav bar element that will get inserted at the beginning of every other page by jekyll. could be generated with javascript but this way is simpler. Relative urls are needed because github actually hosts the site at .../portfolio and not the top level. -->
+
+<!-- normal nav bar (top, horizontal) -->
+<nav>
+
+    <a href="{{ '/' | relative_url }}" class="nav-home">
+        <img src="{{ '/assets/images/favicon.png' | relative_url }}" class="nav-home-icon">
+    </a>
+
+    <a href="{{ '/page1' | relative_url }}" class="nav-button hideOnMobile">first page</a>
+    <a href="{{ '/page2' | relative_url }}" class="nav-button hideOnMobile">second page</a>
+    <a href="{{ '/page3' | relative_url }}" class="nav-button hideOnMobile">third page</a>
+    
+    <svg class="menu-button"  onclick=showSidebar() xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu preview-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+
+</nav>
+
+<!-- alternative sidebar (right, vertical) -->
+<div onclick=hideSidebar() class="sidebar-backdrop"></div>
+<div class="sidebar">
+
+    <div onclick=hideSidebar() class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x preview-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </div>
+    
     <a href="{{ '/page1' | relative_url }}" class="nav-button">first page</a>
     <a href="{{ '/page2' | relative_url }}" class="nav-button">second page</a>
     <a href="{{ '/page3' | relative_url }}" class="nav-button">third page</a>
-</nav>
+
+</div>
