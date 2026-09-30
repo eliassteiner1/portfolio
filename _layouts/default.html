@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<!-- html root element -->
+<html lang="en">
+
+<!-- this is kinda the METADATA for each website, title scripts and style sheets. This is not actually displayed in the website. only one head -->
+<head>
+  <meta charset="UTF-8">
+  <!-- this is really important to render webistes correctly on mobile. without this, mobile will assume it's desktop only and use quite a wide layout and make everything super small. with this line, the page width will actually be set to the mobile screen width. important to prompt with css @media queries and make responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- website title shown in browser tabs. should vary depending on the page (html file) the user is on -->
+  <title>{{ page.title }}</title>
+  <!-- icon shown in browser tab. I guess should be the same for alll pages (html files) -->
+  <link rel="icon" href="{ /images/favicon.png | relative_url }" type="image/png">
+  <!-- defines an external stylesheet. could also be hosted elsewhere (like when using bootstrap for example) -->
+  <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+</head>
+
+<!-- the body contains the actual content of the website. only one body. -->
+<body>
+    {% include nav.html %}
+    {{ content }}
+
+
+  <!-- all the scripts will go at the end of the body tag! -->
+  <!-- <script src="somescript.js"></script> -->
+</body>
+
+</html>
