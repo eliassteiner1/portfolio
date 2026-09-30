@@ -1,4 +1,5 @@
-/* ---------- Design tokens: change these to restyle the whole site ---------- */
+/* ================================================================================================================== */
+/* some main formatting handles to easily adjust colors and the size of some elements or variables. :root selects the <html> element -> applies to everything */
 :root {
   --bg: #f7f8fa;
   --surface: #ffffff;
@@ -13,14 +14,18 @@
 }
 
 
-/* ---------- Base ---------- */
-
-/* this makes absolutely everything use the border-box model (sizing applies to border+padding). is easier to work with. * is the selector for everything. */
+/* ================================================================================================================== */
+/* the wildcard selects EVERY element. this is helpful for (re)setting some basic properties to start with predictable formatting and remove defaults */
 *, *::before, *::after { 
+  /* this makes absolutely everything use the border-box model (sizing applies to border+padding) */
   box-sizing: border-box;
+  /* remove all default paddings and margins to start from a clean slate */
   margin: 0;
   padding: 0;
 }
+
+
+/* ================================================================================================================== */
 
 h1 {
   color: red;
@@ -30,10 +35,37 @@ p {
   color: green;
 }
 
-.link-box {
+.nav-bar {
+  height: 60px;
+  background-color: var(--accent);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  height: 100px;
-  justify-content: space-around;
+  justify-content: right;
+  gap: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.nav-home {
+  height: 40px;
+  width: 40px;
+  margin-right: auto;
+}
+
+.nav-home-icon {
+  height: 100%;
+  width: 100%;
+}
+
+
+.nav-button {
+  height: 40px;
+  width: 100px;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
 }
