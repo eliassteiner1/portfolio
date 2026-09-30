@@ -1,37 +1,37 @@
 <!DOCTYPE html>
+
+<!-- html root element -->
 <html lang="en">
 
+<!-- this is kinda the METADATA for each website, title scripts and style sheets. This is not actually displayed in the website. only one head -->
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Elias Steiner - Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <!-- this is really important to render webistes correctly on mobile. without this, mobile will assume it's desktop only and use quite a wide layout and make everything super small. with this line, the page width will actually be set to the mobile screen width. important to prompt with css @media queries and make responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- website title shown in browser tabs. should vary depending on the page (html file) the user is on -->
+  <title>Elias Steiner</title>
+  <!-- icon shown in browser tab. I guess should be the same for alll pages (html files) -->
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <!-- defines an external stylesheet. could also be hosted elsewhere (like when using bootstrap for example) -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
+<!-- the body contains the actual content of the website. only one body. -->
 <body>
-  <header class="site-header">
-    <div class="inner">
-      <a class="site-name" href="index.html">Your Name</a>
-      <nav class="site-nav">
-        <a href="index.html" aria-current="page">About me</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <img class="portrait" src="images/portrait.jpg" alt="" onerror="this.style.visibility='hidden'">
-    <h1>Hi, I'm Your Name.</h1>
-    <p>A short intro goes here: who you are, what you work on, and what you are looking for. Two or three sentences is plenty.</p>
+  <h1> welcome to the website!!</h1>
+  <div class="link-box">
+    <a href="./page1">first page</a>
+    <a href="./page2">second page</a>
+    <a href="./page3">third page</a>
+  </div>
 
-    <h2>Background</h2>
-    <p>Placeholder text about your education, experience and the range of topics you work on. Replace this with your own story.</p>
+  <p> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
-    <h2>Skills</h2>
-    <p>Python, C++, data visualization, and whatever else belongs here.</p>
-  </main>
+
+
+
+  <!-- all the scripts will go at the end of the body tag! -->
+  <!-- <script src="somescript.js"></script> -->
 </body>
+
 </html>
