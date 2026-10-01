@@ -9,30 +9,48 @@ nav_order: 2
     <h1>projects</h1>
 
     <div class="project-grid">
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_1.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_2.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_3.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_4.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_1.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick=openProject(event)>
             <img src="{{ '/assets/images/test_2.jpg' | absolute_url}}" class="project-bgimg">
             <div class="project-dsc">dsc</div>
+            <div class="project-details" hidden>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</div>
         </div>
     </div> 
+
+    <dialog class="project-modal">
+        <div class="project-modal-content">
+
+        </div>
+        <div onclick=closeProject()>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x preview-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </div>
+        
+
+    </dialog>
+
 </div>
 

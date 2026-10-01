@@ -24,3 +24,49 @@ function navigateFromSidebar(event) {
   hideSidebar()
   setTimeout(() => { window.location.href = url }, 200)
 }
+
+
+
+
+
+function openProject(event) {
+  const card = event.currentTarget
+  const dialog = document.querySelector(".project-modal")
+  const content = document.querySelector(".project-modal-content")
+
+  content.innerHTML = card.querySelector(".project-details").innerHTML
+  card.classList.add("opening")
+
+  // delay the showing of modal until the image and description have faded
+  setTimeout(() => {
+    // current card position
+    const from = card.getBoundingClientRect()
+
+    dialog.showModal()
+
+    // this is then the final position of the card
+    const to = dialog.getBoundingClientRect()
+
+    const dx = from.left - to.left
+    const dy = from.top - to.top
+    const sx = from.width / to.width
+    const sy = from.height / to.height
+
+    dialog.animate(
+      [
+        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+        { transform: "none" }
+      ],
+      { duration: 100, easing: "ease-in-out" }
+    )
+
+
+  }, 10)
+}
+
+
+function closeProject() {
+  document.querySelector(".project-modal").close()
+
+
+}
