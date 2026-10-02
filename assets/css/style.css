@@ -126,39 +126,53 @@ p {
   justify-content: center;
 }
 
+/* the item is only a placeholder ("slot") in the grid. it keeps its size even while the card inside it is the popup, so the other cards don't jump around */
 .project-item {
-  background-color: rgba(0, 0, 0, 0.0);
+  /* makes the card inside position itself relative to this slot */
+  position: relative;
   /* fills the automatically determined columns */
   width: 100%;
-  /* an aspect ratio is set so that the height is determined according to the column widths */
+  /* the slot now determines the aspect ratio (not the image anymore), so the height follows from the column width */
+  aspect-ratio: 1.414;
+}
+
+/* the card is the visible thing. it has two states: lying in its slot (default) or being the popup (.expanded on the item) */
+.project-card {
+  /* covers the slot exactly */
+  position: absolute;
+  inset: 0;
+
+  background-color: rgb(20, 20, 20);
   border-radius: 20px;
   box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5);
   border: 3px solid white;
 
   display: grid;
   grid-template-areas: "stack";
+  /* one row and one column that are exactly as large as the card. minmax(0, ...) stops a large image from stretching them */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
 
+  /* clips the zooming image, and also rounds the corners of everything inside (so the image and description need no own border-radius) */
   overflow: hidden;
 }
-
 
 .project-bgimg {
   grid-area: stack;
 
+  /* fills the card */
   width: 100%;
-  /* this now determines the cards aspect ratio! */
-  aspect-ratio: 1.414;
+  height: 100%;
   /* this prevents the image from becoming distorted */
   object-fit: cover;
   /* this chooses which part of the image to show, if it's too large */
   object-position: center;
 
-  border-radius: 17px;
-
   transition: transform 0.4s ease-in-out;
 }
 
-.project-item:hover .project-bgimg{
+/* no zooming while the card is the popup */
+.project-item:not(.expanded):hover .project-bgimg {
   transform: scale(1.10);
 }
 
@@ -171,8 +185,127 @@ p {
   backdrop-filter: blur(4px);
 
   padding: 20px;
-  border-bottom-left-radius: 17px;
-  border-bottom-right-radius: 17px;
+}
+
+/* invisible button on top of the whole card, it is what actually gets clicked */
+.project-open {
+  grid-area: stack;
+  /* needed so it really is on top: the hovered image (transform) and the description (backdrop-filter) get painted above normal elements, and would swallow the click otherwise */
+  z-index: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* shows keyboard users which card they are on */
+.project-open:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -8px;
+}
+
+/* these only exist in the popup. display: none also hides them from tab and screen readers */
+.project-close,
+.project-detail {
+  display: none;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* the popup state */
+
+.project-item.expanded .project-card {
+  /* fixed = positioned relative to the screen instead of the slot. careful: this stops working if a parent ever gets a transform or filter */
+  position: fixed;
+  /* inset 0 + margin auto + a size smaller than the screen = centered (the same trick the <dialog> element uses) */
+  inset: 0;
+  margin: auto;
+  width: min(800px, 100% - 40px);
+  height: fit-content;
+  max-height: calc(100% - 40px);
+  /* above the backdrop */
+  z-index: 11;
+
+  /* a second row below the image for the detail text, both rows as tall as their content */
+  grid-template-areas: "stack" "detail";
+  grid-template-rows: auto auto;
+  /* if the popup is taller than the screen, it scrolls inside */
+  overflow-y: auto;
+}
+
+.project-item.expanded .project-bgimg {
+  /* in the popup the image is a banner with its own aspect ratio */
+  height: auto;
+  aspect-ratio: 2;
+}
+
+.project-item.expanded .project-open {
+  display: none;
+}
+
+.project-item.expanded .project-close {
+  /* top right corner of the image */
+  grid-area: stack;
+  justify-self: end;
+  align-self: start;
+  margin: 10px;
+  /* same reason as for .project-open */
+  z-index: 1;
+
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-item.expanded .project-detail {
+  display: block;
+  grid-area: detail;
+  padding: 20px;
+}
+
+.project-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.project-backdrop.open {
+  display: block;
+}
+
+/* the page behind the popup should not scroll */
+body.project-open {
+  overflow: hidden;
+}
+
+/* always keeps the space for the scrollbar reserved, so the page doesn't jump sideways when the scrollbar disappears because of the rule above */
+html {
+  scrollbar-gutter: stable;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* the animation between the two states (started in main.js with document.startViewTransition) */
+
+/* an element with a view-transition-name is animated on its own: the browser moves and resizes it from where it was before the change to where it is after. javascript puts .morphing on the item that gets opened/closed, because a name may only exist once on the page */
+.project-item.morphing .project-card {
+  view-transition-name: project-card;
+}
+
+/* speed of the card growing/shrinking, and of the rest of the page (root) fading, which is what fades the backdrop */
+::view-transition-group(project-card),
+::view-transition-group(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
 }
 
 
