@@ -282,7 +282,6 @@ p {
   grid-template-areas: "stack";
   overflow: hidden; /* hiding overflow here, makes it so that the image hover zoom is clipped */
 }
-
 .card-bg {
   width: 100%;
   height: 100%;
@@ -291,7 +290,6 @@ p {
   object-fit: cover; /* this prevents the image from becoming distorted */
   object-position: top; /* this chooses which part of the image to show, if it's too large */
 }
-
 .card-title {
   grid-area: stack;
   align-self: end;
@@ -301,10 +299,21 @@ p {
   color: #CECDC3;
   backdrop-filter: blur(4px);
 }
-
 .card-desc {
   display: none;
 }
+.card-x {
+  display: none;
+}
+.card-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 998; /* should sit just below expanded card */
+}
+
+
 
 /* class that can be assigned to an card that is clicked and fills the whole screen */
 .card.expanded {
@@ -326,7 +335,6 @@ p {
     "text";
 
 }
-
 .card.expanded .card-title {
   all: revert;
   grid-area: title;
@@ -335,10 +343,9 @@ p {
   
   background-color: yellow;
 }
-
 .card.expanded .card-desc {
   all: revert;
-  grid-area: "text";
+  grid-area: text;
   display: block;
   padding: 20px;
   background-color: chartreuse;
@@ -346,21 +353,34 @@ p {
 .card.expanded .card-desc p {
   color: black;
 }
-
 .card.expanded .card-bg {
   display: none;
 }
+.card.expanded .card-x {
+  display: block;
+  grid-area: title;
+  justify-self: end;
+  align-self: center;
+  margin-right: 10px;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+.page:has(.card.expanded) .card-backdrop {
+  display: block;
+}
 
 
+
+/* everything that has a morphing class can now be assigned a transition name this can be used to create different subgroups  */
 .card.morphing {
   view-transition-name: card;
 }
-::view-transition-group(card) {
-  animation-duration: 0.5s;
+::view-transition-group(card),
+::view-transition-group(root) {
+  animation-duration: 0.2s;
   animation-timing-function: ease-in-out;
 }
-
-
 
 
 

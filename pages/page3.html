@@ -15,14 +15,17 @@ nav_order: 3
         {% for project in projects %}
             <!-- this is just a placeholder so that the grid doesn't collapes when animating -->
             <div class="responsive-grid-slot">
-                <div class="card"onclick=toggleCard(event)>
+                <div class="card" onclick=openCard(event)>
                     <img class="card-bg" src="{{ project.image | relative_url }}">
                     <div class="card-title">{{ project.title }}</div>
                     <div class="card-desc">{{ project.content | markdownify }}</div>
+                    <button class="card-x" onclick=closeCard(event)> asdf</button>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    <div class="card-backdrop" onclick=closeCard(event)></div>
 
 </div>
 
