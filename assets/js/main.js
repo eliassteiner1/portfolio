@@ -28,7 +28,6 @@ function navigateFromSidebar(event) {
 
 
 
-
 // stores which card is currently expanded
 let expandedCard = null
 // remembers the last started animation, so closing can wait for it to finish

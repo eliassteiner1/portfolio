@@ -84,6 +84,14 @@ body {
   font-family: var(--font);
 }
 
+body:has(.card.expanded) {
+  overflow: hidden; /* this disables scrolling while a card is expanded */
+}
+
+html {
+  scrollbar-gutter: stable; /* always keeps the space for scrollbar reserved */
+}
+
 
 
 /* ================================================================================================================== */
@@ -156,6 +164,7 @@ nav {
   visibility: hidden;
   gap: 10px;
   padding-top: 10px;
+  z-index: 999;
 }
 
 /* this selector applies to elements that have BOTH classes */
@@ -263,8 +272,6 @@ p {
 .responsive-grid-slot {
   width: 100%; /* fills the automatically determined columns */
   aspect-ratio: 1.414; /* this then calculates the necessary height from the given width */
-
-  background-color: rgba(238, 130, 238, 1.0); /* TEMP */
 }
 
 /* this is the actual card with the project content */
@@ -274,7 +281,7 @@ p {
 
   border-radius: 20px;
   border: 5px solid #CECDC3;
-  background-color: grey;
+  background-color: #CECDC3;
 
   display: grid; /* making this a grid with one cell and one area allows for easy stacking of subcomponents */
   grid-template-columns: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
@@ -288,18 +295,42 @@ p {
 
   grid-area: stack;
   object-fit: cover; /* this prevents the image from becoming distorted */
-  object-position: top; /* this chooses which part of the image to show, if it's too large */
+  object-position: center; /* this chooses which part of the image to show, if it's too large */
+
+  transition: transform 0.15s ease-in-out;
+}
+.card:hover .card-bg {
+  transform: scale(1.08);
 }
 .card-title {
   grid-area: stack;
   align-self: end;
   
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.3);
+  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   color: #CECDC3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  position: relative;
+  isolation: isolate; /* creates kind of a new z-index context (to not use global one) */
+}
+.card-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 1.0);
   backdrop-filter: blur(4px);
+  mask-image: linear-gradient(to top, black, rgba(0,0,0,0.6) 70%, rgba(0,0,0, 0.3)85%, transparent);
 }
 .card-desc {
+  display: none;
+}
+.card-images {
   display: none;
 }
 .card-x {
@@ -320,35 +351,42 @@ p {
   position: fixed;
   inset: 0;
   margin: auto;
+  padding-bottom: 40px;
   width: min(800px, 100% - 40px);
   height: min(800px, 100% - 40px);
   z-index: 999;
-
-  background-color: aquamarine; /* TEMP */
-  opacity: 1; /* TEMP */
+  overflow: visible;
 
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   grid-template-areas: 
-    "title" 
-    "text";
-
+    "title title" 
+    "text images";
 }
 .card.expanded .card-title {
   all: revert;
   grid-area: title;
   font-weight: bold;
+  font-size: xx-large;
+  align-self: center;
+  /* background-color: chartreuse; */
   padding: 20px;
-  
-  background-color: yellow;
+  text-wrap: balance;
+}
+.card.expanded .card-title::before {
+  all: revert;
 }
 .card.expanded .card-desc {
   all: revert;
   grid-area: text;
   display: block;
-  padding: 20px;
-  background-color: chartreuse;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: scroll;
+  background-color: navajowhite;
 }
 .card.expanded .card-desc p {
   color: black;
@@ -356,21 +394,30 @@ p {
 .card.expanded .card-bg {
   display: none;
 }
+.card.expanded .card-images {
+  grid-area: images;
+  display: block;
+  background-color: purple;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .card.expanded .card-x {
   display: block;
-  grid-area: title;
-  justify-self: end;
-  align-self: center;
-  margin-right: 10px;
+  position: absolute;
+  bottom: 00px;
+  left: 50%;
+  translate: -50% 0%;
+
+  background-color: firebrick;
+  border-radius: 20px;
+  width: 100px;
   height: 40px;
-  width: 40px;
+
   cursor: pointer;
 }
 .page:has(.card.expanded) .card-backdrop {
   display: block;
 }
-
-
 
 /* everything that has a morphing class can now be assigned a transition name this can be used to create different subgroups  */
 .card.morphing {
@@ -378,7 +425,7 @@ p {
 }
 ::view-transition-group(card),
 ::view-transition-group(root) {
-  animation-duration: 0.2s;
+  animation-duration: 0.15s;
   animation-timing-function: ease-in-out;
 }
 
