@@ -1,5 +1,8 @@
 title: Elias Steiner
 baseurl: "/portfolio"
+collections:
+  projects: 
+    output: false
 exclude:
   - Gemfile
   - Gemfile.lock

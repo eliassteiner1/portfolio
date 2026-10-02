@@ -1,3 +1,4 @@
+// basic sidebar functionality
 function showSidebar(){
   const sidebar = document.querySelector(".sidebar")
   const sidebarBackdrop = document.querySelector(".sidebar-backdrop")
@@ -24,3 +25,5 @@ function navigateFromSidebar(event) {
   hideSidebar()
   setTimeout(() => { window.location.href = url }, 200)
 }
+
+

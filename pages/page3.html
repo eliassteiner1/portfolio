@@ -5,8 +5,25 @@ permalink: /publications
 nav_order: 3
 ---
 
-<h1>all my theses & publications would go here</h1>
 
-<p>(page 3)</p>
+<div class="page">
+    
+    <h1>all my theses & publications would go here</h1>
+    
+    <div class="responsive-grid">
+        {% assign projects = site.projects | sort: "order" %}
+        {% for project in projects %}
+            <!-- this is just a placeholder so that the grid doesn't collapes when animating -->
+            <div class="responsive-grid-slot">
+                <div class="card">
+                    <!-- <img class="card-bg" src="{{ project.image | relative_url }}">
+                    <div class="card-title">{{ project.title }}</div> -->
+                </div>
 
-<p>needs some content here</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
