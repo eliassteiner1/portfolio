@@ -27,3 +27,16 @@ function navigateFromSidebar(event) {
 }
 
 
+
+function toggleCard(event) {
+  const card = event.currentTarget
+
+  // as multiple subelements might need separate view-transition-names, it's easier to just add a ".morphing" class to the clicked card, and define the individual transition-names in css with selectors for children. but first. any existing morphing classes have to be removed! only the clicked element should have it
+  document.querySelectorAll(".card").forEach((c) => { c.classList.remove("morphing") })
+  card.classList.add("morphing")
+  
+  // tells the browser to do a view transition around this change
+  document.startViewTransition(() => {
+    card.classList.toggle("expanded")
+  })
+}

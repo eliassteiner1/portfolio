@@ -302,6 +302,72 @@ p {
   backdrop-filter: blur(4px);
 }
 
+.card-desc {
+  display: none;
+}
+
+/* class that can be assigned to an card that is clicked and fills the whole screen */
+.card.expanded {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(800px, 100% - 40px);
+  height: min(800px, 100% - 40px);
+  z-index: 999;
+
+  background-color: aquamarine; /* TEMP */
+  opacity: 1; /* TEMP */
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: 
+    "title" 
+    "text";
+
+}
+
+.card.expanded .card-title {
+  all: revert;
+  grid-area: title;
+  font-weight: bold;
+  padding: 20px;
+  
+  background-color: yellow;
+}
+
+.card.expanded .card-desc {
+  all: revert;
+  grid-area: "text";
+  display: block;
+  padding: 20px;
+  background-color: chartreuse;
+}
+.card.expanded .card-desc p {
+  color: black;
+}
+
+.card.expanded .card-bg {
+  display: none;
+}
+
+
+.card.morphing {
+  view-transition-name: card;
+}
+::view-transition-group(card) {
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+
+
+
+
+
+
+
+
 
 
 
