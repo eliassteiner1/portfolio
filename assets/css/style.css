@@ -340,7 +340,7 @@ body {
   margin: auto;
   padding: 10px;
   width: min(800px, 100% - 40px);
-  height: min(800px, 100% - 40px);
+  height: calc(100% - 40px); /* height: min(800px, 100% - 40px); */
   z-index: 999;
   overflow: visible;
   color: black;
@@ -377,8 +377,18 @@ body {
   grid-area: text;
   display: block;
   overflow: scroll;
-  margin: 20px 0 20px 0;
-  padding: 0 20px 0 20px;
+  margin: 10px 0 10px 0;
+  padding: var(--fade) 20px var(--fade) 20px;
+
+  /* for having a smooth fade when scrolling at the top and bottom */
+  --fade: 12px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--fade),
+    black calc(100% - var(--fade)),
+    transparent
+  );
 }
 .card.expanded .card-bg {
   display: none;
@@ -390,11 +400,10 @@ body {
 
   border-radius: 10px;
   background-color: rgb(28, 27, 26);
-  
 }
 .card.expanded a {
   color: #CECDC3;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .card.expanded .card-x {
   display: block;
@@ -435,63 +444,84 @@ body {
 /* EXPERIMENTS */
 /* ================================================================================================================== */
 
-
-.landscape1 {
+/* this stays the same for all figures => just the combination of caption + image */
+.my-figure {
   display: grid;
-  grid-template-areas: "stack1";
-  
-  width: 80%;
-  margin-inline: auto;
-}
-.landscape1 img {
-  grid-area: stack1;
-}
-.landscape1 figcaption {
-  grid-area: stack1;
-}
-
-
-
-.landscape2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-areas: "stack1 stack2";
-  gap: 20px;
-  
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: "stack";
   width: 100%;
 }
-
-.landscape2 img:first-of-type,
-.landscape2 figcaption:first-of-type {
-  grid-area: stack1;
-}
-.landscape2 img:nth-of-type(2), 
-.landscape2 figcaption:nth-of-type(2) {
-  grid-area: stack2;
-}
-
-
-
-.my-figure {
-  margin-block: 20px;
-}
-
 .my-figure img {
+  grid-area: stack;
   width: 100%;
   aspect-ratio: 1.414;
   border-radius: 10px;
   object-fit: cover;
 }
-
 .my-figure figcaption {
+  grid-area: stack;
   align-self: end;
-
-  padding: 6px 12px 6px 12px;
+  padding: 4px 12px 4px 12px;
   margin: 0 12px 0 12px;
   border-radius: 5px 5px 0 0;
-
   color: #CECDC3;
   font-size: small;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
 }
+
+/* single image showcase (kinda dummy div to achieve smaller size compared to gallery) */
+.single {
+  width: 80%;/* width: min(500px, 90%); */
+  margin-block: 20px;
+  margin-inline: auto; /* for centering */
+}
+
+
+
+
+.gallery {
+  width: 100%;
+  margin-block: 20px;
+
+  /* TODO: ultimately this should proobably be enforce ond the open img, but that might be haaard xD*/
+  aspect-ratio: 3; 
+  
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+}
+.initial {
+  flex-grow: 100;
+}
+.gallery .my-figure {
+  width: 50px;
+  height: 100%;
+
+  transition: flex-grow 0.2s ease-in-out;
+}
+.gallery .my-figure img {
+  aspect-ratio: auto;
+  height: 100%;
+}
+.gallery .my-figure figcaption {
+  display: none;
+}
+
+
+.gallery .my-figure:hover{
+  flex-grow: 100;
+}
+
+.gallery:has(.my-figure:hover) .initial:not(:hover) {
+  flex-grow: 0;
+}
+
+
+
+
+
+
+
