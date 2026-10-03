@@ -1,0 +1,8 @@
+<!-- reusable element to insert figures with jekyll in project markdown files. caption is shown as a overlay on the image -->
+
+<figure class="my-figure landscape2">
+    <img src="{{ include.src1 | relative_url }}">
+    <img src="{{ include.src2 | relative_url }}">
+    <figcaption>{{ include.caption1 | markdownify }}</figcaption>
+    <figcaption>{{ include.caption2 | markdownify }}</figcaption>
+</figure>
