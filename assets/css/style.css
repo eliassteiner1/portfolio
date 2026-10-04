@@ -224,13 +224,11 @@ body {
   text-align: justify;
   hyphens: auto;
 }
-
 .portrait {
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
-
 .about-me {
   display: flex;
   flex-direction: column;
@@ -253,7 +251,6 @@ body {
   gap: 40px;
   margin: 40px;
 }
-
 .responsive-grid {
   width: 100%;
   display: grid;
@@ -460,7 +457,6 @@ body {
 .my-figure img {
   grid-area: stack;
   width: 100%;
-  aspect-ratio: 1.414;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -485,14 +481,22 @@ body {
   margin-block: 20px;
   margin-inline: auto; /* for centering */
 }
+.single .my-figure img {
+  aspect-ratio: 1.414;
+}
 
 
 
 /* TODO: cleanup vars xD and magic numbers */
 .gallery {
-  --strip: 40px;
-  --gap: 8px;
+  --strip-frac: 0.06;
+  --gap-frac: 0.012;
+  
+  --strip: calc(var(--strip-frac) * 100cqi);
   --ratio-open: 1.414;
+
+  --t-caption: 0.1s;
+  --t-flex: 0.2s;
 
   width: 90%;
   margin-block: 20px;
@@ -500,7 +504,7 @@ body {
   
   display: flex;
   flex-direction: row;
-  gap: var(--gap);
+  gap: calc(var(--gap-frac) * 100%);
 
   container-type: inline-size; /* allows children to measure it's width => promises to not depend on width of children, which would cause a possible loop. needed to measure width and manually calculate gallery height later */
 }
@@ -508,39 +512,34 @@ body {
 .gallery .my-figure {
   flex-grow: 0;
   width: var(--strip);
-  height: calc((100cqi - (var(--n) - 1) * (var(--strip) + var(--gap))) / var(--ratio-open)); /* calculates the height so that ultimately the open image has the right aspect ratio TODO: this is now kinda wronnng*/
+  height: calc((100cqi - (var(--n) - 1) * (var(--strip) + calc(var(--gap-frac) * 100cqi))) / var(--ratio-open)); /* calculates the height so that ultimately the open image has the right aspect ratio*/
   overflow: hidden;
 
   transition: 
-    flex-grow 0.2s ease-in-out 0.10s,
-    padding 0.2s ease-in-out 0.10s,
-    width 0.2s ease-in-out 0.10s;
+    flex-grow var(--t-flex) ease-in-out var(--t-caption),
+    opacity var(--t-flex) ease-in-out var(--t-caption);
 }
 .gallery .my-figure img {
-  aspect-ratio: auto; /* just removes the aspect ratio that img originally had */
   height: 100%;
 }
-.gallery .my-figure.open {
-  /* this applies only to the currently clicked enlarged gallery card! */
+
+.gallery .my-figure.open { /* this applies only to the currently clicked enlarged gallery card! */
   flex-grow: 100;
   padding-block: 0px;
-  
 }
 .gallery .my-figure:not(.open) {
-  padding-block: calc(pow((var(--d)/(var(--n) - 1)),2)*30px + 0px);
-  width: calc(50px - pow((var(--d)/(var(--n) - 1)),2)*20px);
   cursor: pointer;
+  opacity: 0.6;
 }
-
 
 .gallery .my-figure figcaption {
-  translate: 0 calc(100% + 30px); /* also shift out of padding block! this is a bit hacky? */
-  transition: translate 0.10s ease-in-out; 
+  translate: 0 100%;
+  transition: translate var(--t-caption) ease-in-out; 
 }
-
-.gallery .my-figure.open figcaption {
+.gallery .my-figure.open figcaption { /* this animates only on opening a card but not on closing! */
   translate: 0 0;
-  transition: translate 0.10s ease-in-out 0.30s;  
+  transition: 
+    translate var(--t-caption) ease-in-out calc(var(--t-caption) + var(--t-flex)); 
 }
 
 
