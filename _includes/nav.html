@@ -17,23 +17,23 @@
     {% endfor %}
     
     <!-- menu icon is separate again -->
-    <svg class="menu-button"  onclick=showSidebar() xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu preview-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+    <svg class="menu-button"  onclick="showSidebar()" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu preview-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
 
 </nav>
 
 <!-- alternative sidebar (right, vertical) -->
-<div onclick=hideSidebar() class="sidebar-backdrop"></div>
+<div onclick="hideSidebar()" class="sidebar-backdrop"></div>
 
 <div class="sidebar">
 
     <!-- close icon is separate -->
-    <div onclick=hideSidebar() class="nav-button">
+    <div onclick="hideSidebar()" class="nav-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x preview-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
     </div>
     
     <!-- populates nav bar with all info found at the beginning -->
     {% for p in nav_pages %}
-        <a href="{{ p.url | relative_url }}" onclick=navigateFromSidebar(event) class="nav-button {% if p.url == page.url %}active{% endif %}">{{ p.title }}</a>
+        <a href="{{ p.url | relative_url }}" onclick="navigateFromSidebar(event)" class="nav-button {% if p.url == page.url %}active{% endif %}">{{ p.title }}</a>
     {% endfor %}
 
 </div>

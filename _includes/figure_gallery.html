@@ -1,20 +1,27 @@
 <!-- reusable element to insert figures with jekyll in project markdown files. caption is shown as a overlay on the image -->
 
-<div class="gallery">
-    <figure class="my-figure initial">
-        <img src="{{ include.src1 | relative_url }}">
-        <figcaption>{{ include.caption1 | markdownify }}</figcaption>
-    </figure>
-    <figure class="my-figure">
-        <img src="{{ include.src1 | relative_url }}">
-        <figcaption>{{ include.caption1 | markdownify }}</figcaption>
-    </figure>
-    <figure class="my-figure">
-        <img src="{{ include.src1 | relative_url }}">
-        <figcaption>{{ include.caption1 | markdownify }}</figcaption>
-    </figure>
-    <figure class="my-figure">
-        <img src="{{ include.src1 | relative_url }}">
-        <figcaption>{{ include.caption1 | markdownify }}</figcaption>
-    </figure>
+{% assign n = 0 %}
+<!-- stores all the figures in a list -->
+{% capture figures %}
+    <!-- loop from 1-10, doesn't have while loop -->
+    {% for i in (1..10) %}
+        <!-- produces the srcN and captionN keys without hardcoding them -->
+        {% assign src_key = "src" | append: i %}
+        {% assign caption_key = "caption" | append: i %}
+        {% if include[src_key] %}
+            {% assign n = n | plus: 1 %}
+            <figure class="my-figure{% if i == 1 %} open{% endif %}" onclick="toggleGallery(event)" style="--d: {{ n | minus:1 }}">
+                <img src="{{ include[src_key] | relative_url }}">
+                <figcaption>{{ include[caption_key] | markdownify }}</figcaption>
+            </figure>
+        {% endif %}
+    {% endfor %}
+{% endcapture %}
+
+<!-- only once the count is known, actually write the div! and pass on count as css var -->
+<div class="gallery" style="--n: {{ n }}">
+    {{ figures }}
 </div>
+
+
+

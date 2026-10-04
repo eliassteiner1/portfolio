@@ -1,3 +1,5 @@
+// navigation bar --------------------------------------------------------------
+
 // basic sidebar functionality
 function showSidebar(){
   const sidebar = document.querySelector(".sidebar")
@@ -27,6 +29,7 @@ function navigateFromSidebar(event) {
 }
 
 
+// open project card -----------------------------------------------------------
 
 // stores which card is currently expanded
 let expandedCard = null
@@ -79,4 +82,27 @@ document.addEventListener("keydown", (event) => {
 })
 
 
+// gallery "carousel" ----------------------------------------------------------
+
+function toggleGallery(event) {
+  const figure = event.currentTarget
+
+  // clicked figure is already open -> do notihng
+  if (figure.classList.contains("open")) return
+
+  // remove all existing open classes from this gallery
+  const gallery = figure.parentElement
+  gallery.querySelectorAll(".my-figure").forEach((f) => { f.classList.remove("open") })
+  figure.classList.add("open")
+
+
+  // for handling the differently sized side elements
+  // takes all the figures in this gallery (which we already have :)
+  const figures = Array.from(gallery.querySelectorAll(".my-figure"))
+  // get the index of this figure that was just set to be the open one
+  const openIndex = figures.indexOf(figure)
+
+  // then basically assign each other element a --var for how far it is from the open element
+  figures.forEach((f, index) => { f.style.setProperty("--d", Math.abs(index - openIndex)) })
+}
 

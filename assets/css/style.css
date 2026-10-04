@@ -139,8 +139,11 @@ nav {
   background-color: firebrick;
 }
 
-.nav-button:hover {
-  background-color: aqua;
+@media (hover: hover) {
+  .nav-button:hover {
+    background-color: aqua;
+  }
+  
 }
 
 .menu-button {
@@ -291,8 +294,10 @@ body {
 
   transition: transform 0.15s ease-in-out;
 }
-.card:hover .card-bg {
-  transform: scale(1.08);
+@media (hover: hover) {
+  .card:hover .card-bg {
+    transform: scale(1.08);
+  }
 }
 .card-title {
   grid-area: stack;
@@ -471,55 +476,72 @@ body {
   backdrop-filter: blur(4px);
 }
 
+
+
+
 /* single image showcase (kinda dummy div to achieve smaller size compared to gallery) */
 .single {
-  width: 80%;/* width: min(500px, 90%); */
+  width: 90%;/* width: min(500px, 90%); */
   margin-block: 20px;
   margin-inline: auto; /* for centering */
 }
 
 
 
-
+/* TODO: cleanup vars xD and magic numbers */
 .gallery {
-  width: 100%;
-  margin-block: 20px;
+  --strip: 40px;
+  --gap: 8px;
+  --ratio-open: 1.414;
 
-  /* TODO: ultimately this should proobably be enforce ond the open img, but that might be haaard xD*/
-  aspect-ratio: 3; 
+  width: 90%;
+  margin-block: 20px;
+  margin-inline: auto;
   
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: var(--gap);
 
+  container-type: inline-size; /* allows children to measure it's width => promises to not depend on width of children, which would cause a possible loop. needed to measure width and manually calculate gallery height later */
 }
-.initial {
-  flex-grow: 100;
-}
+
 .gallery .my-figure {
-  width: 50px;
-  height: 100%;
+  flex-grow: 0;
+  width: var(--strip);
+  height: calc((100cqi - (var(--n) - 1) * (var(--strip) + var(--gap))) / var(--ratio-open)); /* calculates the height so that ultimately the open image has the right aspect ratio TODO: this is now kinda wronnng*/
+  overflow: hidden;
 
-  transition: flex-grow 0.2s ease-in-out;
+  transition: 
+    flex-grow 0.2s ease-in-out 0.10s,
+    padding 0.2s ease-in-out 0.10s,
+    width 0.2s ease-in-out 0.10s;
 }
 .gallery .my-figure img {
-  aspect-ratio: auto;
+  aspect-ratio: auto; /* just removes the aspect ratio that img originally had */
   height: 100%;
 }
-.gallery .my-figure figcaption {
-  display: none;
-}
-
-
-.gallery .my-figure:hover{
+.gallery .my-figure.open {
+  /* this applies only to the currently clicked enlarged gallery card! */
   flex-grow: 100;
+  padding-block: 0px;
+  
+}
+.gallery .my-figure:not(.open) {
+  padding-block: calc(pow((var(--d)/(var(--n) - 1)),2)*30px + 0px);
+  width: calc(50px - pow((var(--d)/(var(--n) - 1)),2)*20px);
+  cursor: pointer;
 }
 
-.gallery:has(.my-figure:hover) .initial:not(:hover) {
-  flex-grow: 0;
+
+.gallery .my-figure figcaption {
+  translate: 0 calc(100% + 30px); /* also shift out of padding block! this is a bit hacky? */
+  transition: translate 0.10s ease-in-out; 
 }
 
-
+.gallery .my-figure.open figcaption {
+  translate: 0 0;
+  transition: translate 0.10s ease-in-out 0.30s;  
+}
 
 
 
