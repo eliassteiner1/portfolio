@@ -3,6 +3,8 @@ baseurl: "/portfolio"
 collections:
   projects: 
     output: false
+  academic:
+    output: false
 exclude:
   - Gemfile
   - Gemfile.lock

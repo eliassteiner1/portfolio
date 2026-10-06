@@ -1,26 +1,26 @@
 ---
 layout: default
-title: Publications
-permalink: /publications
+title: Academic
+permalink: /academic
 nav_order: 3
 ---
 
 
 <div class="page">
     
-    <h1>all my theses & publications would go here</h1>
+    <h1>Academic Work</h1>
     
     <div class="responsive-grid">
-        {% assign projects = site.projects | sort: "order" %}
-        {% for project in projects %}
+        {% assign academic = site.academic | sort: "order" %}
+        {% for article in academic %}
             <!-- this is just a placeholder so that the grid doesn't collapes when animating -->
-            <div class="responsive-grid-slot">
+            <div class="responsive-grid-slot academic">
                 <div class="card" onclick="openCard(event)">
-                    <img class="card-bg" src="{{ project.image | relative_url }}">
-                    <div class="card-title">{{ project.title }}</div>
-                    <div class="card-desc">{{ project.content | markdownify }}</div>
+                    <img class="card-bg" src="{{ article.image | relative_url }}">
+                    <div class="card-title">{{ article.title }}</div>
+                    <div class="card-desc">{{ article.content | markdownify }}</div>
                     <div class="card-link">
-                        <a href="{{ project.link }}" target="_blank">🔗 {{ project.link }}</a>
+                        <a href="{{ project.link }}" target="_blank">🔗 {{ article.link }}</a>
                     </div>
                     <svg class="card-x" onclick="closeCard(event)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x preview-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </div>
