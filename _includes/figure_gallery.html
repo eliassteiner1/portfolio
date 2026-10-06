@@ -11,7 +11,7 @@
         {% if include[src_key] %}
             {% assign n = n | plus: 1 %}
             <figure class="my-figure{% if i == 1 %} open{% endif %}" onclick="toggleGallery(event)" style="--d: {{ n | minus:1 }}">
-                <img src="{{ include[src_key] | relative_url }}">
+                <img src="{{ include[src_key] | relative_url }}" loading="lazy">
                 <figcaption>{{ include[caption_key] | markdownify }}</figcaption>
             </figure>
         {% endif %}

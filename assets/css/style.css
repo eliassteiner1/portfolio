@@ -368,6 +368,8 @@ body {
   border-radius: 10px;
   background-color: rgb(28, 27, 26);
   color: #CECDC3;
+
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 .card.expanded .card-title::before {
   /* needed to get rid of the blurry background thing from the collapsed card */
@@ -401,6 +403,8 @@ body {
 
   border-radius: 10px;
   background-color: rgb(28, 27, 26);
+
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 .card.expanded a {
   color: #CECDC3;
@@ -452,6 +456,8 @@ body {
   grid-template-rows: minmax(0, 1fr);
   grid-template-areas: "stack";
   width: 100%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 .my-figure img {
   grid-area: stack;
@@ -485,12 +491,15 @@ body {
 .gallery {
   --strip-frac: 0.06;
   --gap-frac: 0.012;
+  --padd-frac: 0.08;
   
   --strip: calc(var(--strip-frac) * 100cqi);
   --ratio-open: 1.414;
 
   --t-caption: 0.1s;
-  --t-flex: 0.2s;
+  --t-flex: 0.1s;
+  --t-shadow-delay: 0s; /* helpful, since for an opening and closing figure, only the box-shadow animation has to be changed. using a variable avoids having to re-write the entire animation list... */
+  --t-zindex-delay: var(--t-caption); /* same thing, but teeeechnically this one could stay the same on the closing and opening animation - but more by coincidence */
 
   width: 90%;
   margin-block: 20px;
@@ -498,19 +507,26 @@ body {
   
   display: flex;
   flex-direction: row;
-  gap: calc(var(--gap-frac) * 100%);
+  gap: calc(var(--gap-frac) * 100%); /* percentage resolves to current container width */
 
   container-type: inline-size; /* allows children to measure it's width => promises to not depend on width of children, which would cause a possible loop. needed to measure width and manually calculate gallery height later */
+  
+  --h-partial: calc((1 - (var(--n) - 1) * (var(--strip-frac) + var(--gap-frac))) / var(--ratio-open)); /* precalculates the height (factor of gallery width), so that it only has the be multiplied by 100cqi in the children */
+
+  isolation: isolate; /* new z-index context */
 }
 .gallery .my-figure {
   flex-grow: 0;
   width: var(--strip);
-  height: calc((100cqi - (var(--n) - 1) * (var(--strip) + calc(var(--gap-frac) * 100cqi))) / var(--ratio-open)); /* calculates the height so that ultimately the open image has the right aspect ratio*/
+  height: calc(var(--h-partial) * 100cqi); /* calculates the height so that ultimately the open image has the right aspect ratio*/
   overflow: hidden;
-
   transition: 
     flex-grow var(--t-flex) ease-in-out var(--t-caption),
-    opacity var(--t-flex) ease-in-out var(--t-caption);
+    opacity var(--t-flex) ease-in-out var(--t-caption),
+    padding var(--t-flex) ease-in-out var(--t-caption),
+    box-shadow var(--t-caption) ease-in-out var(--t-shadow-delay),
+    z-index 0s ease-in-out var(--t-zindex-delay);
+  z-index: 0;
 }
 .gallery .my-figure img {
   height: 100%;
@@ -518,19 +534,29 @@ body {
 .gallery .my-figure.open { /* this applies only to the currently clicked enlarged gallery card! */
   flex-grow: 100;
   padding-block: 0px;
+  --t-shadow-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to opening part of animation only */
+  --t-zindex-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to the opening part only */
+  z-index: 1;
 }
 .gallery .my-figure:not(.open) {
+  opacity: 0.5;
   cursor: pointer;
-  opacity: 0.6;
+  padding-block: calc(var(--h-partial) * var(--padd-frac) * 100%);
+  box-shadow: revert;
 }
 .gallery .my-figure figcaption {
-  translate: 0 100%;
-  transition: translate var(--t-caption) ease-in-out; 
+  visibility: hidden; /* use visibility so it can be "animated" and timed */
+  translate: 0 100%; /* hide the caption just below the image for it to pop up during the animation */
+  transition: 
+    translate var(--t-caption) ease-in-out,
+    visibility 0s ease-in-out var(--t-caption);
 }
 .gallery .my-figure.open figcaption { /* this animates only on opening a card but not on closing! */
+  visibility: visible;
   translate: 0 0;
   transition: 
-    translate var(--t-caption) ease-in-out calc(var(--t-caption) + var(--t-flex)); 
+    translate var(--t-caption) ease-in-out calc(var(--t-caption) + var(--t-flex)),
+    visibility 0s ease-in-out calc(var(--t-caption) + var(--t-flex)); 
 }
 
 
@@ -542,7 +568,9 @@ body {
 .A4 {
   width: 21.0cm;
   height: 29.7cm;
-  background-color: #CECDC3;
+  background-color: #F2F0E5;
+
+  border-radius: 10px;
 }
 
 

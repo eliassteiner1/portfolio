@@ -2,7 +2,7 @@
 
 <div class="single">
     <figure class="my-figure">
-        <img src="{{ include.src | relative_url }}">
+        <img src="{{ include.src | relative_url }}" loading="lazy">
         <figcaption>{{ include.caption | markdownify }}</figcaption>
     </figure>    
 </div>

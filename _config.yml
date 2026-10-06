@@ -1,5 +1,6 @@
 title: Elias Steiner
 baseurl: "/portfolio"
+collections_dir: collections
 collections:
   projects: 
     output: false
