@@ -46,15 +46,7 @@
 
 /* some main formatting handles to easily adjust colors and the size of some elements or variables. :root selects the <html> element -> applies to everything */
 :root {
-  --bg: #f7f8fa;
-  --surface: #ffffff;
-  --text: #1c2430;
-  --muted: #5d6878;
-  --accent: #1f6feb;
-  --border: #dde2e9;
 
-  --header-height: 4rem;
-  --content-width: 46rem;
   --font: "Arvo", Rockwell, Georgia, serif;
 }
 
@@ -161,6 +153,7 @@ nav {
   gap: 10px;
   padding-top: 10px;
   z-index: 999;
+  box-shadow: 0 0 40px 10px black; 
 }
 
 /* this selector applies to elements that have BOTH classes */
@@ -565,15 +558,279 @@ body {
 /* CV */
 /* ================================================================================================================== */
 
-.A4 {
-  width: 21.0cm;
-  height: 29.7cm;
-  background-color: #F2F0E5;
+:root {
+  --col-cv-blue: #4475a0;
+  --col-cv-grey: #B7B5AC;
+  --col-cv-paper: #F2F0E5;
+  --col-cv-box: #E6E4D9;
+  --padding-timeline: 12px;
+  --cv-border-radius: 10px;
+  --cv-divider-subitem: 4px;
+}
 
+.A4 {
+  width: 1000px;
+  aspect-ratio: 1/sqrt(2);
+  background-color: var(--col-cv-paper);
   border-radius: 10px;
+  overflow: hidden;
+  font-size: large;
+  font-family: "Segoe UI";
+
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); /* minmax to prevent overgrowing due to large content */
+  grid-template-rows: 140px 1fr 100px;
+  grid-template-areas: 
+    "topbanner topbanner"
+    "left right"
+    "bottombanner bottombanner";
+  column-gap: 20px;
+}
+
+.banner {
+  height: 100%;
+  width: 100%;
+  background-color: var(--col-cv-box);
+}
+.banner.top {
+  grid-area: topbanner;
+}
+.banner.bottom {
+  grid-area: bottombanner;
+}
+
+.skillsbar {
+  margin-top: -140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.skillsbar-name {
+  color: black;
+  font-weight: 700;
+  font-size: xx-large;
+  letter-spacing: 0.16em;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+  background-color: var(--col-cv-paper);
+  margin-block: calc(0.5 * (140px - 1lh));
+  border-radius: var(--cv-border-radius);
+
+}
+.skillsbar-portrait {
+  width: 75%;
+  margin-top: -20px;
+  margin-bottom: 40px;
+  margin-inline: auto;
+  border-radius: var(--cv-border-radius);
+  outline: 10px solid var(--col-cv-paper);
+}
+
+
+.skills {
+  width: 100%;
+  height: 600px;
+  padding: 20px;
+
+  background-color: var(--col-cv-box);
+  border-radius: var(--cv-border-radius);
+  display: flex;
+  flex-direction: column;
+}
+.skills-item {
+  display: grid;
+  color: black;
+  grid-template-columns: auto repeat(4, 30px);
+  gap: 6px;
+}
+.skills-item > * {
+  align-self: center; /* keeps everything center in case either the text or the levels get way taller */
+}
+
+.skills-item > .skills-legend {
+  color: var(--col-cv-blue);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  align-self: end;
+  justify-self: center;
+}
+
+.skills-item > :not(.skills-pill) {
+  font-variant-caps: small-caps;
+}
+.skills-item:not(.subitem) > :not(.skills-pill) {
+  font-weight: bold;
+}
+.skills-item .skills-pill {
+  width: 100%;
+  height: 10px;
+  border-radius: 9999px; /* browser scales this to 50% of the smallest side */
+  background-color: var(--col-cv-grey);
+}
+.skills-item.subitem {
+  padding-left: 10px;
+}
+
+.skills-item.subitem .skills-pill {
+  width: 80%;
+  height: 6px;
+  margin: auto;
+}
+
+/* B + A combinator gives easy access to A directly after B sibling. buut there is no inverse - e.g. A before B sibling. */
+.skills-item:not(:has(+ .skills-item.subitem)) {
+  margin-bottom: 20px;
+}
+
+
+/* -n+B is trick for [0-B] because -n goes backwards in steps of 1 and starts at 0, negative outcomes don't work. this would also work without ".of skills-pill" but then the name needs to be taken into account too (every nth-child +1). this way, selector only "considers" the children that have .skills-pill */
+.skills-item.lvl1 > .skills-pill:nth-child(-n + 1 of .skills-pill),
+.skills-item.lvl2 > .skills-pill:nth-child(-n + 2 of .skills-pill), 
+.skills-item.lvl3 > .skills-pill:nth-child(-n + 3 of .skills-pill),
+.skills-item.lvl4 > .skills-pill {
+  background-color: var(--col-cv-blue); /* coloring pills according to level */
 }
 
 
 
 
+.timeline {
+  grid-area: right;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  width: 100%;
 
+  /* TEMP */
+  margin-top: 50px;
+  padding-right: 20px;
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 60px 40px minmax(0, 1fr);
+}
+
+
+.timeline-date {
+  font-weight: bold;
+  text-align: center;
+  padding-top: var(--padding-timeline);
+}
+
+.timeline-track {
+  position: relative;
+}
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% 0; /* for really centering the line */
+  width: 4px;
+  height: 101%; /* add sliiightly more height to not get visual separations */
+  background-color: var(--col-cv-grey);
+} 
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--padding-timeline) + 0.5lh);
+  translate: -50% -50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--col-cv-paper);
+  background-color: var(--col-cv-blue);
+}
+
+
+.timeline-contentbox {
+  padding: var(--padding-timeline);
+  border-radius: var(--cv-border-radius);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 
+    "title loc locicon"
+    "desc desc desc";
+  background-color: var(--col-cv-box);
+}
+.timeline-title {
+  grid-area: title;
+  font-variant-caps: small-caps;
+  font-weight: bold;
+  color: var(--col-cv-blue);
+}
+.timeline-loc {
+  grid-area: loc;
+  text-align: right;
+  font-weight: bold;
+  color: var(--col-cv-grey);
+}
+.timeline-locicon {
+  grid-area: locicon;
+  align-self: end;
+  background-color: var(--col-cv-grey);
+  mask: url("../images/cv/icon_location.png") center / contain no-repeat;
+  margin-left: calc(0.5*var(--padding-timeline));
+  width: 0.9lh;
+  aspect-ratio: 1;
+
+}
+.timeline-desc {
+  grid-area: desc;
+  padding-top: calc(0.5*var(--padding-timeline));
+  font-weight: lighter;
+
+}
+
+
+/* no padding on any item that comes directly before a subitem */
+.timeline-item:has(+ .subitem) .timeline-contentbox{
+  margin-bottom: 0px;
+  border-radius: var(--cv-border-radius) var(--cv-border-radius) 0px 0px;
+}
+/* only padds every item that is not followed by a subitem and that is not last in the timeline */
+.timeline-item:not(:has(+ .subitem)):not(:last-child) .timeline-contentbox {
+  margin-bottom: calc(2*var(--padding-timeline));
+}
+
+.timeline-item.subitem .timeline-contentbox {
+  border-radius: 0px;
+  margin-inline: calc(0*var(--padding-timeline));
+  border-top: var(--cv-divider-subitem) solid var(--col-cv-paper);
+}
+.timeline-item.subitem:not(:has(+ .subitem)) .timeline-contentbox {
+  border-radius: 0px 0px var(--cv-border-radius) var(--cv-border-radius);
+}
+
+
+.timeline-item.subitem .timeline-date {
+  padding-top: calc(var(--padding-timeline) + var(--cv-divider-subitem)); /* also compensate for divider line */
+  font-weight: normal;
+}
+.timeline-item.subitem .timeline-title {
+  font-weight: normal;
+}
+.timeline-item.subitem .timeline-loc {
+  font-weight: normal;
+}
+.timeline-item.subitem .timeline-dot {
+  border-color: var(--col-cv-blue);
+  background-color: var(--col-cv-paper);
+  outline: 4px solid var(--col-cv-paper);
+  width: 10px;
+  height: 10px;
+  top: calc(var(--padding-timeline) + 0.5lh + var(--cv-divider-subitem)); /* compensate for the divider line */
+
+}
+
+
+
+/* show all boxes with a slight background and slight outline */
+/* * {
+  background-color: rgb(255 0 0 / 0.02) !important;
+  outline: 1px solid rgb(255 0 0 / 0.2) !important;
+} */
