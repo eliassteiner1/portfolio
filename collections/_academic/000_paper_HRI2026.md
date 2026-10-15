@@ -1,0 +1,8 @@
+---
+title: Paper Robot-Human Handovers (2026)
+image: /assets/images/paper_HRI2026/cover.png
+link: "-"
+order: 0
+---
+
+Task-oriented handovers (TOH) are fundamental to effective humanrobot collaboration, requiring robots to present objects in a way that supports the human’s intended post-handover use. Existing approaches are typically based on object- or task-specific affordances, but their ability to generalize to novel scenarios is limited. To address this gap, we present AFT-Handover, a framework that integrates large language model (LLM)-driven affordance reasoning with efficient texture-based affordance transfer to achieve zero-shot, generalizable TOH. Given a novel object-task pair, the method retrieves a proxy exemplar from a database, establishes part-level correspondences via LLM reasoning, and texturizes affordances for feature-based point cloud transfer. We evaluate AFT-Handover across diverse task-object pairs, showing improved handover success rates and stronger generalization compared to baselines. In a comparative user study, our framework is significantly preferred over the current state-of-the-art, effectively reducing human regrasping before tool use. Finally, we demonstrate TOH on legged manipulators, highlighting the potential of our framework for realworld robot-human handovers.
