@@ -2,10 +2,10 @@ title: Elias Steiner
 baseurl: "/portfolio"
 collections_dir: collections
 collections:
-  projects: 
-    output: false
-  academic:
-    output: false
+    projects: 
+        output: false
+    academic:
+        output: false
 exclude:
-  - Gemfile
-  - Gemfile.lock
+    - Gemfile
+    - Gemfile.lock

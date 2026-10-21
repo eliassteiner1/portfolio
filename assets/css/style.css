@@ -4,38 +4,38 @@
 
 /* arvo-400 */
 @font-face {
-  font-display: swap;
-  font-family: "Arvo";
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/arvo-v23-latin-400.woff2') format('woff2');
+    font-display: swap;
+    font-family: "Arvo";
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/arvo-v23-latin-400.woff2') format('woff2');
 }
 
 /* arvo-400-italic */
 @font-face {
-  font-display: swap;
-  font-family: "Arvo";
-  font-style: italic;
-  font-weight: 400;
-  src: url('../fonts/arvo-v23-latin-400italic.woff2') format('woff2');
+    font-display: swap;
+    font-family: "Arvo";
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/arvo-v23-latin-400italic.woff2') format('woff2');
 }
 
 /* arvo-700 */
 @font-face {
-  font-display: swap;
-  font-family: "Arvo";
-  font-style: normal;
-  font-weight: 700;
-  src: url('../fonts/arvo-v23-latin-700.woff2') format('woff2');
+    font-display: swap;
+    font-family: "Arvo";
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/arvo-v23-latin-700.woff2') format('woff2');
 }
 
 /* arvo-700-italic */
 @font-face {
-  font-display: swap;
-  font-family: "Arvo";
-  font-style: italic;
-  font-weight: 700;
-  src: url('../fonts/arvo-v23-latin-700italic.woff2') format('woff2');
+    font-display: swap;
+    font-family: "Arvo";
+    font-style: italic;
+    font-weight: 700;
+    src: url('../fonts/arvo-v23-latin-700italic.woff2') format('woff2');
 }
 
 
@@ -47,7 +47,7 @@
 /* some main formatting handles to easily adjust colors and the size of some elements or variables. :root selects the <html> element -> applies to everything */
 :root {
 
-  --font: "Arvo", Rockwell, Georgia, serif;
+    --font: "Arvo", Rockwell, Georgia, serif;
 }
 
 
@@ -58,30 +58,31 @@
 
 /* the wildcard selects EVERY element. this is helpful for (re)setting some basic properties to start with predictable formatting and remove defaults */
 *, *::before, *::after { 
-  /* this makes absolutely everything use the border-box model (sizing applies to border+padding) */
-  box-sizing: border-box;
-  /* remove all default paddings and margins to start from a clean slate */
-  margin: 0;
-  padding: 0;
+    /* this makes absolutely everything use the border-box model (sizing applies to border+padding) */
+    box-sizing: border-box;
+    /* remove all default paddings and margins to start from a clean slate */
+    margin: 0;
+    padding: 0;
 }
 
 /* display images and svgs as block and not as text (which can add weird spacing) */
 svg, img { 
-  display: block; 
+    display: block; 
 }
 
 /* makes sure that content occupies the entire screen (more predictable for designing & footer) */
 body {
-  min-height: 100vh;
-  font-family: var(--font);
+    min-height: 100vh;
+    font-family: var(--font);
 }
 
 body:has(.card.expanded) {
-  overflow: hidden; /* this disables scrolling while a card is expanded */
+    overflow: hidden; /* this disables scrolling while a card is expanded */
 }
 
 html {
-  scrollbar-gutter: stable; /* always keeps the space for scrollbar reserved */
+    scrollbar-gutter: stable; /* always keeps the space for scrollbar reserved */
+    hyphens: auto;
 }
 
 
@@ -91,107 +92,107 @@ html {
 /* ================================================================================================================== */
 
 nav {
-  background-color: rgb(50, 50, 50);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: right;
-  gap: 10px;
-  padding-right: 10px;
-  padding-left: 10px;
+    background-color: rgb(50, 50, 50);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    gap: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 .nav-home {
-  height: 40px;
-  width: 40px;
-  margin-right: auto;
+    height: 40px;
+    width: 40px;
+    margin-right: auto;
 }
 .nav-home-icon {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 .nav-button {
-  height: 40px;
-  width: 120px;
-  background-color: lightblue;
-  color: black;
-  text-decoration: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
+    height: 40px;
+    width: 120px;
+    background-color: lightblue;
+    color: black;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
 }
 .nav-button.active {
-  background-color: firebrick;
+    background-color: firebrick;
 }
 @media (hover: hover) {
-  .nav-button:hover {
-    background-color: aqua;
-  }
-  
+    .nav-button:hover {
+        background-color: aqua;
+    }
+    
 }
 .menu-button {
-  display: none;
+    display: none;
 }
 .sidebar {
-  background-color: lightsteelblue;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: flex-start;
-  /* translates element by 100% of ITS width - so 100% is perfect amount */
-  transform: translateX(100%);
-  transition: transform 200ms ease-in-out, visibility 200ms;
-  visibility: hidden;
-  gap: 10px;
-  padding-top: 10px;
-  z-index: 999;
-  box-shadow: 0 0 40px 10px black; 
+    background-color: lightsteelblue;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    /* translates element by 100% of ITS width - so 100% is perfect amount */
+    transform: translateX(100%);
+    transition: transform 200ms ease-in-out, visibility 200ms;
+    visibility: hidden;
+    gap: 10px;
+    padding-top: 10px;
+    z-index: 999;
+    box-shadow: 0 0 40px 10px black; 
 }
 
 /* this selector applies to elements that have BOTH classes */
 .sidebar.open {
-  transform: translateX(0);
-  visibility: visible;
+    transform: translateX(0);
+    visibility: visible;
 }
 .sidebar .nav-button {
-  width: 100%;
-  justify-content: left;
-  padding-left: 10px;
+    width: 100%;
+    justify-content: left;
+    padding-left: 10px;
 }
 .sidebar-backdrop {
-  position: fixed;
-  /* shorthand for top/right/bottom/left: 0, so it covers the whole screen */
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 200ms, visibility 200ms;
-  z-index: 998;
+    position: fixed;
+    /* shorthand for top/right/bottom/left: 0, so it covers the whole screen */
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms, visibility 200ms;
+    z-index: 998;
 }
 .sidebar-backdrop.open {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 @media(max-width: 600px) {
-  .hideOnMobile {
-    display: none;
-  }
-  .menu-button {
-    display: block;
-  }
+    .hideOnMobile {
+        display: none;
+    }
+    .menu-button {
+        display: block;
+    }
 }
 @media(max-width: 400px) {
-  .sidebar {
-    width: 100%;
-  }
+    .sidebar {
+        width: 100%;
+    }
 }
 
 
@@ -200,24 +201,27 @@ nav {
 /* GENERIC FORMATTING */
 /* ================================================================================================================== */
 
+html {
+    line-height: 1.50;
+}
 body {
-  background-color: rgb(10, 10, 10);
-  color: #CECDC3;
-  text-align: justify;
-  hyphens: auto;
+    background-color: rgb(10, 10, 10);
+    color: #CECDC3;
+    text-align: justify;
+    hyphens: auto;
 }
 .portrait {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
 .about-me {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 40px;
-  margin: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    margin: 40px;
 }
 
 
@@ -230,209 +234,208 @@ body {
 /* TODO: aspect ratio shouldn't be set in the grid slot prooobably, although it might need to be */
 
 .page {
-  width: min(1200px, 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  padding: 40px;
-  margin: auto;
+    width: min(1200px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+    margin: auto;
 }
 .responsive-grid {
-  width: 100%;
-  display: grid;
-  gap: 40px;
-  /* this will generate as many columns as possible, while respecting the column widh of minimum 300px, and upper limit is adjusted to fill the entire viewport */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-content: center;
+    width: 100%;
+    display: grid;
+    gap: 40px;
+    /* this will generate as many columns as possible, while respecting the column widh of minimum 300px, and upper limit is adjusted to fill the entire viewport */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
 }
 
 /* this is kind of a placeholder. when animating the card, it needs to leave the grid, so this prevents the grid from automatically collapsing around the animated cards position */
 .responsive-grid-slot {
-  width: 100%; /* fills the automatically determined columns */
+    width: 100%; /* fills the automatically determined columns */
 }
 .responsive-grid-slot.project {
-  aspect-ratio: 1.414; /* this then calculates the necessary height from the given width */
+    aspect-ratio: 1.414; /* this then calculates the necessary height from the given width */
 }
 .responsive-grid-slot.academic {
-  aspect-ratio: calc(1 / 1.414);
+    aspect-ratio: calc(1 / 1.414);
 }
 
 /* these are the collapsed cards in the overview */
 .card {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  border-radius: 16px;
-  background-color: #CECDC3;
+    border-radius: 10px;
+    background-color: #CECDC3;
 
-  display: grid; /* making this a grid with one cell and one area allows for easy stacking of subcomponents */
-  grid-template-columns: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
-  grid-template-rows: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
-  grid-template-areas: "stack";
-  overflow: hidden; /* hiding overflow here, makes it so that the image hover zoom is clipped */
+    display: grid; /* making this a grid with one cell and one area allows for easy stacking of subcomponents */
+    grid-template-columns: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
+    grid-template-rows: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
+    grid-template-areas: "stack";
+    overflow: hidden; /* hiding overflow here, makes it so that the image hover zoom is clipped */
 }
 .card-bg {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  grid-area: stack;
-  object-fit: cover; /* this prevents the image from becoming distorted */
-  object-position: center; /* this chooses which part of the image to show, if it's too large */
+    grid-area: stack;
+    object-fit: cover; /* this prevents the image from becoming distorted */
+    object-position: center; /* this chooses which part of the image to show, if it's too large */
 
-  transition: transform 0.15s ease-in-out;
+    transition: transform 0.15s ease-in-out;
 }
 @media (hover: hover) {
-  .card:hover .card-bg {
-    transform: scale(1.08);
-  }
+    .card:hover .card-bg {
+        transform: scale(1.08);
+    }
 }
 .card-title {
-  grid-area: stack;
-  align-self: end;
-  font-weight: bold;
-  
-  padding-top: 40px;
-  padding-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: #CECDC3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    grid-area: stack;
+    align-self: end;
+    font-weight: bold;
+    
+    padding-top: 40px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #CECDC3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-  position: relative;
-  isolation: isolate; /* creates kind of a new z-index context (to not use global one) */
+    position: relative;
+    isolation: isolate; /* creates kind of a new z-index context (to not use global one) */
 }
 .card-title::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-color: rgba(0, 0, 0, 1.0);
-  backdrop-filter: blur(20px);
-  mask-image: linear-gradient(to top, black, rgba(0,0,0,0.6) 70%, rgba(0,0,0, 0.3)85%, transparent);
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 1.0);
+    backdrop-filter: blur(20px);
+    mask-image: linear-gradient(to top, black, rgba(0,0,0,0.6) 70%, rgba(0,0,0, 0.3)85%, transparent);
 }
 .card-desc {
-  display: none;
+    display: none;
 }
-.card-link {
-  display: none;
+.card-desc > * + * {
+    /* add back the paragaph margins controlled (only between two paragraphs of card-desc)*/
+    margin-top: 1em;
 }
+.card-desc ul {
+    list-style: none;
+}
+.card-desc li {
+    position: relative;
+    padding-left: 1.2em;
+}
+.card-desc li::before {
+    content: "●";
+    position: absolute;
+    left: 0;
+}
+
 .card-x {
-  display: none;
+    display: none;
 }
 .card-backdrop {
-  display: none;
+    display: none;
 }
 
 /* class that can be assigned to an card that is clicked and fills the whole screen */
 .card.expanded {
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  padding: 10px;
-  width: min(800px, 100% - 40px);
-  height: calc(100% - 40px); /* height: min(800px, 100% - 40px); */
-  z-index: 899;
-  overflow: visible;
-  color: black;
-  box-shadow: 0 0 40px 10px black; 
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    padding: 10px;
+    width: min(800px, 100% - 40px);
+    height: calc(100% - 40px); /* height: min(800px, 100% - 40px); */
+    z-index: 899;
+    overflow: visible;
+    color: black;
+    box-shadow: 0 0 40px 10px black; 
 
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-areas: 
-    "title" 
-    "text"
-    "link";
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+        "title"
+        "text";
 }
 .card.expanded .card-title {
-  all: revert;
-  grid-area: title;
-  font-weight: bold;
-  font-size: x-large;
-  align-self: center;
-  padding: 10px 60px 10px 20px;
-  text-align: left;
-  text-wrap: balance;
+    all: revert;
+    grid-area: title;
+    font-weight: bold;
+    font-size: x-large;
+    align-self: center;
+    padding: 10px 60px 10px 20px;
+    text-align: left;
+    text-wrap: balance;
 
-  border-radius: 10px;
-  background-color: rgb(28, 27, 26);
-  color: #CECDC3;
+    border-radius: 10px;
+    background-color: rgb(28, 27, 26);
+    color: #CECDC3;
 
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 .card.expanded .card-title::before {
-  /* needed to get rid of the blurry background thing from the collapsed card */
-  all: revert;
+    /* needed to get rid of the blurry background thing from the collapsed card */
+    all: revert;
 }
 .card.expanded .card-desc {
-  all: revert;
-  grid-area: text;
-  display: block;
-  overflow: scroll;
-  margin: 10px 0 10px 0;
-  padding: var(--fade) 20px var(--fade) 20px;
+    all: revert;
+    grid-area: text;
+    display: block;
+    overflow: scroll;
+    margin: 10px 0 10px 0;
+    padding: var(--fade) 20px var(--fade) 20px;
 
-  /* for having a smooth fade when scrolling at the top and bottom */
-  --fade: 12px;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black var(--fade),
-    black calc(100% - var(--fade)),
-    transparent
-  );
+    /* for having a smooth fade when scrolling at the top and bottom */
+    --fade: 12px;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black var(--fade),
+        black calc(100% - var(--fade)),
+        transparent
+    );
 }
 .card.expanded .card-bg {
-  display: none;
-}
-.card.expanded .card-link {
-  grid-area: link;
-  display: block;
-  padding: 10px 20px 10px 20px;
-
-  border-radius: 10px;
-  background-color: rgb(28, 27, 26);
-
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
-}
-.card.expanded a {
-  color: #CECDC3;
-  text-decoration: none;
+    display: none;
 }
 .card.expanded .card-x {
-  display: block;
-  position: absolute;
-  top: 35px;
-  right: 35px;
-  translate: 50% -50%;
+    display: block;
+    position: absolute;
+    top: 35px;
+    right: 35px;
+    translate: 50% -50%;
 
-  border-radius: 5px;
-  width: 35px;
-  height: 35px;
-  border: 3px solid #CECDC3;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+    border: 3px solid #CECDC3;
 
-  color: #CECDC3;
-  cursor: pointer;
+    color: #CECDC3;
+    cursor: pointer;
 }
 .page:has(.card.expanded) .card-backdrop {
-  display: block;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 898; /* should sit just below expanded card */
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 898; /* should sit just below expanded card */
 }
 
 /* everything that has a morphing class can now be assigned a transition name this can be used to create different subgroups  */
 .card.morphing {
-  view-transition-name: card;
+    view-transition-name: card;
 }
 ::view-transition-group(card),
 ::view-transition-group(root) {
-  animation-duration: 0.15s;
-  animation-timing-function: ease-in-out;
+    animation-duration: 0.15s;
+    animation-timing-function: ease-in-out;
 }
 
 
@@ -443,120 +446,120 @@ body {
 
 /* this stays the same for all figures => just the combination of caption + image */
 .my-figure {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  grid-template-areas: "stack";
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: "stack";
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 .my-figure img {
-  grid-area: stack;
-  width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
+    grid-area: stack;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
 }
 .my-figure figcaption {
-  grid-area: stack;
-  align-self: end;
-  padding: 4px 12px 4px 12px;
-  margin: 0 12px 0 12px;
-  border-radius: 5px 5px 0 0;
-  color: #CECDC3;
-  font-size: small;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+    grid-area: stack;
+    align-self: end;
+    padding: 4px 12px 4px 12px;
+    margin: 0 12px 0 12px;
+    border-radius: 5px 5px 0 0;
+    color: #CECDC3;
+    font-size: small;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
 }
 
 /* single image showcase (kinda dummy div to achieve smaller size compared to gallery) */
 .single {
-  width: 90%;/* width: min(500px, 90%); */
-  margin-block: 20px;
-  margin-inline: auto; /* for centering */
+    width: 90%;/* width: min(500px, 90%); */
+    margin-block: 20px;
+    margin-inline: auto; /* for centering */
 }
 .single .my-figure img {
-  aspect-ratio: 1.414;
+    aspect-ratio: 1.414;
 }
 
 /* TODO: cleanup vars xD and magic numbers */
 .gallery {
-  --strip-frac: 0.06;
-  --gap-frac: 0.012;
-  --padd-frac: 0.08;
-  
-  --strip: calc(var(--strip-frac) * 100cqi);
-  --ratio-open: 1.414;
+    --strip-frac: 0.06;
+    --gap-frac: 0.012;
+    --padd-frac: 0.08;
+    
+    --strip: calc(var(--strip-frac) * 100cqi);
+    --ratio-open: 1.414;
 
-  --t-caption: 0.1s;
-  --t-flex: 0.1s;
-  --t-shadow-delay: 0s; /* helpful, since for an opening and closing figure, only the box-shadow animation has to be changed. using a variable avoids having to re-write the entire animation list... */
-  --t-zindex-delay: var(--t-caption); /* same thing, but teeeechnically this one could stay the same on the closing and opening animation - but more by coincidence */
+    --t-caption: 0.1s;
+    --t-flex: 0.1s;
+    --t-shadow-delay: 0s; /* helpful, since for an opening and closing figure, only the box-shadow animation has to be changed. using a variable avoids having to re-write the entire animation list... */
+    --t-zindex-delay: var(--t-caption); /* same thing, but teeeechnically this one could stay the same on the closing and opening animation - but more by coincidence */
 
-  width: 90%;
-  margin-block: 20px;
-  margin-inline: auto;
-  
-  display: flex;
-  flex-direction: row;
-  gap: calc(var(--gap-frac) * 100%); /* percentage resolves to current container width */
+    width: 90%;
+    margin-block: 20px;
+    margin-inline: auto;
+    
+    display: flex;
+    flex-direction: row;
+    gap: calc(var(--gap-frac) * 100%); /* percentage resolves to current container width */
 
-  container-type: inline-size; /* allows children to measure it's width => promises to not depend on width of children, which would cause a possible loop. needed to measure width and manually calculate gallery height later */
-  
-  --h-partial: calc((1 - (var(--n) - 1) * (var(--strip-frac) + var(--gap-frac))) / var(--ratio-open)); /* precalculates the height (factor of gallery width), so that it only has the be multiplied by 100cqi in the children */
+    container-type: inline-size; /* allows children to measure it's width => promises to not depend on width of children, which would cause a possible loop. needed to measure width and manually calculate gallery height later */
+    
+    --h-partial: calc((1 - (var(--n) - 1) * (var(--strip-frac) + var(--gap-frac))) / var(--ratio-open)); /* precalculates the height (factor of gallery width), so that it only has the be multiplied by 100cqi in the children */
 
-  isolation: isolate; /* new z-index context */
+    isolation: isolate; /* new z-index context */
 }
 .gallery .my-figure {
-  flex-grow: 0;
-  width: var(--strip);
-  height: calc(var(--h-partial) * 100cqi); /* calculates the height so that ultimately the open image has the right aspect ratio*/
-  overflow: hidden;
-  transition: 
-    flex-grow var(--t-flex) ease-in-out var(--t-caption),
-    opacity var(--t-flex) ease-in-out var(--t-caption),
-    padding var(--t-flex) ease-in-out var(--t-caption),
-    box-shadow var(--t-caption) ease-in-out var(--t-shadow-delay),
-    z-index 0s ease-in-out var(--t-zindex-delay);
-  z-index: 0;
+    flex-grow: 0;
+    width: var(--strip);
+    height: calc(var(--h-partial) * 100cqi); /* calculates the height so that ultimately the open image has the right aspect ratio*/
+    overflow: hidden;
+    transition: 
+        flex-grow var(--t-flex) ease-in-out var(--t-caption),
+        opacity var(--t-flex) ease-in-out var(--t-caption),
+        padding var(--t-flex) ease-in-out var(--t-caption),
+        box-shadow var(--t-caption) ease-in-out var(--t-shadow-delay),
+        z-index 0s ease-in-out var(--t-zindex-delay);
+    z-index: 0;
 }
 .gallery .my-figure img {
-  height: 100%;
+    height: 100%;
 }
 .gallery .my-figure.open { /* this applies only to the currently clicked enlarged gallery card! */
-  flex-grow: 100;
-  padding-block: 0px;
-  --t-shadow-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to opening part of animation only */
-  --t-zindex-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to the opening part only */
-  z-index: 1;
+    flex-grow: 100;
+    padding-block: 0px;
+    --t-shadow-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to opening part of animation only */
+    --t-zindex-delay: calc(var(--t-caption) + var(--t-flex)); /* applies to the opening part only */
+    z-index: 1;
 }
 .gallery .my-figure:not(.open) {
-  opacity: 0.5;
-  cursor: pointer;
-  padding-block: calc(var(--h-partial) * var(--padd-frac) * 100%);
-  box-shadow: revert;
+    opacity: 0.5;
+    cursor: pointer;
+    padding-block: calc(var(--h-partial) * var(--padd-frac) * 100%);
+    box-shadow: revert;
 }
 .gallery .my-figure figcaption {
-  visibility: hidden; /* use visibility so it can be "animated" and timed */
-  translate: 0 100%; /* hide the caption just below the image for it to pop up during the animation */
-  transition: 
-    translate var(--t-caption) ease-in-out,
-    visibility 0s ease-in-out var(--t-caption);
+    visibility: hidden; /* use visibility so it can be "animated" and timed */
+    translate: 0 100%; /* hide the caption just below the image for it to pop up during the animation */
+    transition: 
+        translate var(--t-caption) ease-in-out,
+        visibility 0s ease-in-out var(--t-caption);
 }
 .gallery .my-figure.open figcaption { /* this animates only on opening a card but not on closing! */
-  visibility: visible;
-  translate: 0 0;
-  transition: 
-    translate var(--t-caption) ease-in-out calc(var(--t-caption) + var(--t-flex)),
-    visibility 0s ease-in-out calc(var(--t-caption) + var(--t-flex)); 
+    visibility: visible;
+    translate: 0 0;
+    transition: 
+        translate var(--t-caption) ease-in-out calc(var(--t-caption) + var(--t-flex)),
+        visibility 0s ease-in-out calc(var(--t-caption) + var(--t-flex)); 
 }
 
 
 
 /* show all boxes with a slight background and slight outline */
 /* * {
-  background-color: rgb(255 0 0 / 0.02) !important;
-  outline: 1px solid rgb(255 0 0 / 0.2) !important;
+    background-color: rgb(255 0 0 / 0.02) !important;
+    outline: 1px solid rgb(255 0 0 / 0.2) !important;
 } */
 
 
@@ -565,42 +568,42 @@ body {
 
 /* temp printing stuff */
 @page {
-  size: A4;
-  margin: 0;            /* also removes the browser's header/footer (URL, date) */
+    size: A4;
+    margin: 0;            /* also removes the browser's header/footer (URL, date) */
 }
 
 @media print {
-  * {
-    print-color-adjust: exact;   /* otherwise background colors are dropped */
-  }
+    * {
+        print-color-adjust: exact;   /* otherwise background colors are dropped */
+    }
 
-  :root {
-    --col-cv-paper: white;
-  }
+    :root {
+        --col-cv-paper: white;
+    }
 
-  nav, .sidebar, .sidebar-backdrop, .page > h1 {
-    display: none;
-  }
+    nav, .sidebar, .sidebar-backdrop, .page > h1 {
+        display: none;
+    }
 
-  body {
-    min-height: 0;      /* 100vh can spawn a blank trailing page */
-    background: white;
-  }
+    body {
+        min-height: 0;      /* 100vh can spawn a blank trailing page */
+        background: white;
+    }
 
-  .page {
-    display: block;     /* page breaks inside flex containers are unreliable */
-    width: auto;
-    padding: 0;
-    margin: 0;
-  }
+    .page {
+        display: block;     /* page breaks inside flex containers are unreliable */
+        width: auto;
+        padding: 0;
+        margin: 0;
+    }
 
-  .A4 {
-    zoom: 0.793;        /* 1000px -> 210mm */
-    border-radius: 0;
-    break-after: page;
-    break-inside: avoid;
-  }
-  .A4:last-child {
-    break-after: auto;
-  }
+    .A4 {
+        zoom: 0.793;        /* 1000px -> 210mm */
+        border-radius: 0;
+        break-after: page;
+        break-inside: avoid;
+    }
+    .A4:last-child {
+        break-after: auto;
+    }
 }
