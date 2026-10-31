@@ -16,4 +16,3 @@ These results highlight that centimeter-level manipulation tasks with prolonged 
 # Links
 
 - [Master Thesis (PDF)]({{ '/assets/files/academic/maths/ma_thesis_elias_steiner.pdf' | relative_url }})
-

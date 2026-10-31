@@ -1,21 +1,13 @@
 ---
 title: Mechanical Ballpoint Pen
-image: /assets/files/projects/mecpe/cover.jpg
+image: /assets/files/projects/mecpe/cover.png
 ---
 
 This pen was designed and manufactured during a workshop internship at Trafag in 2018. To conclude my time there, I was given about one week to design, plan and realize my own project - with access to high-precision milling machines and lathes. 
 
 I already knew that I wanted to make a full-metal ballpoint pen; an everyday item that I normally use a lot - but just a much cooler version of it. While most of the pen body is rather straightforward to design, the retraction mechanism offers a more choices. A short search online showed me that the majority of metal pen desings use very simple slide mechanisms. These are are easy to manufacture but lose the satisfying and simple-to-use clicking behaviour that standard ballpoint pens typically feature. So, as a challenge to myself I chose to manufacture the typical click-mechanism fully out of metal. 
 
-{% 
-    include figure_single.html 
-    src="assets/files/projects/mecpe/explode.jpg" caption="exploded view of the individual parts" 
-%}
 
-{% 
-    include figure_single.html 
-    src="assets/files/projects/mecpe/cover.jpg" caption="finished and assembled pen" 
-%}
 
 
 <!-- TODO: describe the mechanism in detail, but needs more pictures and diagrams :) -->

@@ -1,0 +1,46 @@
+<!-- reusable nav bar element that will get inserted at the beginning of every other page by jekyll. could be generated with javascript but this way is simpler. Relative urls are needed because github actually hosts the site at .../portfolio and not the top level. -->
+
+<!-- once builds a list of all pages that have a nav order to automatically populate the nav bar -->
+{% assign nav_pages = site.pages | where_exp: "p", "p.nav_order" | sort: "nav_order" %}
+
+<!-- normal nav bar (top, horizontal) -->
+<div class="navbox">
+    <nav class="contentcolumn">
+
+        <div class="navname">
+            elias steiner
+        </div>
+    
+        <!-- populates nav bar with all info found at the beginning; adding a button for each. add the "active" class to highlight the button of the page we're currently on. p.url is from iterating all pages and page.url is the url of the current site here -->
+        {% for p in nav_pages %}
+    
+        <div class="navbutton gridstack hideOnMobile {% if p.url == page.url %}active{% endif %}">
+            
+            <div class="navbutton-content">
+                <a class="navbutton-link" href="{{ p.url | relative_url }}">
+                    <div class="navbutton-nr">{{p.nav_order | prepend: "0" | slice: -2, 2}}</div>
+                    <div class="navbutton-title">{{p.title}}</div>
+                </a>
+    
+            </div>
+    
+            <div class="navbutton-decor gridstack">
+                <!-- this is the animatable faint grey border -->
+                <div class="navbutton-faintborder faintborder"></div>
+                <!-- the animated corner marks are added as :: pseudoelements -->
+                <div class="navbutton-cornermarks cornermarks"></div>
+            </div>
+    
+        </div>
+    
+            
+        {% endfor %}
+        
+    </nav>
+</div>
+
+
+
+
+
+

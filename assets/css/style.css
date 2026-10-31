@@ -1,5 +1,5 @@
 /* ================================================================================================================== */
-/* SELF HOSTED FONT DECLARATION */
+/* SELF HOSTED FONT DECLARATION ===================================================================================== */
 /* ================================================================================================================== */
 /* */
 @font-face {
@@ -18,453 +18,673 @@
 }
 /* */
 /* */
-/* */
+/* */ 
 /* ================================================================================================================== */
-/* GLOBAL FORMATTING HANDLES */
+/* ROOT FORMATTING HANDLES ========================================================================================== */
 /* ================================================================================================================== */
 /* */
-
-/* some main formatting handles to easily adjust colors and the size of some elements or variables. :root selects the <html> element -> applies to everything */
 :root {
+    /* colors */
+    --col-black: #000000; /* main body */
+    --col-bg1:   hsl(0, 0%, 7%); /* if slight differentiation for bg is needed */
+    --col-bg2:   #1F1F1F; /* hover background */
+    --col-bg3:   #292929; /* active background */
+    --col-bg4:   #8F8F8F; /* high-contrast bg */
+    --col-bg5:   #7D7D7D; /* high-contrast bg hover */
 
-    --font: "Geist";
+    --col-border1: #2E2E2E; /* default border */
+    --col-border2: #454545; /* hover border */
+    --col-border3: #878787; /* active border */
+
+    --col-tx1: #A1A1A1; /* secondary text and icons */
+    --col-tx2: #EDEDED; /* primary text and icons */
+
+    --col-accent1: #F88F28;
+    --col-accent2: #2382b7;
+
+    /* font specs */
+    --font-family:      "Geist";
+    --font-family-mono: "GeistMono";
+    --root-line-height: 1.40;
+    --root-fsize:       14px; /* just base definition, all fsize-... depend on rem and therefore this here */
+    --root-fsize-ratio: 1.20;
+
+    --fsize-base: 1rem;
+    --fsize-up1:  calc(1rem * pow(var(--root-fsize-ratio), 1));
+    --fsize-up2:  calc(1rem * pow(var(--root-fsize-ratio), 2));
+    --fsize-up3:  calc(1rem * pow(var(--root-fsize-ratio), 3));
+    --fsize-up4:  calc(1rem * pow(var(--root-fsize-ratio), 4));
+    --fsize-up5:  calc(1rem * pow(var(--root-fsize-ratio), 5));
+    --fsize-up6:  calc(1rem * pow(var(--root-fsize-ratio), 6));
+    --fsize-up7:  calc(1rem * pow(var(--root-fsize-ratio), 7));
+    --fsize-up8:  calc(1rem * pow(var(--root-fsize-ratio), 8));
+
+    --fwght-base: 200;
+    --fwght-up1:  350;
+    --fwght-up2:  500;
+    --fwght-up3:  650;
+
+    /* lengths & radii */
+    --len-base: 5px;
+    --len-1: calc(var(--len-base) * pow(2, 0));
+    --len-2: calc(var(--len-base) * pow(2, 1));
+    --len-3: calc(var(--len-base) * pow(2, 2));
+    --len-4: calc(var(--len-base) * pow(2, 3));
+    --len-5: calc(var(--len-base) * pow(2, 4));
+    --len-6: calc(var(--len-base) * pow(2, 5));
+    --len-7: calc(var(--len-base) * pow(2, 6));
+    --len-8: calc(var(--len-base) * pow(2, 7));
+
+    /* MISC handles */
+    --max-content-width: 1280px; 
+    --page-gutter: 40px; /* maybe this could be adjusted to device ... looks quite large on mobile */
+
+    --deco-gridlw: 1px; /* width of blueprint grid */
+    --gridmajor-l: 96px;
+
+    --hover-anim-time: 0.2s; /* used by everything for now ?! */
+
+    --borderwidth: 1px; /* for the faintborder */
+    --cornerwidth: 2px; /* for the corners */
+
+    --h-navbar: 64px;
+    --hairline-navbox: 1px; /* hairline width below navbox */
+    --navbutton-gap: 20px;
+    --navbutton-paddinline: 16px;
+    --navbutton-paddblock: 6px;
+    --navbutton-nrtextgap: 10px;
+    --navbutton-cornerlen: 10px;
+    --navbutton-cornerlen-ext: 12px;
+    --navbutton-covershoot: 0.3;
+
+    --h-title-full: 192px;
+    --h-title-small: 64px;
+    --scrollpad: 50px; /* dont start the title scroll animation during these first pixels */
+    --title-rowgap: 30px; /* gap between title text and desc (up) */ 
+    --title-columngap: 10px; /* gap between number and title */
+
+    --card-cornerlen: 20px;
+    --card-cornerlen-ext: 30px;
+    --card-covershoot: 0.3;
+
+
 }
 
 
-
+/* variables that are animated later on, need to be registered as a property to be correctly interpolated */
+@property --INT-CORNERLEN {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 1px; /* dummy initial value, but is mandatory */
+}
+@property --INT-CORNEROVERSHOOT {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1.0; /* dummy initial value, but is mandatory */
+}
+@property --INT-GRADEND {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 1px; /* dummy value */
+}
+/* */
+/* */
+/* */ 
 /* ================================================================================================================== */
-/* GENERIC CSS (RE)SETS */
+/* GLOBAL CSS (RE)SETS ============================================================================================== */
 /* ================================================================================================================== */
-
-/* the wildcard selects EVERY element. this is helpful for (re)setting some basic properties to start with predictable formatting and remove defaults */
+/* */
 *, *::before, *::after { 
-    /* this makes absolutely everything use the border-box model (sizing applies to border+padding) */
-    box-sizing: border-box;
-    /* remove all default paddings and margins to start from a clean slate */
+    box-sizing: border-box; /* makes everything use the border-box model (sizing applies to border+padding) */
     margin: 0;
     padding: 0;
 }
-
-/* display images and svgs as block and not as text (which can add weird spacing) */
 svg, img { 
-    display: block; 
+    display: block; /* display images and svgs as block and not as text (which can add weird spacing) */
 }
-
-/* makes sure that content occupies the entire screen (more predictable for designing & footer) */
 body {
-    min-height: 100vh;
-    font-family: var(--font);
+    min-height: 100vh; /* makes sure that content occupies the entire screen, more predictable for designing & footer */
 }
-
-body:has(.card.expanded) {
-    overflow: hidden; /* this disables scrolling while a card is expanded */
-}
-
 html {
+    scroll-behavior: smooth; /* makes to top autoscroll smooth */
     scrollbar-gutter: stable; /* always keeps the space for scrollbar reserved */
-    hyphens: auto;
+    font-family: var(--font-family);
+    font-size: var(--root-fsize); /* set some nominal font base size once, then use rem to base off of this */
+    font-weight: var(--fwght-base);
+    line-height: var(--root-line-height);
 }
-
-
-
+/* */
+/* */
+/* */ 
 /* ================================================================================================================== */
-/* NAV BAR AND SIDEBAR FORMATTING */
+/* UTILITY ========================================================================================================== */
 /* ================================================================================================================== */
+/* */
+.gridstack {
+    /* utility for making a div stack all its children above each other by assigning the same one grid cell */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+}
+.gridstack > * {
+    grid-area: 1 / 1; /* = row 1 col 1 */
+}
 
-nav {
-    background-color: rgb(50, 50, 50);
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: right;
-    gap: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
+
+.contentcolumn {
+    width: min(100%, var(--max-content-width));
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
 }
-.nav-home {
+
+
+.faintborder {
+    outline: var(--borderwidth) solid var(--col-border2); 
+    outline-offset: calc(-1 * var(--borderwidth) / 2); /* use outline to be able to center border with cornermarks */
+    opacity: 0;
+
+    transition: 
+        opacity var(--hover-anim-time) ease-in-out;
+}
+.cornermarks {
+    /* uses overlayed pseudoelements to draw a "pound sign" with borders and then masks out the middle to achieve animatable and clearly drawn overshooting corner marks */
+
+    /* precalculate some properties to make code more clear */
+    --osh: calc(var(--INT-CORNERLEN)*var(--INT-CORNEROVERSHOOT)); /* absolute overshoot from global proportion */
+    --fln: calc(var(--INT-CORNERLEN) + var(--cornerwidth) + var(--osh)); /* full bar length */
+    --ccl: var(--col-accent2); /* corner color */
+
+    position: relative;
+
+    transition: 
+        --INT-CORNERLEN var(--hover-anim-time) ease-in-out,
+        --INT-CORNEROVERSHOOT var(--hover-anim-time) ease-in-out;
+}
+.cornermarks::before {
+    content: "";
+    position: absolute;
+    inset-inline: calc(-1 * (var(--cornerwidth)/2 + var(--osh)));
+    inset-block: calc(-1*var(--cornerwidth)/2);
+    border-block: var(--cornerwidth) solid var(--ccl);
+    mask: linear-gradient(to right,
+        #000000 0%,
+        #000000 var(--fln), 
+        transparent var(--fln),
+        transparent calc(100% - var(--fln)),
+        #000000 calc(100% - var(--fln)),
+        #000000 100%
+    );
+}
+.cornermarks::after {
+    content: "";
+    position: absolute;
+
+    inset-inline: calc(-1*var(--cornerwidth)/2);
+    inset-block: calc(-1 * (var(--cornerwidth)/2 + var(--osh)));
+    border-inline: var(--cornerwidth) solid var(--ccl);
+    mask: linear-gradient(to top,
+        #000000 0%,
+        #000000 var(--fln), 
+        transparent var(--fln),
+        transparent calc(100% - var(--fln)),
+        #000000 calc(100% - var(--fln)),
+        #000000 100%
+    );
+}
+
+
+.fader {
     height: 40px;
-    width: 40px;
-    margin-right: auto;
+    pointer-events: none;
+    /* background-color: rgba(0, 255, 255, 0.5); */
+
+    background-image: 
+        linear-gradient(var(--faderdir), 
+            var(--col-bg1) 0%,
+            color-mix(in srgb, var(--col-bg1) 97.2%, transparent) 10%,
+            color-mix(in srgb, var(--col-bg1) 89.6%, transparent) 20%,
+            color-mix(in srgb, var(--col-bg1) 78.4%, transparent) 30%,
+            color-mix(in srgb, var(--col-bg1) 64.8%, transparent) 40%,
+            color-mix(in srgb, var(--col-bg1) 50.0%, transparent) 50%,
+            color-mix(in srgb, var(--col-bg1) 35.2%, transparent) 60%,
+            color-mix(in srgb, var(--col-bg1) 21.6%, transparent) 70%,
+            color-mix(in srgb, var(--col-bg1) 10.4%, transparent) 80%,
+            color-mix(in srgb, var(--col-bg1) 02.8%, transparent) 90%,
+            transparent 100%
+        );
+
 }
-.nav-home-icon {
-    height: 100%;
-    width: 100%;
-}
-.nav-button {
-    height: 40px;
-    width: 120px;
-    background-color: lightblue;
-    color: black;
-    text-decoration: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-}
-.nav-button.active {
-    background-color: firebrick;
-}
-@media (hover: hover) {
-    .nav-button:hover {
-        background-color: aqua;
-    }
-    
-}
-.menu-button {
-    display: none;
-}
-.sidebar {
-    background-color: lightsteelblue;
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 250px;
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* MAIN ELEMENTS ==================================================================================================== */
+/* ================================================================================================================== */
+/* */ 
+body {
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: flex-start;
-    /* translates element by 100% of ITS width - so 100% is perfect amount */
-    transform: translateX(100%);
-    transition: transform 200ms ease-in-out, visibility 200ms;
-    visibility: hidden;
-    gap: 10px;
-    padding-top: 10px;
-    z-index: 999;
-    box-shadow: 0 0 40px 10px black; 
-}
 
-/* this selector applies to elements that have BOTH classes */
-.sidebar.open {
-    transform: translateX(0);
-    visibility: visible;
-}
-.sidebar .nav-button {
-    width: 100%;
-    justify-content: left;
-    padding-left: 10px;
-}
-.sidebar-backdrop {
-    position: fixed;
-    /* shorthand for top/right/bottom/left: 0, so it covers the whole screen */
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 200ms, visibility 200ms;
-    z-index: 998;
-}
-.sidebar-backdrop.open {
-    opacity: 1;
-    visibility: visible;
-}
-@media(max-width: 600px) {
-    .hideOnMobile {
-        display: none;
-    }
-    .menu-button {
-        display: block;
-    }
-}
-@media(max-width: 400px) {
-    .sidebar {
-        width: 100%;
-    }
-}
-
-
-
-/* ================================================================================================================== */
-/* GENERIC FORMATTING */
-/* ================================================================================================================== */
-
-html {
-    line-height: 1.50;
-}
-body {
-    background-color: rgb(10, 10, 10);
-    color: #CECDC3;
+    background-color: var(--col-bg1);
+    color: var(--col-tx2);
     text-align: justify;
     hyphens: auto;
 }
-.portrait {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-.about-me {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 40px;
-    margin: 40px;
-}
- 
-
-/* ================================================================================================================== */
-/* PROJECT CARDS EXPANDABLE */
-/* ================================================================================================================== */
-
-/* TODO: when the grid is "underfull" it would make sense to set a max width for each element... */
-/* TODO: aspect ratio shouldn't be set in the grid slot prooobably, although it might need to be */
-
 .page {
-    width: min(1200px, 100%);
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    gap: 40px; /* todo, route out */
+    height: 100%;
+
+}
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* NAVBAR =========================================================================================================== */
+/* ================================================================================================================== */
+/* */ 
+.navbox {
+    z-index: 100;
+
+    background-color: var(--col-bg1);
+    border-bottom: var(--hairline-navbox) solid var(--col-border3);
+}
+nav {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 40px;
-    padding: 40px;
-    margin: auto;
+    justify-content: end;
+       
+    height: var(--h-navbar);
+    gap: var(--navbutton-gap);
 }
-.responsive-grid {
+.navname {
+    margin-right: auto; /* takes up all the free space inside the flexbox */
+    color: var(--col-tx1);
+    font-family: var(--font-family-mono);
+}
+.navbutton-link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: inherit;
+    color: inherit;
+    font-family: var(--font-family-mono);
+    font-weight: var(--fwght-up1);
+
+    padding-inline: var(--navbutton-paddinline);
+    padding-block: var(--navbutton-paddblock);
+    gap: var(--navbutton-nrtextgap);
+}
+.navbutton-nr {
+    color: var(--col-tx1);
+}
+.navbutton-title {
+    color: var(--col-tx2);
+    text-transform: uppercase;
+}
+.navbutton.active .navbutton-title {
+    color: var(--col-accent1);
+}
+.navbutton-decor {
+    pointer-events: none;
+}
+.navbutton-faintborder {
+    /* relies on the faintborder utility */
+}
+.navbutton-cornermarks {
+    --INT-CORNERLEN: var(--navbutton-cornerlen);
+    --INT-CORNEROVERSHOOT: var(--navbutton-covershoot);
+}
+.navbutton:hover .faintborder {
+    opacity: 1;
+}
+.navbutton:hover .cornermarks {
+    --INT-CORNERLEN: var(--navbutton-cornerlen-ext);
+    --INT-CORNEROVERSHOOT: 0.0;
+}
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/*  TITLE BANNER ==================================================================================================== */
+/* ================================================================================================================== */
+/* */
+.title-content, .title-text, .title-nr, .title-desc, .title-grid {
+    /* Animation Notes: uses the scroll to time the animation > multiple parameters are linearly animated in the specified scroll range. the animation mechanic is a mix of two strategies.
+    > text and desc are formatted to their initial state and are then move-animated TO the target (translate, resize) 
+    > number is special, its formatted-translated away from its position and then animated back 
+    every textbox is cropped to ex (only the text needs it, but aligning the elements is easier with all of them cut. */
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root);
+    animation-range: 
+        calc(var(--h-navbar) + var(--scrollpad)) 
+        calc(var(--h-navbar) + var(--h-title-full) - var(--h-title-small));
+}
+.title-grid {
+    /* the gradient looks better if it starts as soon as the banner starts leaving the screen */
+    animation-range: 
+        var(--h-navbar) 
+        calc(var(--h-navbar) + var(--h-title-full) - var(--h-title-small));
+}
+.title {
+    z-index: 50;
+    container-type: inline-size; /* the gridlines need to measure this width for correct placement */
+    position: sticky;
+    top: calc(-1*(var(--h-title-full) - var(--h-title-small))); /* sticky stop pos */
     width: 100%;
+    height: var(--h-title-full);
+    background-color: var(--col-bg1);
+}
+.title-content {
+    /* the content-box positions the number and the text in a grid to center them on the same row. first the grid is justified at the end, so that the text lies right above the lowes gridline. this then animates the grid to be centered in the imaginary collapsed title banner (it only moves out of the window and doesn't actually collapse, so just centering wouldn't work) */
+    z-index: 50;
+    position: relative;
+    bottom: 0; /* does nothing, but needed to animate bottom and give it a start */
     display: grid;
-    gap: 40px;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-self: end;
+    align-items: center;
+    column-gap: var(--title-columngap);
+    background-color: transparent;
+
+    animation-name: title-row;
+}
+@keyframes title-row {
+    to {
+        bottom: calc(var(--h-title-small)/2); /* shiftig the box relative to it's own placement */
+        translate: 0 50%;
+    }
+}
+.title-text {
+    /* this text is just animated to shrink in font size. its box is cut to ex, this makes it possible for the decenders to go out of the box. for visual centering it easiest to cut to ex on both sides, as this makes the box reeeelatively symmetrical w.r.t the text */
+    grid-area: 1 / 2;
+    text-box: trim-both ex alphabetic;
+    font-size: var(--fsize-up7);
+    font-weight: var(--fwght-up3);
+    font-family: var(--font-family-mono);
+    color: var(--col-tx2);
+    margin-bottom: var(--deco-gridlw); /* put text just above the first gridline */
+
+    animation-name: title-shrink;
+}
+@keyframes title-shrink {
+    to { 
+        font-size: var(--fsize-up3); 
+    }
+}
+.title-nr {
+    /* the number is a bit special, as it is technically placed in the grid, centered vertically with text. but it's transformed away to first be aligned with the description (further up). upon animation the transformation is reduced, so it's moved down to be centered with the text again */
+    grid-area: 1 / 1;
+    text-box: trim-both ex alphabetic; 
+    color: var(--col-accent1);
+    font-family: var(--font-family-mono);
+    margin-bottom: var(--deco-gridlw); /* same margin as titletext to align both */
+    position: relative; /* needed for bottom to work */
+    bottom: calc(50% + var(--title-rowgap)); /* shifts up by 0.5gridheight + the gap to match desc */
+    translate: 0 -50%; /* kinda "removes the centering" to really align with desc  */
+
+    animation-name: title-nr-settle;
+}
+@keyframes title-nr-settle {
+    to {
+        bottom: 0;
+        translate: 0 0;
+    }
+}
+.title-desc {
+    /* this one for now just fades. it is nicely moved away because the grid is centered and therefore shifted up a bit, but it could be moved up a bit more, because now it's movement is more "accidental" than very intentional */
+    grid-area: 1 / 2;
+    text-box: trim-both ex alphabetic;
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    color: var(--col-tx1);
+    font-family: var(--font-family-mono);
+    margin-bottom: var(--title-rowgap);
+    opacity: 1; /* neede for animation to not jump */
+    translate: 0 0;
+
+    animation-name: desc-fade;
+}
+@keyframes desc-fade {
+    to {
+        opacity: 0;
+    }
+}
+.title-decor {
+    z-index: 49;
+    position: relative;
+}
+.title-grid {
+    /* the gradient that covers the grid is smoothly "shrunken" to the final title label height too */
+    --INT-GRADEND: var(--h-title-full);
+    --col-hi: color-mix(in oklab, var(--col-accent2), rgba(0, 0, 0, 0.0) 00%);
+    --col-lo: color-mix(in oklab, var(--col-accent2), rgba(0, 0, 0, 0.0) 70%);
+
+    z-index: 45;
+    background-image: /* defines the tileable lines */
+        linear-gradient(to right, var(--col-hi) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+        linear-gradient(to top,var(--col-hi) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+        linear-gradient(to right, var(--col-lo) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+        linear-gradient(to top,var(--col-lo) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%);
+    background-size: /* defines size for tiling */
+        var(--gridmajor-l) var(--gridmajor-l), 
+        var(--gridmajor-l) var(--gridmajor-l),
+        calc(var(--gridmajor-l)/4) calc(var(--gridmajor-l)/4),
+        calc(var(--gridmajor-l)/4) calc(var(--gridmajor-l)/4);
+    background-position:  /* aling first gridline w/ content. needs to reflect max content width + gutter + lw */
+        calc(max(0px, (100cqw - var(--max-content-width))/2) + var(--page-gutter) - var(--deco-gridlw)/2) bottom;
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 0%, rgba(0, 0, 0, 0.2) var(--INT-GRADEND));
+
+    animation-name: title-grid-gradend;
+}
+@keyframes title-grid-gradend {
+    to {
+        --INT-GRADEND: 64px; /* BUG: for some reason firefox jumps if there's a var here... */
+    }
+}
+.title-fadertop {
+    --faderdir: to bottom;
+
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    translate: 0 calc(100% - 5px);
+    border-top: var(--col-bg1) solid 5px; /* this fixes hairline of cards showing through between fader and title */
+}
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* FOOTER =========================================================================================================== */
+/* ================================================================================================================== */
+/* */
+
+/* TODO: cleanup later */
+.footer {
+    z-index: 3;
+    container-type: inline;
+    margin-top: auto;
+    height: 120px;
+}
+.footer-content {
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+.footer-decor {
+    z-index: 0;
+    background-color: var(--col-bg1);
+}
+.footer-copyright {
+    font-family: var(--font-family-mono);
+    color: var(--col-tx2);
+}
+.footer-totop {
+    font-family: var(--font-family-mono);
+    color: var(--col-tx2);
+    font-weight: var(--fwght-up2);
+    text-decoration: none;
+}
+.footer-grid {
+    /* todo: make reusable, no magic number, especially work out grid sizing. maybe rather pin widthwise than height?*/
+    --gridmajor-l: 96px;
+    --col-hi: color-mix(in oklab, var(--col-accent2), rgba(0, 0, 0, 0.0) 00%);
+    --col-lo: color-mix(in oklab, var(--col-accent2), rgba(0, 0, 0, 0.0) 70%);
+
+    background-image: /* defines the tileable lines */
+        linear-gradient(to right, var(--col-hi) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+        linear-gradient(to bottom,var(--col-hi) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+
+        linear-gradient(to right, var(--col-lo) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%),
+        linear-gradient(to bottom,var(--col-lo) var(--deco-gridlw), transparent var(--deco-gridlw), transparent 100%);
+    background-size: /* defines size for tiling */
+        var(--gridmajor-l) var(--gridmajor-l), 
+        var(--gridmajor-l) var(--gridmajor-l),
+        calc(var(--gridmajor-l)/4) calc(var(--gridmajor-l)/4),
+        calc(var(--gridmajor-l)/4) calc(var(--gridmajor-l)/4);
+    background-position:  /* aling first gridline w/ content. needs to reflect max content width + gutter + lw */
+        calc(max(0px, (100cqw - var(--max-content-width))/2) + var(--page-gutter) - var(--deco-gridlw)/2) top;
+
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 1.0) 100%);
+}
+.footer-faderbot {
+    --faderdir: to top;
+
+    z-index: 99;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* CARDS ============================================================================================================ */
+/* ================================================================================================================== */
+/* */
+.responsive-grid {
     /* this will generate as many columns as possible, while respecting the column widh of minimum 300px, and upper limit is adjusted to fill the entire viewport */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     justify-content: center;
-}
 
-/* this is kind of a placeholder. when animating the card, it needs to leave the grid, so this prevents the grid from automatically collapsing around the animated cards position */
+    column-gap: 60px;
+    row-gap: 100px;
+
+    padding-block: 80px;
+}
 .responsive-grid-slot {
-    width: 100%; /* fills the automatically determined columns */
-}
-.responsive-grid-slot.project {
-    aspect-ratio: 1.414; /* this then calculates the necessary height from the given width */
-}
-.responsive-grid-slot.academic {
-    aspect-ratio: calc(1 / 1.414);
+    /* this is kind of a placeholder. when animating the card, it needs to leave the grid, so this prevents the grid from automatically collapsing around the animated cards position */
+    width: 100%;
+     /* todo: determine depending on img. height + title + padding */
+
 }
 
-/* these are the collapsed cards in the overview */
 .card {
     width: 100%;
     height: 100%;
 
-    border-radius: 10px;
-    background-color: #CECDC3;
+    /* background-color: yellowgreen; */
 
-    display: grid; /* making this a grid with one cell and one area allows for easy stacking of subcomponents */
-    grid-template-columns: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
-    grid-template-rows: minmax(0, 1fr); /* otherwise the image can grow larger than the grid cell */
-    grid-template-areas: "stack";
-    overflow: hidden; /* hiding overflow here, makes it so that the image hover zoom is clipped */
 }
-.card-bg {
+.card-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas: 
+        "cover"
+        "title";
+    margin-inline: 16px;
+    margin-block: 24px;
+}
+.card-cover {
+    grid-area: cover;
     width: 100%;
-    height: 100%;
-
-    grid-area: stack;
+    aspect-ratio: calc(4/3);
     object-fit: cover; /* this prevents the image from becoming distorted */
     object-position: center; /* this chooses which part of the image to show, if it's too large */
-
-    transition: transform 0.15s ease-in-out;
-}
-@media (hover: hover) {
-    .card:hover .card-bg {
-        transform: scale(1.08);
-    }
 }
 .card-title {
-    grid-area: stack;
-    align-self: end;
-    font-weight: bold;
-    
-    padding-top: 40px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    color: #CECDC3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    position: relative;
-    isolation: isolate; /* creates kind of a new z-index context (to not use global one) */
-}
-.card-title::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-color: rgba(0, 0, 0, 1.0);
-    backdrop-filter: blur(20px);
-    mask-image: linear-gradient(to top, black, rgba(0,0,0,0.6) 70%, rgba(0,0,0, 0.3)85%, transparent);
-}
-.card-desc {
-    display: none;
-}
-.card-desc > * + * {
-    /* add back the paragaph margins controlled (only between two paragraphs of card-desc)*/
-    margin-top: 1em;
-}
-.card-desc ul {
-    list-style: none;
-}
-.card-desc li {
-    position: relative;
-    padding-left: 1.2em;
-}
-.card-desc li::before {
-    content: "●";
-    position: absolute;
-    left: 0;
-}
-
-.card-x {
-    display: none;
-}
-.card-backdrop {
-    display: none;
-}
-
-/* class that can be assigned to an card that is clicked and fills the whole screen */
-.card.expanded {
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    padding: 10px;
-    width: min(800px, 100% - 40px);
-    height: calc(100% - 40px); /* height: min(800px, 100% - 40px); */
-    z-index: 899;
-    overflow: visible;
-    color: black;
-    box-shadow: 0 0 40px 10px black; 
-
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-areas:
-        "title"
-        "text";
-}
-.card.expanded .card-title {
-    all: revert;
     grid-area: title;
-    font-weight: bold;
-    font-size: x-large;
-    align-self: center;
-    padding: 10px 60px 10px 20px;
-    text-align: left;
-    text-wrap: balance;
+    font-size: var(--fsize-up1);
+    font-weight: var(--fwght-up2);
+    letter-spacing: 0.em;
 
-    border-radius: 10px;
-    background-color: rgb(28, 27, 26);
-    color: #CECDC3;
+    margin-top: 24px;
+    line-height: 24px; /* need a predictable height to calculate placeholder size */
 
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+    text-align: start;
+    overflow: hidden; /* for ellipsis */
+    white-space: nowrap; /* for ellipsis: keeps text on one line */
+    text-overflow: ellipsis;
 }
-.card.expanded .card-title::before {
-    /* needed to get rid of the blurry background thing from the collapsed card */
-    all: revert;
+.card-decor {
+    position: relative;
+    pointer-events: none;
 }
-.card.expanded .card-desc {
-    all: revert;
-    grid-area: text;
-    display: block;
-    overflow: scroll;
-    margin: 10px 0 10px 0;
-    padding: var(--fade) 20px var(--fade) 20px;
+.card-cornermarks {
+    --INT-CORNERLEN: var(--card-cornerlen);
+    --INT-CORNEROVERSHOOT: var(--card-covershoot);
+    --ccl: var(--col-border3);
+}
+.card-faintborder {
 
-    /* for having a smooth fade when scrolling at the top and bottom */
-    --fade: 12px;
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        black var(--fade),
-        black calc(100% - var(--fade)),
-        transparent
-    );
 }
-.card.expanded .card-bg {
-    display: none;
-}
-.card.expanded .card-x {
-    display: block;
+.card-nr {
     position: absolute;
-    top: 35px;
-    right: 35px;
-    translate: 50% -50%;
+    top: 0;
+    left: 32px;
+    translate: 0 -50%;
 
-    border-radius: 5px;
-    width: 35px;
-    height: 35px;
-    border: 3px solid #CECDC3;
+    font-family: var(--font-family-mono);
+    letter-spacing: 0.1em;
+    color: var(--col-border3);
 
-    color: #CECDC3;
-    cursor: pointer;
-}
-.page:has(.card.expanded) .card-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 898; /* should sit just below expanded card */
-}
+    background-color: transparent;
 
-/* everything that has a morphing class can now be assigned a transition name this can be used to create different subgroups  */
-.card.morphing {
-    view-transition-name: card;
+    transition: 
+        opacity var(--hover-anim-time) ease-in-out;
 }
-::view-transition-group(card),
-::view-transition-group(root) {
-    animation-duration: 0.15s;
-    animation-timing-function: ease-in-out;
+.card:hover .faintborder {
+    opacity: 1;
+}
+.card:hover .cornermarks {
+    --INT-CORNERLEN: var(--card-cornerlen-ext);
+    --INT-CORNEROVERSHOOT: 0.0;
+}
+.card:hover .card-nr {
+    opacity: 0;
 }
 
 
 
-/* ================================================================================================================== */
-/* IMAGE AND GALELRY ELEMENT */
-/* ================================================================================================================== */
 
-/* this stays the same for all figures => just the combination of caption + image */
-.my-figure {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
-    grid-template-areas: "stack";
-    width: 100%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
-}
-.my-figure img {
-    grid-area: stack;
-    width: 100%;
-    border-radius: 10px;
+
+
+
+
+
+
+
+
+
+.portrait {
+    width: 200px;
     object-fit: cover;
+    object-position: center 20%;
+    border-radius: 10px;
 }
-.my-figure figcaption {
-    grid-area: stack;
-    align-self: end;
-    padding: 4px 12px 4px 12px;
-    margin: 0 12px 0 12px;
-    border-radius: 5px 5px 0 0;
-    color: #CECDC3;
-    font-size: small;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-}
-
-/* single image showcase (kinda dummy div to achieve smaller size compared to gallery) */
-.single {
-    width: 90%;/* width: min(500px, 90%); */
-    margin-block: 20px;
-    margin-inline: auto; /* for centering */
-}
-.single .my-figure img {
-    aspect-ratio: 1.414;
-}
-
-
 
 /* show all boxes with a slight background and slight outline */
 /* * {
     background-color: rgb(255 0 0 / 0.02) !important;
     outline: 1px solid rgb(255 0 0 / 0.2) !important;
+    color: #7D7D7D;
 } */

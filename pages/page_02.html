@@ -1,0 +1,73 @@
+---
+layout: top_page_wrapper
+title: Projects
+permalink: /projects
+nav_order: 2
+---
+
+<div class="page">
+    
+    <!-- TITLE ------------------------------------------------------------- -->
+    <div class="title gridstack">
+
+        <div class="title-content contentcolumn">
+            <div class="title-nr">[01]</div>
+            <div class="title-desc">these are all my personal projects</div>
+            <div class="title-text">Projects</div>
+        </div>
+
+        <div class="title-decor gridstack">
+            <div class="title-grid"></div>
+            <div class="title-fadertop fader"></div>
+        </div>
+
+    </div>
+    
+    <!-- CARDS ------------------------------------------------------------- -->
+
+    <div class="responsive-grid contentcolumn">
+
+        {% assign projects = site.projects | sort: "path" %}
+        {% for project in projects %}
+            <!-- this is just a placeholder so that the grid doesn't collapes when animating -->
+            <div class="responsive-grid-slot project">
+
+                <div class="card gridstack">
+
+                    <div class="card-content">
+                        <img class="card-cover" src="{{ project.image | relative_url }}">
+                        <div class="card-title">{{project.title}}</div>
+                    </div>
+
+                    <div class="card-decor gridstack">
+                        <div class="card-faintborder faintborder"></div>
+                        <div class="card-cornermarks cornermarks"></div>
+                        <div class="card-nr">P-001</div>
+                    </div>
+                    
+            
+                                    
+                </div>
+
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- FOOTER ------------------------------------------------------------ -->
+    <div class="footer-faderbot fader"></div>
+    <div class="footer gridstack">
+
+        <div class="footer-content contentcolumn">
+            <div class="footer-copyright">© 2026 elias steiner</div>
+            <a class="footer-totop" href="#">↑ top</a>
+        </div>
+
+        <div class="footer-decor gridstack">
+            <div class="footer-grid"></div>
+        </div>
+
+    </div>
+
+</div>
+

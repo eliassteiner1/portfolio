@@ -1,0 +1,30 @@
+---
+layout: null
+---
+
+<!-- normally on a server a HTTP301 redirect could be sent (before any html) to redirect the user. unfortunately on github pages that's not possible. This seems to be typical jekyll workaround -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- automatically refreshes and loads this page upon landing -->
+    <meta http-equiv="refresh" content="0; url={{ '/aboutme' | relative_url }}">
+    <!-- just for search engine indexing to forward as well -->
+    <link rel="canonical" href="{{ '/aboutme' | relative_url }}">
+    <title>Redirecting…</title>
+</head>
+<body>
+    <!-- as a fallback if meta refresh is disabled -->
+    <a href="{{ '/aboutme' | relative_url }}">Go to Portfolio</a>
+    <!-- give the body some simple styles so it doesn't look as jarring. loading full css would be overkill -->
+    <style>
+        html, body { 
+            background-color: #000000; 
+        }
+        a {
+            color: #EDEDED;
+        }
+    </style>
+</body>
+</html>

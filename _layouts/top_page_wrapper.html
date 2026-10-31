@@ -21,11 +21,9 @@
 <!-- the body contains the actual content of the website. only one body. -->
 <body>
     <!-- this inserts the nav element -->
-    {% include nav.html %}
+    {% include element_navbar.html %}
     <!-- this will shows which content this default layout is "wrapped around" -->
     {{ content }}
-
-
     <!-- all the scripts will go at the end of the body tag! -->
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
