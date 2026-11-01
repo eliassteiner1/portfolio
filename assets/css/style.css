@@ -103,9 +103,11 @@
     --title-rowgap: 30px; /* gap between title text and desc (up) */ 
     --title-columngap: 10px; /* gap between number and title */
 
-    --card-cornerlen: 20px;
-    --card-cornerlen-ext: 30px;
-    --card-covershoot: 0.3;
+    --card-cornerlen: 40px;
+    --card-cornerlen-ext: 60px;
+    --card-covershoot: 0.2;
+
+    --opencard-max-content-width: 720px;
 
 
 }
@@ -269,6 +271,10 @@ body {
     color: var(--col-tx2);
     text-align: justify;
     hyphens: auto;
+}
+body:has(.opencard[open]) {
+    /* this prevents the background from scrolling when a card is opened */
+    overflow: hidden;
 }
 .page {
     flex-grow: 1;
@@ -580,13 +586,6 @@ nav {
 
     padding-block: 80px;
 }
-.responsive-grid-slot {
-    /* this is kind of a placeholder. when animating the card, it needs to leave the grid, so this prevents the grid from automatically collapsing around the animated cards position */
-    width: 100%;
-     /* todo: determine depending on img. height + title + padding */
-
-}
-
 .card {
     width: 100%;
     height: 100%;
@@ -640,7 +639,7 @@ nav {
 .card-nr {
     position: absolute;
     top: 0;
-    left: 32px;
+    left: calc(var(--card-cornerlen) + 10px);
     translate: 0 -50%;
 
     font-family: var(--font-family-mono);
@@ -662,6 +661,263 @@ nav {
 .card:hover .card-nr {
     opacity: 0;
 }
+
+/* TODO: clean up the formatting on these cards! */
+
+
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* CARDS OPEN ======================================================================================================= */
+/* ================================================================================================================== */
+/* */
+.opencard[open] {
+    /* only format the open card, as the hidden one should just stay display none. this way, display can also be overwritten, without messing with the functionality */
+
+    /* overwrite some dialog standard formats */
+    border: none; 
+    outline: none; /* remove focus highlighting */
+    background-color: var(--col-bg1);
+    color: var(--col-tx2);
+    max-width: none;
+    max-height: none;
+    overflow: visible; /* watch out with corners */
+    margin: auto; /* centering */
+    padding: 0;
+
+    width: min(var(--opencard-max-content-width), calc(100% - 40px));
+    height: calc(100% - 40px);
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0);
+
+    --button-size: 32px;
+
+    /* this makes the scroll timer available to docktitle, as the title is not a direct decendant of it... */
+    timeline-scope: --title-scroll-timeline;
+}
+.opencard::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.opencard-wrapper {
+    height: 100%;
+}
+
+
+
+.opencard-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--button-size);
+    grid-template-rows: var(--button-size) minmax(0, 1fr);
+    grid-template-areas: 
+        "title button"
+        "body body";
+    column-gap: 20px;
+
+    padding-inline: 20px;
+    padding-block: 20px;
+
+    height: 100%;
+}
+.opencard-docktitle {
+    grid-area: title;
+    align-self: center;
+    z-index: 2;
+
+    line-height: var(--button-size);
+    font-size: var(--fsize-up4);
+    font-weight: var(--fwght-up2);
+    overflow: hidden; /* for ellipsis */
+    white-space: nowrap; /* for ellipsis: keeps text on one line */
+    text-overflow: ellipsis;
+
+    animation-timing-function: 
+        linear, 
+        linear;
+    animation-fill-mode: 
+        both, 
+        both;
+    animation-timeline: 
+        --title-scroll-timeline, 
+        --title-scroll-timeline;
+    animation-name: 
+        opencard-docktitle-translate, 
+        opencard-docktitle-fade;
+    animation-range: 
+        exit -200px exit calc(var(--button-size) + 20px), /* range for translation */
+        exit -200px exit -30px; /* range for fade-in */
+}
+@keyframes opencard-docktitle-translate {
+    from {
+        translate: 0 calc(var(--button-size) + 20px + 200px);
+    }
+    to {
+        translate: 0 0;
+    }
+}
+@keyframes opencard-docktitle-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.opencard-button {
+    grid-area: button;
+    width: var(--button-size);
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+    background-color: var(--col-accent1);
+}
+.opencard-body {
+    grid-area: body;
+
+    /* regarding container type and measuring cqw and cqh:
+    inline-size: width measure only (caveat: its width can't depend on content anymore, usually very safe) 
+    size: width and height measurement (caveat: its width AND HEIGHT can't depend on content anymore > stretch!)
+    these specifications are necessary, because measuring is disabled by default to prevent "sizing dep. loops" */
+    container-type: size;
+    position: relative; /* for positioning writeup at 100% */
+    align-self: stretch; /* essentially 100% h and w but automatically takes margins into account */
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-top: 20px;
+
+    outline: none;
+    border: none;
+}
+.opencard-cover {
+    --cover-h: min(75cqw, 60cqh);
+
+    position: sticky;
+    top: 0;
+
+    width: 100%;
+    height: var(--cover-h);
+    object-fit: cover;
+    object-position: center;
+
+    margin-bottom: 20px;
+
+    animation-name: opencard-cover, opencard-cover-fade;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(nearest block);
+    
+    animation-range: 0px var(--cover-h);
+}
+@keyframes opencard-cover {
+    from {clip-path: inset(0 0 0 0);}
+    to   {clip-path: inset(0 0 100% 0);}
+}
+@keyframes opencard-cover-fade {
+    from {opacity: 1;}
+    to   {opacity: 0;}
+}
+.opencard-title {
+    font-size: var(--fsize-up4);
+    font-weight: var(--fwght-up2);
+    text-align: left;
+
+    line-height: var(--button-size);
+    margin-bottom: 20px;
+
+    /* this is the "clock" for the animation; "measure this item through scroller" with reference --xxx. block means direction vertical. kinda like scroll timeline but now it's this items position. */
+    view-timeline: --title-scroll-timeline block;
+
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --title-scroll-timeline;
+    animation-name: opencard-title;
+    animation-range: exit -200px exit -20px;
+}
+@keyframes opencard-title {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+.opencard-desc {
+   
+}
+.opencard-readhint {
+    align-self: center;
+    margin-top: auto;
+    
+
+    color: var(--col-tx1);
+    font-family: var(--font-family-mono);
+
+}
+.opencard-writeup {
+    position: absolute;
+    top: 100%;
+
+    margin-top: 50px;
+    padding-top: 200px;
+    border-top: lightgreen solid 1px;
+}
+
+.opencard-faderwrapper {
+    display: none;
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    pointer-events: none;
+
+
+    /* background-color: rgba(0, 255, 255, 0.5); */
+    flex: none; /* otherwise flex shrinks it */
+    width: 100%;
+    height: 500px;
+    margin-bottom: -500px;
+}
+.opencard-fadertop {
+    display: none;
+    --faderdir: to bottom;
+
+    height: 20px;
+    width: 100%;
+
+    /* background-color: rgba(255, 0, 255, 0.5); */
+}
+.opencard-faderbot {
+    display: none;
+    --faderdir: to top;
+
+    height: 20px;
+    width: 100%;
+
+    background-color: rgba(255, 0, 255, 0.5);
+}
+
+
+
+
+
+
+.opencard-decor {
+    pointer-events: none;
+    position: relative;
+
+}
+.opencard-faintborder {
+    opacity: 1;
+}
+.opencard-cornermarks {
+    --INT-CORNERLEN: 80px;
+    --INT-CORNEROVERSHOOT: 0.0;
+    --ccl: var(--col-border3);
+}
+
 
 
 

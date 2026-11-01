@@ -3,9 +3,9 @@ baseurl: "/portfolio"
 collections_dir: collections
 collections:
     projects: 
-        output: false
+        output: false # prevents jekyll from automatically generating a page for each .md
     academic:
-        output: false
+        output: false # prevents jekyll from automatically generating a page for each .md
 exclude:
     - Gemfile
     - Gemfile.lock

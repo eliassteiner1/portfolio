@@ -29,33 +29,86 @@ nav_order: 2
 
         {% assign projects = site.projects | sort: "path" %}
         {% for project in projects %}
-            <!-- this is just a placeholder so that the grid doesn't collapes when animating -->
-            <div class="responsive-grid-slot project">
 
-                <div class="card gridstack">
+            <!-- these are the collapsed cards that automatically are filed into the grid -->
+            <div class="card gridstack">
 
-                    <div class="card-content">
-                        <img class="card-cover" src="{{ project.image | relative_url }}">
-                        <div class="card-title">{{project.title}}</div>
-                    </div>
-
-                    <div class="card-decor gridstack">
-                        <div class="card-faintborder faintborder"></div>
-                        <div class="card-cornermarks cornermarks"></div>
-                        <div class="card-nr">P-001</div>
-                    </div>
-                    
-            
-                                    
+                <div class="card-content">
+                    <img class="card-cover" src="{{ project.image | relative_url }}">
+                    <div class="card-title">{{project.title}}</div>
                 </div>
 
+                <div class="card-decor gridstack">
+                    <div class="card-faintborder faintborder"></div>
+                    <div class="card-cornermarks cornermarks"></div>
+                    <div class="card-nr">P-001</div>
+                </div>
+                
             </div>
+
+            <!-- this is the opened card. doesn't get put into grid as it's either display: none or position: fixed -->
+            <dialog class="opencard">
+            <!-- needs extra wrapper for grid stacking as display: grid would mess with closed display: none -->
+            <div class="opencard-wrapper gridstack">
+                
+                    <div class="opencard-content">
+                        <div class="opencard-docktitle">
+                            This is my first ever Stirling Engine - Im guess for now I need a reeeeeally long title here
+                        </div>
+                        <div class="opencard-button"></div>
+
+                        <div class="opencard-body">
+                            <div class="opencard-faderwrapper">
+                                <div class="opencard-fadertop fader"></div>
+                                <div class="opencard-faderbot fader"></div>
+                            </div>
+                            <img class="opencard-cover" src="{{project.image | relative_url}}">
+                            <div class="opencard-title">
+                                This is my first ever Stirling Engine - Im guess for now I need a reeeeeally long title here
+                            </div>
+                            <div class="opencard-desc">
+                                [Two- or three-sentence summary: what it is, the one interesting thing about it, and what you got out of it. This is what a quick visitor reads before deciding to scroll.]
+                            </div>
+                            <div class="opencard-readhint">↓ read the full write-up</div>
+                            <div class="opencard-writeup">
+                                <!-- this is gonna  be the markdownified article -->
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opencard-decor gridstack">
+                        <div class="opencard-faintborder faintborder"></div>
+                        <div class="opencard-cornermarks cornermarks"></div>
+
+                    </div>
+
+            </div>
+            </dialog>
+
+
+
         {% endfor %}
 
     </div>
 
     <!-- FOOTER ------------------------------------------------------------ -->
     <div class="footer-faderbot fader"></div>
+
     <div class="footer gridstack">
 
         <div class="footer-content contentcolumn">
