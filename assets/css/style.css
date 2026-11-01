@@ -39,13 +39,13 @@
     --col-tx1: #A1A1A1; /* secondary text and icons */
     --col-tx2: #EDEDED; /* primary text and icons */
 
-    --col-accent1: #F88F28;
-    --col-accent2: #2382b7;
+    --col-accent1: #F88F28; /* #F88F28 */
+    --col-accent2: #2382b7; /* #2382b7 */
 
     /* font specs */
-    --font-family:      "Geist";
-    --font-family-mono: "GeistMono";
-    --root-line-height: 1.40;
+    --font-family:      "Geist", sans-serif;
+    --font-family-mono: "GeistMono", monospace;
+    --root-line-height: 1.50;
     --root-fsize:       14px; /* just base definition, all fsize-... depend on rem and therefore this here */
     --root-fsize-ratio: 1.20;
 
@@ -194,7 +194,7 @@ html {
     /* precalculate some properties to make code more clear */
     --osh: calc(var(--INT-CORNERLEN)*var(--INT-CORNEROVERSHOOT)); /* absolute overshoot from global proportion */
     --fln: calc(var(--INT-CORNERLEN) + var(--cornerwidth) + var(--osh)); /* full bar length */
-    --ccl: var(--col-accent2); /* corner color */
+    --ccl: var(--col-accent2); /* dummy corner color */
 
     position: relative;
 
@@ -236,7 +236,7 @@ html {
 
 
 .fader {
-    height: 40px;
+    height: 10px; /* just some dummy height */
     pointer-events: none;
     /* background-color: rgba(0, 255, 255, 0.5); */
 
@@ -331,7 +331,7 @@ nav {
     text-transform: uppercase;
 }
 .navbutton.active .navbutton-title {
-    color: var(--col-accent1);
+    color: var(--col-accent2);
 }
 .navbutton-decor {
     pointer-events: none;
@@ -340,8 +340,10 @@ nav {
     /* relies on the faintborder utility */
 }
 .navbutton-cornermarks {
+    display: none;
     --INT-CORNERLEN: var(--navbutton-cornerlen);
     --INT-CORNEROVERSHOOT: var(--navbutton-covershoot);
+    --ccl: var(--col-border3);
 }
 .navbutton:hover .faintborder {
     opacity: 1;
@@ -425,7 +427,7 @@ nav {
     /* the number is a bit special, as it is technically placed in the grid, centered vertically with text. but it's transformed away to first be aligned with the description (further up). upon animation the transformation is reduced, so it's moved down to be centered with the text again */
     grid-area: 1 / 1;
     text-box: trim-both ex alphabetic; 
-    color: var(--col-accent1);
+    color: var(--col-tx1);
     font-family: var(--font-family-mono);
     margin-bottom: var(--deco-gridlw); /* same margin as titletext to align both */
     position: relative; /* needed for bottom to work */
@@ -494,6 +496,7 @@ nav {
 }
 .title-fadertop {
     --faderdir: to bottom;
+    height: 40px;
 
     width: 100%;
     position: absolute;
@@ -561,6 +564,7 @@ nav {
 }
 .footer-faderbot {
     --faderdir: to top;
+    height: 40px;
 
     z-index: 99;
     position: fixed;
@@ -589,6 +593,7 @@ nav {
 .card {
     width: 100%;
     height: 100%;
+    cursor: pointer; /* to show that it's clickable */
 
     /* background-color: yellowgreen; */
 
@@ -691,88 +696,58 @@ nav {
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0);
 
     --button-size: 32px;
+    --padding-lr: 20px;
+    --padding-ud: 20px;
+    --cosmetic-indent: 32px; /* for the year and write up titles */
 
-    /* this makes the scroll timer available to docktitle, as the title is not a direct decendant of it... */
-    timeline-scope: --title-scroll-timeline;
+    --margintop-h1: 60px;
+    --margintop-h2: 40px;
+    --margintop-p: 10px;
+    --margintop-ulol: 15px;
+    --margintop-li: 7px;
+
+    --listindent: 16px;
+    --listmarkerwidth: 16px;
+    
 }
 .opencard::backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 .opencard-wrapper {
     height: 100%;
 }
 
 
-
 .opencard-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--button-size);
     grid-template-rows: var(--button-size) minmax(0, 1fr);
-    grid-template-areas: 
-        "title button"
-        "body body";
-    column-gap: 20px;
-
-    padding-inline: 20px;
-    padding-block: 20px;
+    overflow: clip; /* clip mainly the button boxshadow */
+    
+    padding-inline: var(--padding-lr);
+    padding-block: var(--padding-ud);
 
     height: 100%;
 }
-.opencard-docktitle {
-    grid-area: title;
-    align-self: center;
-    z-index: 2;
 
-    line-height: var(--button-size);
-    font-size: var(--fsize-up4);
-    font-weight: var(--fwght-up2);
-    overflow: hidden; /* for ellipsis */
-    white-space: nowrap; /* for ellipsis: keeps text on one line */
-    text-overflow: ellipsis;
-
-    animation-timing-function: 
-        linear, 
-        linear;
-    animation-fill-mode: 
-        both, 
-        both;
-    animation-timeline: 
-        --title-scroll-timeline, 
-        --title-scroll-timeline;
-    animation-name: 
-        opencard-docktitle-translate, 
-        opencard-docktitle-fade;
-    animation-range: 
-        exit -200px exit calc(var(--button-size) + 20px), /* range for translation */
-        exit -200px exit -30px; /* range for fade-in */
-}
-@keyframes opencard-docktitle-translate {
-    from {
-        translate: 0 calc(var(--button-size) + 20px + 200px);
-    }
-    to {
-        translate: 0 0;
-    }
-}
-@keyframes opencard-docktitle-fade {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
 .opencard-button {
-    grid-area: button;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+
+    z-index: 2;
+
     width: var(--button-size);
     aspect-ratio: 1;
 
     border-radius: 50%;
-    background-color: var(--col-accent1);
+    background-color: var(--col-accent2);
+    box-shadow: 5px -5px 20px 20px var(--col-bg1);
+    cursor: pointer; /* to show that it's clickable */
 }
 .opencard-body {
-    grid-area: body;
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
 
     /* regarding container type and measuring cqw and cqh:
     inline-size: width measure only (caveat: its width can't depend on content anymore, usually very safe) 
@@ -785,126 +760,198 @@ nav {
 
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-
-    margin-top: 20px;
+    align-items: stretch;
+    padding-inline: 20px;
 
     outline: none;
     border: none;
 }
 .opencard-cover {
-    --cover-h: min(75cqw, 60cqh);
-
-    position: sticky;
-    top: 0;
-
     width: 100%;
-    height: var(--cover-h);
+    aspect-ratio: calc(4/3);
     object-fit: cover;
     object-position: center;
 
-    margin-bottom: 20px;
-
-    animation-name: opencard-cover, opencard-cover-fade;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: scroll(nearest block);
-    
-    animation-range: 0px var(--cover-h);
+    margin-top: calc(var(--button-size) + var(--padding-ud)); /* initially leave space for button and fader */
+    margin-bottom: 32px;
 }
-@keyframes opencard-cover {
-    from {clip-path: inset(0 0 0 0);}
-    to   {clip-path: inset(0 0 100% 0);}
-}
-@keyframes opencard-cover-fade {
-    from {opacity: 1;}
-    to   {opacity: 0;}
+.opencard-year {
+    font-family: var(--font-family-mono);  
+    color: var(--col-tx1);
+    margin-inline: var(--cosmetic-indent);
 }
 .opencard-title {
     font-size: var(--fsize-up4);
     font-weight: var(--fwght-up2);
     text-align: left;
-
-    line-height: var(--button-size);
-    margin-bottom: 20px;
-
-    /* this is the "clock" for the animation; "measure this item through scroller" with reference --xxx. block means direction vertical. kinda like scroll timeline but now it's this items position. */
-    view-timeline: --title-scroll-timeline block;
-
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: --title-scroll-timeline;
-    animation-name: opencard-title;
-    animation-range: exit -200px exit -20px;
-}
-@keyframes opencard-title {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+    text-wrap: balance; /* makes broken lines roughly equal in length */
+    line-height: 1.00;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: var(--col-border2) solid 1px;
 }
 .opencard-desc {
-   
+   text-wrap: pretty; /* avoids really short last lines (orphans) */
 }
-.opencard-readhint {
-    align-self: center;
-    margin-top: auto;
-    
 
-    color: var(--col-tx1);
-    font-family: var(--font-family-mono);
-
-}
 .opencard-writeup {
-    position: absolute;
-    top: 100%;
+    text-wrap: pretty;
+    border-top: var(--col-border2) solid 1px;
+    margin-top: 10px;
+    padding-top: var(--margintop-h1);
+    margin-bottom: var(--button-size); /* make some room to clear the bottom fader */
+    overflow-wrap: break-word; /* prevents ultra large connected strings from scrolling sideways */
 
-    margin-top: 50px;
-    padding-top: 200px;
-    border-top: lightgreen solid 1px;
+    counter-reset: h1-counter;
 }
+.opencard-writeup p {
+    margin-block: var(--margintop-p);
+}
+.opencard-writeup h1 {
+    hyphens: manual;
+    text-align: left;
+    line-height: 1.00;
+    font-size: var(--fsize-up2);
+    font-weight: var(--fwght-up2);
+    margin-left: var(--cosmetic-indent);
+    margin-block: var(--margintop-h1) var(--margintop-p);
+
+    counter-increment: h1-counter;
+}
+.opencard-writeup h1::before {
+    /* counter element before the h1 */
+    content: counter(h1-counter, decimal-leading-zero);
+    display: inline-block;
+    width: var(--cosmetic-indent);
+    margin-left: calc(-1 * var(--cosmetic-indent));
+
+    font-size: var(--fsize-up1);
+    font-weight: var(--fwght-up1);
+    font-family: var(--font-family-mono);
+    color: var(--col-accent2);
+}
+.opencard-writeup h2 {
+    hyphens: manual;
+    text-align: left;
+    line-height: 1.00;
+    font-size: var(--fsize-up1);
+    font-weight: var(--fwght-up1);
+    margin-left: var(--cosmetic-indent);
+    
+    margin-block: var(--margintop-h2) var(--margintop-p);
+}
+.opencard-writeup > :first-child,
+.opencard-writeup h1 + h2 {
+    /* two consecutive margins usually collapse to the larger one. this still leaves the one at the top to remove, and also, a subtitle following a title should be closer */
+    margin-top: 0px;
+}
+.opencard-writeup strong {
+    font-weight: var(--fwght-up1);
+}
+
+
+.opencard-writeup code {
+    /* formats all the code text, either triple ``` or ` */
+    font-family: var(--font-family-mono);
+    font-weight: calc(1.30 * var(--fwght-base)); /* correct monospace font weight */
+    font-size: 0.9em; /* slightly correct monospace font size */
+    hyphens: none;
+
+    padding-inline: 6px;
+    background-color: var(--col-bg3);
+    border: var(--col-border2) solid 1px;
+}
+.opencard-writeup pre {
+    /* this is the box around a ``` code block */
+    line-height: 1.25;
+    overflow-x: auto;
+    padding-inline: 6px;
+    padding-block: 6px;
+}
+.opencard-writeup pre > code {
+    /* this is the code text inside the ``` code block */
+    padding: 0;
+    background-color: transparent;
+    border: none;
+
+}
+
+
+.opencard-writeup a {
+    text-decoration: underline;
+    color: inherit;
+    border: none; /* remove focus border */
+    outline: none; /* remove focus outline */
+}
+.opencard-writeup a:hover {
+    color: var(--col-accent2);
+}
+.opencard-writeup ol {
+    /* this defines the scope for the item counter: each list separate */
+    counter-reset: list-item-nr;
+}
+.opencard-writeup ul,
+.opencard-writeup ol {
+    list-style: none; /* remove the existing list markers and start fresh */
+    margin-block: var(--margintop-ulol);
+    padding-left: calc(var(--listindent) + var(--listmarkerwidth)); /* where the list item text starts */
+}
+.opencard-writeup li {
+    margin-block: var(--margintop-li); /* for spacing between list items themselves */
+}
+.opencard-writeup li::before {
+    /* general li::before formatting */
+    display: inline-block; /* makes element sit inline but still obeys width */
+    width: var(--listmarkerwidth);
+    margin-left: calc(-1 * var(--listmarkerwidth)); /* move the markers back */
+    font-family: var(--font-family-mono);
+    font-weight: var(--fwght-up1);
+    color: var(--col-accent2);
+}
+.opencard-writeup ul > li::before {
+    /* just for the ul markers */
+    content: "⬦";
+}
+.opencard-writeup ol > li {
+    counter-increment: list-item-nr;
+}
+.opencard-writeup ol > li::before {
+    /* just for the ol number markers */
+    content: counter(list-item-nr);
+    font-size: 0.9em; /* slightly correct monospace font size */
+}
+
 
 .opencard-faderwrapper {
-    display: none;
     z-index: 1;
     position: sticky;
     top: 0;
     pointer-events: none;
 
-
-    /* background-color: rgba(0, 255, 255, 0.5); */
-    flex: none; /* otherwise flex shrinks it */
+    flex: none; /* otherwise flex shrinks it (property of this container being a flex child)*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* to distribute the two faders to the top and bottom */
     width: 100%;
-    height: 500px;
-    margin-bottom: -500px;
+    height: 100cqh; /* full opencard-body height. caveat: this takes padding into account! */
+    margin-bottom: -100cqh; /* prevent element from influencing object flow */
 }
 .opencard-fadertop {
-    display: none;
     --faderdir: to bottom;
 
-    height: 20px;
+    height: calc(var(--button-size) + var(--padding-ud));
     width: 100%;
-
-    /* background-color: rgba(255, 0, 255, 0.5); */
 }
 .opencard-faderbot {
-    display: none;
     --faderdir: to top;
 
-    height: 20px;
+    height: calc(var(--button-size));
     width: 100%;
-
-    background-color: rgba(255, 0, 255, 0.5);
 }
-
-
-
-
-
-
 .opencard-decor {
+    z-index: 3;
+
     pointer-events: none;
     position: relative;
 
@@ -919,12 +966,158 @@ nav {
 }
 
 
+.opencard-writeup .highlighter-rouge {
+    /* to be able to make the code block go around the ::before label, this one has to carry the border and bg */
+    margin-block: var(--margintop-p);
+    background-color: var(--col-bg3);
+    border: var(--col-border2) solid 1px;
+}
+.opencard-writeup .highlighter-rouge::before {
+    /* the language label, as a right-aligned row above the code */
+    display: block;
+    
+    padding-inline: 6px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    margin-bottom: -6px; /* cancel out the padding on the code block below */
+
+    text-align: right;
+    font-size: 0.9em;
+    font-family: var(--font-family-mono);
+    color: var(--col-tx1);
+}
+.opencard-writeup .language-python::before { content: "python"; }
+.opencard-writeup .language-cpp::before    { content: "c++"; }
 
 
 
 
 
+/* the name sits on the closed card or the open dialog, so it's never on both at once */
+.card.morphing:not(:has(+ .opencard[open])),
+.card.morphing + .opencard[open] {
+    view-transition-name: card;
+}
+::view-transition-group(card),
+::view-transition-group(root) {
+    animation-duration: 0.15s;
+    animation-timing-function: ease;
+}
+.card:has(+ .opencard[open]) {
+    visibility: hidden; /* unlike display: none, it keeps its space in the grid */
+}
 
+
+/* SYNTAX HIGHLIGHTING
+Jekyll's Markdown converter (kramdown) passes ``` code blocks with a language to the highlighter Rouge at build time.
+Rouge splits the code into tokens and wraps each one in <span class="..."> using a short class name, e.g. a function name becomes <span class="nf">.
+It only adds the classes, so all the colors come from the rules below.
+The classes are flat: .k doesn't include .kd, so every variant has to be listed.
+Full list of tokens: https://github.com/rouge-ruby/rouge/blob/main/lib/rouge/token.rb */
+
+/* comments */
+.highlight .c,   /* comment */
+.highlight .ch,  /* hashbang */
+.highlight .cd,  /* doc */
+.highlight .cm,  /* multiline */
+.highlight .c1,  /* single */
+.highlight .cs   /* special */
+{ color: hsl(0, 0%, 60%); }
+
+/* keywords, plus word operators and preprocessor lines, which read like keywords */
+.highlight .k,   /* keyword */
+.highlight .kc,  /* constant */
+.highlight .kd,  /* declaration */
+.highlight .kn,  /* namespace */
+.highlight .kp,  /* pseudo */
+.highlight .kr,  /* reserved */
+.highlight .kt,  /* type */
+.highlight .kv,  /* variable */
+.highlight .ow,  /* operator: word */
+.highlight .cp,  /* comment: preprocessor */
+.highlight .cpf  /* comment: preprocessor file */
+{ color: hsl(270, 45%, 72%); }
+
+/* strings */
+.highlight .s,   /* string */
+.highlight .sa,  /* affix */
+.highlight .sb,  /* backtick */
+.highlight .sc,  /* char */
+.highlight .dl,  /* delimiter */
+.highlight .sd,  /* doc */
+.highlight .s2,  /* double */
+.highlight .se,  /* escape */
+.highlight .sh,  /* heredoc */
+.highlight .si,  /* interpolation */
+.highlight .sx,  /* other */
+.highlight .sr,  /* regex */
+.highlight .s1,  /* single */
+.highlight .ss   /* symbol */
+{ color: hsl(130, 20%, 68%); }
+
+/* numbers */
+.highlight .m,   /* number */
+.highlight .mb,  /* binary */
+.highlight .mf,  /* float */
+.highlight .mh,  /* hex */
+.highlight .mi,  /* integer */
+.highlight .il,  /* long integer */
+.highlight .mo,  /* octal */
+.highlight .mx   /* other */
+{ color: hsl(340, 40%, 74%); }
+
+/* functions, classes, builtins */
+.highlight .nf,  /* function */
+.highlight .fm,  /* magic function */
+.highlight .nc,  /* class */
+.highlight .nb,  /* builtin */
+.highlight .bp,  /* builtin pseudo, e.g. self */
+.highlight .nd,  /* decorator */
+.highlight .ne   /* exception */
+{ color: hsl(170, 35%, 70%); }
+
+/* everything else stays the normal text color */
+.highlight .w,   /* whitespace */
+.highlight .esc, /* escape */
+.highlight .err, /* error */
+.highlight .x,   /* other */
+
+.highlight .n,   /* name */
+.highlight .na,  /* attribute */
+.highlight .no,  /* constant */
+.highlight .ni,  /* entity */
+.highlight .py,  /* property */
+.highlight .nl,  /* label */
+.highlight .nn,  /* namespace */
+.highlight .nx,  /* other */
+.highlight .nt,  /* tag */
+.highlight .nv,  /* variable */
+.highlight .vc,  /* class variable */
+.highlight .vg,  /* global variable */
+.highlight .vi,  /* instance variable */
+.highlight .vm,  /* magic variable */
+
+.highlight .l,   /* literal */
+.highlight .ld,  /* date */
+
+.highlight .o,   /* operator */
+.highlight .p,   /* punctuation */
+.highlight .pi,  /* punctuation: indicator */
+
+.highlight .g,   /* generic */
+.highlight .gd,  /* deleted */
+.highlight .ge,  /* emphasis */
+.highlight .ges, /* emphasis + strong */
+.highlight .gr,  /* error */
+.highlight .gh,  /* heading */
+.highlight .gi,  /* inserted */
+.highlight .gl,  /* line number */
+.highlight .go,  /* output */
+.highlight .gp,  /* prompt */
+.highlight .gs,  /* strong */
+.highlight .gu,  /* subheading */
+.highlight .gt   /* traceback */
+{ color: inherit; }
 
 
 

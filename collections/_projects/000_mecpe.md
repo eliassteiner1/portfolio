@@ -1,6 +1,8 @@
 ---
-title: Mechanical Ballpoint Pen
+title: "Mechanical Ballpoint Pen"
 image: /assets/files/projects/mecpe/cover.png
+year: "2019"
+desc: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet"
 ---
 
 This pen was designed and manufactured during a workshop internship at Trafag in 2018. To conclude my time there, I was given about one week to design, plan and realize my own project - with access to high-precision milling machines and lathes. 

@@ -18,7 +18,7 @@
             
             <div class="navbutton-content">
                 <a class="navbutton-link" href="{{ p.url | relative_url }}">
-                    <div class="navbutton-nr">{{p.nav_order | prepend: "0" | slice: -2, 2}}</div>
+                    <div class="navbutton-nr">[{{p.nav_order | prepend: "0" | slice: -2, 2}}]</div>
                     <div class="navbutton-title">{{p.title}}</div>
                 </a>
     

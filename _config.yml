@@ -9,3 +9,5 @@ collections:
 exclude:
     - Gemfile
     - Gemfile.lock
+kramdown:
+    auto_ids: false # otherwise all h1-6 get a link id when converted to html
