@@ -80,3 +80,54 @@ This blocks subtitle that directly follows a main title will sit closer than it 
 ## And Another one
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+# Images
+There are two main ways to put images into the markdown texts:
+
+## Single image with a caption
+
+For the important images, one image gets the full width and a caption below it. This is also worth using if there are just two important images, as a carousel would be a bit overkill. Or rather, use this, when the images are thematically a bit separate and also need their own caption
+
+{% 
+    include element_fig_single.html 
+    src="/assets/files/projects/surfb/paint6.jpg" 
+    cap="this would be just and example image caption" 
+%}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+
+## Carousel for build images (few images)
+
+Lots of images that aren't important individually go in a carousel: swipe the main image or use the thumbnails. It stays the same height however many images there are. Use this mainly for 3-? images, likely due to the thumbs there will be soome upper limit. but a shit ton of images in a carousel dont make a lot of sense anyways. also, only use this for thematically very similar images (progress on a single thing). Only one caption available for the entire carousel for now.
+
+{% 
+    include element_fig_carousel.html 
+    imgs="
+        /assets/files/projects/surfb/epoxy1.jpg|
+        /assets/files/projects/surfb/epoxy2.jpg|
+        /assets/files/projects/surfb/cover.png
+    " 
+    cap="this would be an example for a rather short carousel of only 3 images. likely, 3 is the minimum number of images, although 2 should also work with the design" 
+%}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+## Carousel with a lot of images
+This carousel should also work for a looot more images tho. reasonable would be something like 8 as a maximum. but depending on how the thumbs are formatted, more would be possible. for an intuitive navigation, I would not use a scrolling thumbs section, as that would become very easy to get lost.
+
+{% 
+    include element_fig_carousel.html 
+    imgs="
+        /assets/files/projects/surfb/cover.png|
+        /assets/files/projects/surfb/epoxy1.jpg|
+        /assets/files/projects/surfb/epoxy2.jpg|
+        /assets/files/projects/surfb/paint1.jpg|
+        /assets/files/projects/surfb/paint2.jpg|
+        /assets/files/projects/surfb/paint3.jpg|
+        /assets/files/projects/surfb/paint4.jpg|
+        /assets/files/projects/surfb/paint5.jpg|
+        /assets/files/projects/surfb/paint6.jpg
+    " 
+    cap="... aaaand and example of a carousel with quite a bunch of images to test the limits" 
+%}

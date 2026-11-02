@@ -43,21 +43,23 @@
     --col-accent2: #2382b7; /* #2382b7 */
 
     /* font specs */
-    --font-family:      "Geist", sans-serif;
-    --font-family-mono: "GeistMono", monospace;
-    --root-line-height: 1.50;
-    --root-fsize:       14px; /* just base definition, all fsize-... depend on rem and therefore this here */
-    --root-fsize-ratio: 1.20;
+    --font-family:        "Geist", sans-serif;
+    --font-family-mono:   "GeistMono", monospace;
+    --root-line-height:   1.50;
+    --root-letterspacing: 0.015em; /* the font is sliiightly too condensed out of the box */
+    --root-fsize:         14px; /* just base definition, all fsize-... depend on rem and therefore this here */
+    --root-fsize-ratio:   1.20; /* defines the octave steps for the font sizes */
 
-    --fsize-base: 1rem;
-    --fsize-up1:  calc(1rem * pow(var(--root-fsize-ratio), 1));
-    --fsize-up2:  calc(1rem * pow(var(--root-fsize-ratio), 2));
-    --fsize-up3:  calc(1rem * pow(var(--root-fsize-ratio), 3));
-    --fsize-up4:  calc(1rem * pow(var(--root-fsize-ratio), 4));
-    --fsize-up5:  calc(1rem * pow(var(--root-fsize-ratio), 5));
-    --fsize-up6:  calc(1rem * pow(var(--root-fsize-ratio), 6));
-    --fsize-up7:  calc(1rem * pow(var(--root-fsize-ratio), 7));
-    --fsize-up8:  calc(1rem * pow(var(--root-fsize-ratio), 8));
+    --fsize-monocorr: 0.9em; /* slightly correct the monospace font size when right next to sans */
+    --fsize-base:     1rem;
+    --fsize-up1:      calc(1rem * pow(var(--root-fsize-ratio), 1));
+    --fsize-up2:      calc(1rem * pow(var(--root-fsize-ratio), 2));
+    --fsize-up3:      calc(1rem * pow(var(--root-fsize-ratio), 3));
+    --fsize-up4:      calc(1rem * pow(var(--root-fsize-ratio), 4));
+    --fsize-up5:      calc(1rem * pow(var(--root-fsize-ratio), 5));
+    --fsize-up6:      calc(1rem * pow(var(--root-fsize-ratio), 6));
+    --fsize-up7:      calc(1rem * pow(var(--root-fsize-ratio), 7));
+    --fsize-up8:      calc(1rem * pow(var(--root-fsize-ratio), 8));
 
     --fwght-base: 200;
     --fwght-up1:  350;
@@ -75,7 +77,7 @@
     --len-7: calc(var(--len-base) * pow(2, 6));
     --len-8: calc(var(--len-base) * pow(2, 7));
 
-    /* MISC handles */
+    /* MISC handles TODO: move to root */
     --max-content-width: 1280px; 
     --page-gutter: 40px; /* maybe this could be adjusted to device ... looks quite large on mobile */
 
@@ -108,8 +110,6 @@
     --card-covershoot: 0.2;
 
     --opencard-max-content-width: 720px;
-
-
 }
 
 
@@ -271,6 +271,7 @@ body {
     color: var(--col-tx2);
     text-align: justify;
     hyphens: auto;
+    letter-spacing: var(--root-letterspacing);
 }
 body:has(.opencard[open]) {
     /* this prevents the background from scrolling when a card is opened */
@@ -579,6 +580,8 @@ nav {
 /* CARDS ============================================================================================================ */
 /* ================================================================================================================== */
 /* */
+
+/* TODO: clean up the formatting on these cards! */
 .responsive-grid {
     /* this will generate as many columns as possible, while respecting the column widh of minimum 300px, and upper limit is adjusted to fill the entire viewport */
     display: grid;
@@ -666,10 +669,26 @@ nav {
 .card:hover .card-nr {
     opacity: 0;
 }
-
-/* TODO: clean up the formatting on these cards! */
-
-
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* TRANSITION ANIMATION FOR OPENING CARDS =========================================================================== */
+/* ================================================================================================================== */
+/* */
+.card.morphing:not(:has(+ .opencard[open])),
+.card.morphing + .opencard[open] {
+    /* the name sits on the closed card or the open dialog, so it's never on both at once */
+    view-transition-name: card;
+}
+::view-transition-group(card),
+::view-transition-group(root) {
+    animation-duration: 0.15s;
+    animation-timing-function: ease;
+}
+.card:has(+ .opencard[open]) {
+    visibility: hidden; /* unlike display: none, it keeps its space in the grid */
+}
 /* */
 /* */
 /* */ 
@@ -705,9 +724,14 @@ nav {
     --margintop-p: 10px;
     --margintop-ulol: 15px;
     --margintop-li: 7px;
+    --margintop-fig: 15px;
 
     --listindent: 16px;
     --listmarkerwidth: 16px;
+
+    /* figure stuff */
+    --fig-transitionwidth: 400px;
+    --margintop-caption: 7px;
     
 }
 .opencard::backdrop {
@@ -716,8 +740,6 @@ nav {
 .opencard-wrapper {
     height: 100%;
 }
-
-
 .opencard-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--button-size);
@@ -729,8 +751,6 @@ nav {
 
     height: 100%;
 }
-
-
 .opencard-button {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
@@ -794,7 +814,49 @@ nav {
 .opencard-desc {
    text-wrap: pretty; /* avoids really short last lines (orphans) */
 }
+.opencard-decor {
+    z-index: 3;
 
+    pointer-events: none;
+    position: relative;
+
+}
+.opencard-faintborder {
+    opacity: 1;
+}
+.opencard-cornermarks {
+    --INT-CORNERLEN: 80px;
+    --INT-CORNEROVERSHOOT: 0.0;
+    --ccl: var(--col-border3);
+}
+.opencard-faderwrapper {
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    pointer-events: none;
+
+    flex: none; /* otherwise flex shrinks it (property of this container being a flex child)*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* to distribute the two faders to the top and bottom */
+    width: 100%;
+    height: 100cqh; /* full opencard-body height. caveat: this takes padding into account! */
+    margin-bottom: -100cqh; /* prevent element from influencing object flow */
+}
+.opencard-fadertop {
+    --faderdir: to bottom;
+
+    height: calc(var(--button-size) + var(--padding-ud));
+    width: 100%;
+}
+.opencard-faderbot {
+    --faderdir: to top;
+
+    height: calc(var(--button-size));
+    width: 100%;
+}
+
+/* Writeup ================================================================== */
 .opencard-writeup {
     text-wrap: pretty;
     border-top: var(--col-border2) solid 1px;
@@ -805,6 +867,8 @@ nav {
 
     counter-reset: h1-counter;
 }
+
+/* Titles and paragraphs ---------------------------------------------------- */
 .opencard-writeup p {
     margin-block: var(--margintop-p);
 }
@@ -849,35 +913,6 @@ nav {
 .opencard-writeup strong {
     font-weight: var(--fwght-up1);
 }
-
-
-.opencard-writeup code {
-    /* formats all the code text, either triple ``` or ` */
-    font-family: var(--font-family-mono);
-    font-weight: calc(1.30 * var(--fwght-base)); /* correct monospace font weight */
-    font-size: 0.9em; /* slightly correct monospace font size */
-    hyphens: none;
-
-    padding-inline: 6px;
-    background-color: var(--col-bg3);
-    border: var(--col-border2) solid 1px;
-}
-.opencard-writeup pre {
-    /* this is the box around a ``` code block */
-    line-height: 1.25;
-    overflow-x: auto;
-    padding-inline: 6px;
-    padding-block: 6px;
-}
-.opencard-writeup pre > code {
-    /* this is the code text inside the ``` code block */
-    padding: 0;
-    background-color: transparent;
-    border: none;
-
-}
-
-
 .opencard-writeup a {
     text-decoration: underline;
     color: inherit;
@@ -887,6 +922,8 @@ nav {
 .opencard-writeup a:hover {
     color: var(--col-accent2);
 }
+
+/* Lists -------------------------------------------------------------------- */
 .opencard-writeup ol {
     /* this defines the scope for the item counter: each list separate */
     counter-reset: list-item-nr;
@@ -919,60 +956,158 @@ nav {
 .opencard-writeup ol > li::before {
     /* just for the ol number markers */
     content: counter(list-item-nr);
-    font-size: 0.9em; /* slightly correct monospace font size */
+    font-size: var(--fsize-monocorr);
+}
+
+/* Images and Carousel ------------------------------------------------------ */
+.singlefig {
+    /* this will: make figure align with indents on wide cards, when card gets smaller, widht will transition to 100% */
+    width: max(calc(100% - 2*var(--cosmetic-indent)), min(var(--fig-transitionwidth), 100%));
+    margin-inline: auto;
+    margin-block: var(--margintop-fig);
+    isolation: isolate; /* new z-index context */
+}
+.singlefig-img {
+    width: 100%;
+    aspect-ratio: calc(4/3);
+    object-fit: cover;
+    object-position: center;
+}
+.singlefig-cap {
+    margin-top: var(--margintop-caption);
+    color: var(--col-tx1);
 }
 
 
-.opencard-faderwrapper {
-    z-index: 1;
-    position: sticky;
-    top: 0;
-    pointer-events: none;
 
-    flex: none; /* otherwise flex shrinks it (property of this container being a flex child)*/
+.carouselfig {
+    /* this will: make figure align with indents on wide cards, when card gets smaller, widht will transition to 100% */
+    width: max(calc(100% - 2*var(--cosmetic-indent)), min(var(--fig-transitionwidth), 100%));
+    margin-inline: auto;
+    margin-block: var(--margintop-fig);
+    isolation: isolate; /* new z-index context */
+
+    --height-thumbs: 40px; /* height of the little preview images */
+    --carousel-mainimg-gap: 40px; /* gap between images while scrolling */
+    --carousel-thumbsgap: 10px;
+    --thumbs-outline-t: 2px;
+    --thumbs-anim-time: 0.1s;
+
+
+
+}
+.carouselfig-main {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* to distribute the two faders to the top and bottom */
+    flex-direction: row;
     width: 100%;
-    height: 100cqh; /* full opencard-body height. caveat: this takes padding into account! */
-    margin-bottom: -100cqh; /* prevent element from influencing object flow */
-}
-.opencard-fadertop {
-    --faderdir: to bottom;
+    aspect-ratio: calc(4/3);
+    scrollbar-width: none; /* remove scrollbar as we have the thumbs */
+    gap: var(--carousel-mainimg-gap); 
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* this makes the snapping possible */
 
-    height: calc(var(--button-size) + var(--padding-ud));
+}
+.carouselfig-main > img {
+    flex: 0 0 100%; /* prevents images from shrinking to fit */
+    object-fit: cover;
+    scroll-snap-align: center; /* neede for parent to know where to snap to */
+}
+.carouselfig-thumbs {
+    z-index: 1;
+    position: relative; /* for painting order (to have this in front of main img) */
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: center; /* in case uf underfull thumbs strip - center them */
+
+    margin-inline: auto;
+    gap: var(--carousel-thumbsgap);
+    margin-top: calc(-0.33 * var(--height-thumbs)); /* slight overlap with main image */
+
+    background-color: transparent;
+}
+.carouselfig-thumbimgwrapper {
+    /* flex: 1; */
+    height: var(--height-thumbs);
+    width: var(--height-thumbs);
+
+    min-width: 0; /* lets the thumbs shrink below their natural width */
+    cursor: pointer;
+
+    background-color: var(--col-bg1);
+    box-shadow: 0 0 16px 8px var(--col-bg1);
+    outline: transparent solid 2px; /* transition start point */
+    outline-offset: 0px; /* transition start point */
+
+    transition: 
+        outline var(--thumbs-anim-time) ease,
+        outline-offset var(--thumbs-anim-time) ease;
+}
+.carouselfig-thumbimgwrapper > img {
+    object-fit: cover;
     width: 100%;
-}
-.opencard-faderbot {
-    --faderdir: to top;
+    height: 100%;
 
-    height: calc(var(--button-size));
-    width: 100%;
-}
-.opencard-decor {
-    z-index: 3;
+    opacity: 0.66;
+    filter: blur(0.5px);
+    clip-path: inset(0); /* stops blur from spreading out */
 
-    pointer-events: none;
-    position: relative;
-
+    transition: 
+        opacity var(--thumbs-anim-time) ease;
 }
-.opencard-faintborder {
+.carouselfig-thumbimgwrapper.active {
+    z-index: 3; /* lift the active one in front to lift outline before shadows */
+    outline: var(--col-accent2) solid var(--thumbs-outline-t);
+    outline-offset: var(--thumbs-outline-t);
+}
+.carouselfig-thumbimgwrapper.active > img {
     opacity: 1;
 }
-.opencard-cornermarks {
-    --INT-CORNERLEN: 80px;
-    --INT-CORNEROVERSHOOT: 0.0;
-    --ccl: var(--col-border3);
+.carouselfig-cap {
+    z-index: 2;
+    position: relative; /* paint order - in front of thumbs dropshadow */
+    margin-top: calc(var(--margintop-caption) + 2*var(--thumbs-outline-t)); /* also compensate for outline */
+    color: var(--col-tx1);
 }
 
 
-.opencard-writeup .highlighter-rouge {
+
+
+/* Code Blocks -------------------------------------------------------------- */
+.opencard-writeup code {
+    /* formats all the code text, either triple ``` or ` */
+    font-family: var(--font-family-mono);
+    font-weight: calc(1.30 * var(--fwght-base)); /* correct monospace font weight */
+    font-size: var(--fsize-monocorr); 
+    hyphens: none;
+
+    padding-inline: 6px;
+    background-color: var(--col-bg3);
+    border: var(--col-border2) solid 1px;
+}
+.opencard-writeup pre {
+    /* this is the box around a ``` code block */
+    line-height: 1.25;
+    overflow-x: auto;
+    padding-inline: 6px;
+    padding-block: 6px;
+}
+.opencard-writeup pre > code {
+    /* this is the code text inside the ``` code block */
+    padding: 0;
+    background-color: transparent;
+    border: none;
+
+}
+.opencard-writeup div.highlighter-rouge {
+    /* use div.highlighter-rogue do differentiate between inline snippets and blockcode. otherwise inline will get a small code language label too */
     /* to be able to make the code block go around the ::before label, this one has to carry the border and bg */
     margin-block: var(--margintop-p);
     background-color: var(--col-bg3);
     border: var(--col-border2) solid 1px;
 }
-.opencard-writeup .highlighter-rouge::before {
+.opencard-writeup div.highlighter-rouge::before {
+
     /* the language label, as a right-aligned row above the code */
     display: block;
     
@@ -982,31 +1117,12 @@ nav {
     margin-bottom: -6px; /* cancel out the padding on the code block below */
 
     text-align: right;
-    font-size: 0.9em;
+    font-size: var(--fsize-monocorr);
     font-family: var(--font-family-mono);
     color: var(--col-tx1);
 }
-.opencard-writeup .language-python::before { content: "python"; }
-.opencard-writeup .language-cpp::before    { content: "c++"; }
-
-
-
-
-
-/* the name sits on the closed card or the open dialog, so it's never on both at once */
-.card.morphing:not(:has(+ .opencard[open])),
-.card.morphing + .opencard[open] {
-    view-transition-name: card;
-}
-::view-transition-group(card),
-::view-transition-group(root) {
-    animation-duration: 0.15s;
-    animation-timing-function: ease;
-}
-.card:has(+ .opencard[open]) {
-    visibility: hidden; /* unlike display: none, it keeps its space in the grid */
-}
-
+.opencard-writeup div.language-python::before { content: "python"; }
+.opencard-writeup div.language-cpp::before    { content: "c++"; }
 
 /* SYNTAX HIGHLIGHTING
 Jekyll's Markdown converter (kramdown) passes ``` code blocks with a language to the highlighter Rouge at build time.
@@ -1118,6 +1234,9 @@ Full list of tokens: https://github.com/rouge-ruby/rouge/blob/main/lib/rouge/tok
 .highlight .gu,  /* subheading */
 .highlight .gt   /* traceback */
 { color: inherit; }
+
+
+
 
 
 

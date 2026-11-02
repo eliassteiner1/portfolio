@@ -1,0 +1,10 @@
+<!-- a single figure with a caption -->
+<figure class="singlefig">
+    <img class="singlefig-img" src="{{ include.src | relative_url }}" loading="lazy">
+    {%- if include.cap %}
+    <figcaption class="singlefig-cap">{{ include.cap }}</figcaption>
+    {%- endif %}
+</figure>
+
+
+

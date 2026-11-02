@@ -1,0 +1,22 @@
+<!-- a figure with multiple images as carousel -->
+{%- assign srcs = include.imgs | split: "|" -%}
+<figure class="carouselfig">
+    <div class="carouselfig-main">
+        {%- for src in srcs %}
+            <img src="{{ src | strip | relative_url }}" loading="lazy">
+        {%- endfor %}
+    </div>
+    <div class="carouselfig-thumbs">
+        {%- for src in srcs %}
+            <div class="carouselfig-thumbimgwrapper">
+                <img src="{{ src | strip | relative_url }}" loading="lazy">
+            </div>
+        {%- endfor %}
+    </div>
+    {%- if include.cap %}
+    <figcaption class="carouselfig-cap">{{ include.cap }}</figcaption>
+    {%- endif %}
+</figure>
+
+
+
