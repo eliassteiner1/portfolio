@@ -26,6 +26,7 @@ async function openProject(card) {
     transition(() => {
         dialog.showModal();
         dialog.querySelector(".opencard-body").scrollTop = 0; // always start at the top of the article
+        dialog.querySelectorAll(".carouselfig-main").forEach((main) => (main.scrollLeft = 0)); // and at the first image
     });
 }
 
@@ -58,20 +59,29 @@ document.querySelectorAll(".card").forEach((card) => {
 document.querySelectorAll(".carouselfig").forEach((carousel) => {
     const main = carousel.querySelector(".carouselfig-main");
     const thumbs = carousel.querySelectorAll(".carouselfig-thumbs > .carouselfig-thumbimgwrapper");
+    const prev = carousel.querySelector(".carouselfig-prev");
+    const next = carousel.querySelector(".carouselfig-next");
 
     // distance from one slide to the next, read live since a closed dialog has no width
     const step = () => main.clientWidth + parseFloat(getComputedStyle(main).columnGap);
+    const current = () => Math.round(main.scrollLeft / step());
 
-    thumbs[0].classList.add("active"); // set by hand, as a closed dialog has no width to calculate from
+    function goTo(i) {
+        i = Math.max(0, Math.min(i, thumbs.length - 1)); // stay within the slides
+        main.scrollTo({ left: i * step(), behavior: "smooth" }); // scrollIntoView could also move the article
+    }
 
-    thumbs.forEach((thumb, i) => {
-        thumb.addEventListener("click", () => {
-            main.scrollTo({ left: i * step(), behavior: "smooth" }); // scrollIntoView could also move the article
-        });
-    });
+    function update(i) {
+        thumbs.forEach((thumb, j) => thumb.classList.toggle("active", j === i));
+        prev.classList.toggle("hidden", i === 0);
+        next.classList.toggle("hidden", i === thumbs.length - 1);
+    }
 
-    main.addEventListener("scroll", () => {
-        const current = Math.round(main.scrollLeft / step());
-        thumbs.forEach((thumb, i) => thumb.classList.toggle("active", i === current));
-    });
+    update(0); // set by hand, as a closed dialog has no width to calculate from
+
+    thumbs.forEach((thumb, i) => thumb.addEventListener("click", () => goTo(i)));
+    prev.addEventListener("click", () => goTo(current() - 1));
+    next.addEventListener("click", () => goTo(current() + 1));
+
+    main.addEventListener("scroll", () => update(current()));
 });

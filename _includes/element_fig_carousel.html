@@ -7,16 +7,23 @@
         {%- endfor %}
     </div>
     <div class="carouselfig-thumbs">
+        <div class="carouselfig-arrow carouselfig-prev">
+            <span class="carouselfig-svgwrapper">
+                <svg viewBox="7.75 2.75 8.5 18.5" fill="none"><path d="M15 4L9 12L15 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+        </div>
         {%- for src in srcs %}
             <div class="carouselfig-thumbimgwrapper">
                 <img src="{{ src | strip | relative_url }}" loading="lazy">
             </div>
         {%- endfor %}
+        <div class="carouselfig-arrow carouselfig-next">
+            <span class="carouselfig-svgwrapper">
+                <svg viewBox="7.75 2.75 8.5 18.5" fill="none"><path d="M9 4L15 12L9 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+        </div>
     </div>
     {%- if include.cap %}
     <figcaption class="carouselfig-cap">{{ include.cap }}</figcaption>
     {%- endif %}
 </figure>
-
-
-

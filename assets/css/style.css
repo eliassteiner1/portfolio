@@ -61,6 +61,7 @@
     --fsize-up7:      calc(1rem * pow(var(--root-fsize-ratio), 7));
     --fsize-up8:      calc(1rem * pow(var(--root-fsize-ratio), 8));
 
+    --fwght-monocorr: 1.25; /* correction factor for monospace inline with sans. otherwise looks too thin */
     --fwght-base: 200;
     --fwght-up1:  350;
     --fwght-up2:  500;
@@ -110,6 +111,20 @@
     --card-covershoot: 0.2;
 
     --opencard-max-content-width: 720px;
+
+    /* carousel */
+    --height-thumbs: 40px; /* height of the little preview images */
+    --carousel-mainimg-gap: 40px; /* gap between images while scrolling */
+    --carousel-thumbsgap: 10px;
+    --thumbs-outline-t: 2px;
+    --thumbs-anim-time: 0.1s;
+    --width-chevron: 10px;
+
+    /* code blocks and snippets */
+    --code-padd-inline: 6px;
+    --code-padd-block: 6px;
+    --w-border-code: 1px;
+
 }
 
 
@@ -959,7 +974,7 @@ nav {
     font-size: var(--fsize-monocorr);
 }
 
-/* Images and Carousel ------------------------------------------------------ */
+/* Single Fig --------------------------------------------------------------- */
 .singlefig {
     /* this will: make figure align with indents on wide cards, when card gets smaller, widht will transition to 100% */
     width: max(calc(100% - 2*var(--cosmetic-indent)), min(var(--fig-transitionwidth), 100%));
@@ -978,23 +993,13 @@ nav {
     color: var(--col-tx1);
 }
 
-
-
+/* Carousel ----------------------------------------------------------------- */
 .carouselfig {
     /* this will: make figure align with indents on wide cards, when card gets smaller, widht will transition to 100% */
     width: max(calc(100% - 2*var(--cosmetic-indent)), min(var(--fig-transitionwidth), 100%));
     margin-inline: auto;
     margin-block: var(--margintop-fig);
     isolation: isolate; /* new z-index context */
-
-    --height-thumbs: 40px; /* height of the little preview images */
-    --carousel-mainimg-gap: 40px; /* gap between images while scrolling */
-    --carousel-thumbsgap: 10px;
-    --thumbs-outline-t: 2px;
-    --thumbs-anim-time: 0.1s;
-
-
-
 }
 .carouselfig-main {
     display: flex;
@@ -1005,7 +1010,6 @@ nav {
     gap: var(--carousel-mainimg-gap); 
     overflow-x: auto;
     scroll-snap-type: x mandatory; /* this makes the snapping possible */
-
 }
 .carouselfig-main > img {
     flex: 0 0 100%; /* prevents images from shrinking to fit */
@@ -1017,8 +1021,7 @@ nav {
     position: relative; /* for painting order (to have this in front of main img) */
     display: flex;
     flex-direction: row;
-    width: 90%;
-    justify-content: center; /* in case uf underfull thumbs strip - center them */
+    width: 100%;
 
     margin-inline: auto;
     gap: var(--carousel-thumbsgap);
@@ -1027,7 +1030,6 @@ nav {
     background-color: transparent;
 }
 .carouselfig-thumbimgwrapper {
-    /* flex: 1; */
     height: var(--height-thumbs);
     width: var(--height-thumbs);
 
@@ -1036,7 +1038,7 @@ nav {
 
     background-color: var(--col-bg1);
     box-shadow: 0 0 16px 8px var(--col-bg1);
-    outline: transparent solid 2px; /* transition start point */
+    outline: transparent solid var(--thumbs-outline-t); /* transition start point */
     outline-offset: 0px; /* transition start point */
 
     transition: 
@@ -1063,6 +1065,52 @@ nav {
 .carouselfig-thumbimgwrapper.active > img {
     opacity: 1;
 }
+.carouselfig-arrow {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: max(10%, calc(2*var(--carousel-thumbsgap) + var(--width-chevron)));
+    color: var(--col-accent2);
+    cursor: pointer;
+    opacity: 1; /* start for transition */
+
+    display: flex;
+    align-items: center;
+
+    transition: opacity var(--thumbs-anim-time) ease;
+}
+.carouselfig-arrow.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.carouselfig-svgwrapper {
+    /* this thing is just to have access to the ::before element that can be sized like the svg */
+    position: relative;
+}
+.carouselfig-arrow svg {
+    position: relative; /* puts above shadow */
+
+    height: auto; 
+    width: var(--width-chevron); /* this controls the "font size" */
+}
+.carouselfig-svgwrapper::before {
+    z-index: -1;
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: -10px; 
+    background-color: var(--col-bg1);
+    filter: blur(10px);
+}
+.carouselfig-prev {
+    margin-right: auto;
+    justify-content: flex-start;
+    padding-left: var(--carousel-thumbsgap);
+}
+.carouselfig-next {
+    margin-left: auto;
+    justify-content: flex-end;
+    padding-right: var(--carousel-thumbsgap);
+}
 .carouselfig-cap {
     z-index: 2;
     position: relative; /* paint order - in front of thumbs dropshadow */
@@ -1070,54 +1118,49 @@ nav {
     color: var(--col-tx1);
 }
 
-
-
-
 /* Code Blocks -------------------------------------------------------------- */
 .opencard-writeup code {
     /* formats all the code text, either triple ``` or ` */
     font-family: var(--font-family-mono);
-    font-weight: calc(1.30 * var(--fwght-base)); /* correct monospace font weight */
+    font-weight: calc(var(--fwght-monocorr) * var(--fwght-base)); /* correct monospace font weight */
     font-size: var(--fsize-monocorr); 
     hyphens: none;
 
-    padding-inline: 6px;
+    padding-inline: var(--code-padd-inline);
     background-color: var(--col-bg3);
-    border: var(--col-border2) solid 1px;
+    border: var(--col-border2) solid var(--w-border-code);
 }
 .opencard-writeup pre {
     /* this is the box around a ``` code block */
     line-height: 1.25;
     overflow-x: auto;
-    padding-inline: 6px;
-    padding-block: 6px;
+    padding-inline: var(--code-padd-inline);
+    padding-block: var(--code-padd-block);
 }
 .opencard-writeup pre > code {
     /* this is the code text inside the ``` code block */
     padding: 0;
     background-color: transparent;
     border: none;
-
 }
 .opencard-writeup div.highlighter-rouge {
     /* use div.highlighter-rogue do differentiate between inline snippets and blockcode. otherwise inline will get a small code language label too */
     /* to be able to make the code block go around the ::before label, this one has to carry the border and bg */
     margin-block: var(--margintop-p);
     background-color: var(--col-bg3);
-    border: var(--col-border2) solid 1px;
+    border: var(--col-border2) solid var(--w-border-code);
 }
 .opencard-writeup div.highlighter-rouge::before {
-
     /* the language label, as a right-aligned row above the code */
+
     display: block;
     
-    padding-inline: 6px;
-    padding-top: 4px;
-    padding-bottom: 2px;
-    margin-bottom: -6px; /* cancel out the padding on the code block below */
+    padding-inline: var(--code-padd-inline);
+    padding-top: var(--code-padd-block);
 
     text-align: right;
     font-size: var(--fsize-monocorr);
+    font-weight: calc(var(--fwght-monocorr) * var(--fwght-base));
     font-family: var(--font-family-mono);
     color: var(--col-tx1);
 }
@@ -1234,15 +1277,13 @@ Full list of tokens: https://github.com/rouge-ruby/rouge/blob/main/lib/rouge/tok
 .highlight .gu,  /* subheading */
 .highlight .gt   /* traceback */
 { color: inherit; }
-
-
-
-
-
-
-
-
-
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
+/* RANDOM STUFF ===================================================================================================== */
+/* ================================================================================================================== */
+/* */
 .portrait {
     width: 200px;
     object-fit: cover;

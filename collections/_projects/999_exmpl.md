@@ -127,7 +127,8 @@ This carousel should also work for a looot more images tho. reasonable would be 
         /assets/files/projects/surfb/paint3.jpg|
         /assets/files/projects/surfb/paint4.jpg|
         /assets/files/projects/surfb/paint5.jpg|
-        /assets/files/projects/surfb/paint6.jpg
+        /assets/files/projects/surfb/paint6.jpg|
+        /assets/files/projects/surfb/shaping1.jpg
     " 
     cap="... aaaand and example of a carousel with quite a bunch of images to test the limits" 
 %}
