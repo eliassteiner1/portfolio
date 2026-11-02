@@ -1,6 +1,7 @@
 ---
-title: "Maturarbeit (2016)"
+title: "Maturarbeit"
 image: /assets/files/academic/matur/cover.png
+year: "2016"
 ---
 
 # Abstract 

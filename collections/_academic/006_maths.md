@@ -1,6 +1,7 @@
 ---
-title: "Master Thesis (2025)"
+title: "Master Thesis"
 image: /assets/files/academic/maths/cover.png
+year: "2025"
 ---
 
 # Abstract

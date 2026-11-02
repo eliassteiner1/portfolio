@@ -1,5 +1,5 @@
 // debug: open a certain dialog on page load (for tweaking formatting or writing articles) -----------------------------
-document.querySelectorAll("dialog")[9].showModal();
+// document.querySelectorAll("dialog")[9].showModal();
 
 
 // view transition -----------------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 ---
-title: "Semester Thesis (2024)"
+title: "Semester Thesis"
 image: /assets/files/academic/seths/cover.png
+year: "2024"
 ---
 
 # Abstract 

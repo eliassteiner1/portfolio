@@ -1,6 +1,7 @@
 ---
-title: "TA Mechanics II (2020-2024)"
+title: "TA Mechanics II - Teaching Materials"
 image: /assets/files/academic/tamec/cover.png
+year: "2020-2024"
 ---
 
 # Overview

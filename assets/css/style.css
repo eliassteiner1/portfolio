@@ -78,17 +78,21 @@
     --len-7: calc(var(--len-base) * pow(2, 6));
     --len-8: calc(var(--len-base) * pow(2, 7));
 
+
+
+
     /* MISC handles TODO: move to root */
     --max-content-width: 1280px; 
     --page-gutter: 40px; /* maybe this could be adjusted to device ... looks quite large on mobile */
+    --page-gap: 40px;
 
     --deco-gridlw: 1px; /* width of blueprint grid */
     --gridmajor-l: 96px;
 
     --hover-anim-time: 0.2s; /* used by everything for now ?! */
 
-    --borderwidth: 1px; /* for the faintborder */
-    --cornerwidth: 2px; /* for the corners */
+    --faintborder-w: 1px; /* for the faintborder */
+    --corners-w: 2px; /* for the corners */
 
     --h-navbar: 64px;
     --hairline-navbox: 1px; /* hairline width below navbox */
@@ -101,7 +105,7 @@
     --navbutton-covershoot: 0.3;
 
     --h-title-full: 192px;
-    --h-title-small: 64px;
+    --h-title-small: 52px;
     --scrollpad: 50px; /* dont start the title scroll animation during these first pixels */
     --title-rowgap: 30px; /* gap between title text and desc (up) */ 
     --title-columngap: 10px; /* gap between number and title */
@@ -186,8 +190,6 @@ html {
 .gridstack > * {
     grid-area: 1 / 1; /* = row 1 col 1 */
 }
-
-
 .contentcolumn {
     width: min(100%, var(--max-content-width));
     margin-inline: auto;
@@ -196,8 +198,8 @@ html {
 
 
 .faintborder {
-    outline: var(--borderwidth) solid var(--col-border2); 
-    outline-offset: calc(-1 * var(--borderwidth) / 2); /* use outline to be able to center border with cornermarks */
+    outline: var(--faintborder-w) solid var(--col-border2); 
+    outline-offset: calc(-1 * var(--faintborder-w) / 2); /* use outline to be able to center border with cornermarks */
     opacity: 0;
 
     transition: 
@@ -208,7 +210,7 @@ html {
 
     /* precalculate some properties to make code more clear */
     --osh: calc(var(--INT-CORNERLEN)*var(--INT-CORNEROVERSHOOT)); /* absolute overshoot from global proportion */
-    --fln: calc(var(--INT-CORNERLEN) + var(--cornerwidth) + var(--osh)); /* full bar length */
+    --fln: calc(var(--INT-CORNERLEN) + var(--corners-w) + var(--osh)); /* full bar length */
     --ccl: var(--col-accent2); /* dummy corner color */
 
     position: relative;
@@ -220,9 +222,9 @@ html {
 .cornermarks::before {
     content: "";
     position: absolute;
-    inset-inline: calc(-1 * (var(--cornerwidth)/2 + var(--osh)));
-    inset-block: calc(-1*var(--cornerwidth)/2);
-    border-block: var(--cornerwidth) solid var(--ccl);
+    inset-inline: calc(-1 * (var(--corners-w)/2 + var(--osh)));
+    inset-block: calc(-1*var(--corners-w)/2);
+    border-block: var(--corners-w) solid var(--ccl);
     mask: linear-gradient(to right,
         #000000 0%,
         #000000 var(--fln), 
@@ -236,9 +238,9 @@ html {
     content: "";
     position: absolute;
 
-    inset-inline: calc(-1*var(--cornerwidth)/2);
-    inset-block: calc(-1 * (var(--cornerwidth)/2 + var(--osh)));
-    border-inline: var(--cornerwidth) solid var(--ccl);
+    inset-inline: calc(-1*var(--corners-w)/2);
+    inset-block: calc(-1 * (var(--corners-w)/2 + var(--osh)));
+    border-inline: var(--corners-w) solid var(--ccl);
     mask: linear-gradient(to top,
         #000000 0%,
         #000000 var(--fln), 
@@ -256,6 +258,7 @@ html {
     /* background-color: rgba(0, 255, 255, 0.5); */
 
     background-image: 
+        /* nice and smooth easing gradient that is reusable */
         linear-gradient(var(--faderdir), 
             var(--col-bg1) 0%,
             color-mix(in srgb, var(--col-bg1) 97.2%, transparent) 10%,
@@ -296,7 +299,7 @@ body:has(.opencard[open]) {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 40px; /* todo, route out */
+    gap: var(--page-gap);
     height: 100%;
 
 }
@@ -354,19 +357,10 @@ nav {
 }
 .navbutton-faintborder {
     /* relies on the faintborder utility */
-}
-.navbutton-cornermarks {
-    display: none;
-    --INT-CORNERLEN: var(--navbutton-cornerlen);
-    --INT-CORNEROVERSHOOT: var(--navbutton-covershoot);
-    --ccl: var(--col-border3);
+    opacity: 0;
 }
 .navbutton:hover .faintborder {
     opacity: 1;
-}
-.navbutton:hover .cornermarks {
-    --INT-CORNERLEN: var(--navbutton-cornerlen-ext);
-    --INT-CORNEROVERSHOOT: 0.0;
 }
 /* */
 /* */
@@ -612,9 +606,6 @@ nav {
     width: 100%;
     height: 100%;
     cursor: pointer; /* to show that it's clickable */
-
-    /* background-color: yellowgreen; */
-
 }
 .card-content {
     display: grid;
@@ -629,10 +620,19 @@ nav {
 .card-cover {
     grid-area: cover;
     width: 100%;
-    aspect-ratio: calc(4/3);
+    
     object-fit: cover; /* this prevents the image from becoming distorted */
     object-position: center; /* this chooses which part of the image to show, if it's too large */
 }
+.card.isProject .card-cover {
+    aspect-ratio: calc(4/3);
+}
+.card.isAcademic .card-cover {
+    aspect-ratio: calc(1/sqrt(2));
+}
+
+
+
 .card-title {
     grid-area: title;
     font-size: var(--fsize-up1);
@@ -657,7 +657,8 @@ nav {
     --ccl: var(--col-border3);
 }
 .card-faintborder {
-
+    /* relies on the faintborder utility */
+    opacity: 0;
 }
 .card-nr {
     position: absolute;

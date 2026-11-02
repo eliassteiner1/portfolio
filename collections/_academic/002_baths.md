@@ -1,6 +1,7 @@
 ---
-title: "Bachelor Thesis (2021)"
+title: "Bachelor Thesis"
 image: /assets/files/academic/baths/cover.png
+year: "2021"
 ---
 
 # Abstract
