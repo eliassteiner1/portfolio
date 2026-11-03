@@ -1,7 +1,9 @@
 ---
 title: "Bachelor Thesis"
-image: /assets/files/academic/baths/cover.png
+cover: /assets/files/academic/baths/cover.png
+image: /assets/files/academic/baths/image.jpg
 year: "2021"
+desc: "Autonomous Steering of a Magnetic Catheter for Spinal Cord Stimulation Procedure"
 ---
 
 # Abstract

@@ -1,7 +1,9 @@
 ---
 title: "TA Mechanics II - Teaching Materials"
-image: /assets/files/academic/tamec/cover.png
+cover: /assets/files/academic/tamec/cover.png
+image: /assets/files/academic/tamec/image.jpg
 year: "2020-2024"
+desc: "Collection of self-developed teaching materials for the Mechanics II Lectures Prof. Dirk Mohr."
 ---
 
 # Overview

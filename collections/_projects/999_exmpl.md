@@ -1,5 +1,6 @@
 ---
 title: "Example Project"
+cover: /assets/images/example.jpg
 image: /assets/images/example.jpg
 year: "2017-2023"
 desc: "This article is mostly just to test and showcase all the markdown formatting possibilities. Setting them up is much easier when there's an article that contains them all neatly in one block of text!"

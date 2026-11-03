@@ -1,7 +1,9 @@
 ---
 title: "Semester Thesis"
-image: /assets/files/academic/seths/cover.png
+cover: /assets/files/academic/seths/cover.png
+image: /assets/files/academic/seths/image.jpg
 year: "2024"
+desc: "Task-Oriented Robotic Grasping for Robot-Human Handovers"
 ---
 
 # Abstract 

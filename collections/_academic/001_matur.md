@@ -1,7 +1,9 @@
 ---
 title: "Maturarbeit"
-image: /assets/files/academic/matur/cover.png
+cover: /assets/files/academic/matur/cover.png
+image: /assets/files/academic/matur/image.png
 year: "2016"
+desc: "Bau eines Stirlingmotors"
 ---
 
 # Abstract 

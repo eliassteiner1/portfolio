@@ -5,24 +5,70 @@ permalink: /aboutme
 nav_order: 1
 ---
 
-
-<!-- TODO: REwork at the end and adjust to the other design of projects and articles -->
-
 <div class="page">
+    
+    <!-- TITLE ------------------------------------------------------------- -->
+    <div class="title gridstack">
 
-    <div class="page-title">
-        ABOUT ME
+        <div class="title-content contentcolumn">
+            <div class="title-nr">[{{ page.nav_order | prepend: '0' }}]</div>
+            <div class="title-text">{{page.title}}</div>
+            <div class="title-desc">a short introduction</div>
+        </div>
+
+        <div class="title-decor gridstack">
+            <div class="title-grid"></div>
+            <div class="title-fadertop fader"></div>
+        </div>
+
     </div>
     
-    <img class="portrait" src="{{ '/assets/images/portrait.jpg' | relative_url }}"> 
+    <!-- Content ------------------------------------------------------------- -->
 
-    <p> 
-        
-        I'm a mechanical engineer with an MSc from ETH Zürich, where I focused on robotics, machine learning and computer vision. I enjoy working where the physical and the digital meet: building systems that perceive their environment and act on it in the real world.
-        <br> <br>
-        My academic projects have taken me from steering a magnetic catheter through a model of the spinal epidural space, to teaching a legged robot how to hand objects to people (work I co-authored for HRI 2026), to getting an omnidirectional hexacopter to autonomously insert a peg into an 8 mm hole mid-flight. Along the way, I've also applied these skills in industry and research settings: analyzing sensor data to localize methane leaks at Sensirion, testing cardiovascular implants at Biotronik, and building a multi-camera surgical dataset for 3D reconstruction at Balgrist.
-        <br> <br>
-        Outside of code and robots, I like making things with my hands, whether that's machining engine models, 3D printing, drawing or sculpting. I play volleyball (and keep the books for my local club), surf and run whenever I can, and I've spent time travelling and living abroad, which is where most of my Spanish knowledge comes from.
-    </p>
-    
+    <div class="aboutme contentcolumn">
+
+        <div class="aboutme-head">
+            <div class="aboutme-portrait gridstack">
+                <img class="aboutme-img" src="{{ '/assets/images/portrait.jpg' | relative_url }}" alt="Portrait of Elias Steiner">
+                <div class="aboutme-cornermarks cornermarks"></div>
+            </div>
+
+            <dl class="aboutme-specs">
+                <div><dt>name</dt>       <dd>Elias Steiner</dd></div>
+                <div><dt>based in</dt>   <dd>Zürich, Switzerland</dd></div>
+                <div><dt>education</dt>  <dd>MSc Mechanical Engineering, ETH Zürich</dd></div>
+                <div><dt>focus</dt>      <dd>robotics · computer vision · machine learning</dd></div>
+                <div><dt>languages</dt>  <dd>German · English · Spanish · French</dd></div>
+            </dl>
+        </div>
+
+        <p class="aboutme-text">
+            I'm a mechanical engineer with an MSc from ETH Zürich, where I focused on robotics, machine learning and computer vision. I enjoy working where the physical and the digital meet: building systems that perceive their environment and act on it in the real world.
+            <br> <br>
+            My academic projects have taken me from steering a magnetic catheter through a model of the spinal epidural space, to teaching a legged robot how to hand objects to people (work I co-authored for HRI 2026), to getting an omnidirectional hexacopter to autonomously insert a peg into an 8 mm hole mid-flight. Along the way, I've also applied these skills in industry and research settings: analyzing sensor data to localize methane leaks at Sensirion, testing cardiovascular implants at Biotronik, and building a multi-camera surgical dataset for 3D reconstruction at Balgrist.
+            <br> <br>
+            Outside of code and robots, I like making things with my hands, whether that's machining engine models, 3D printing, drawing or sculpting. I play volleyball (and keep the books for my local club), surf and run whenever I can, and I've spent time travelling and living abroad, which is where most of my Spanish knowledge comes from.
+        </p>
+
+    </div>
+     
+
+
+
+    <!-- FOOTER ------------------------------------------------------------ -->
+    <div class="footer-faderbot fader"></div>
+
+    <div class="footer gridstack">
+
+        <div class="footer-content contentcolumn">
+            <div class="footer-copyright">© 2026 elias steiner</div>
+            <a class="footer-totop" href="#">↑ top</a>
+        </div>
+
+        <div class="footer-decor gridstack">
+            <div class="footer-grid"></div>
+        </div>
+
+    </div>
+
 </div>

@@ -81,7 +81,7 @@
 
 
 
-    /* MISC handles TODO: move to root */
+    /* MISC handles */
     --max-content-width: 1280px; 
     --page-gutter: 40px; /* maybe this could be adjusted to device ... looks quite large on mobile */
     --page-gap: 40px;
@@ -96,13 +96,9 @@
 
     --h-navbar: 64px;
     --hairline-navbox: 1px; /* hairline width below navbox */
-    --navbutton-gap: 20px;
-    --navbutton-paddinline: 16px;
-    --navbutton-paddblock: 6px;
-    --navbutton-nrtextgap: 10px;
-    --navbutton-cornerlen: 10px;
-    --navbutton-cornerlen-ext: 12px;
-    --navbutton-covershoot: 0.3;
+    --navbutton-gap: 20px; /* flex gap between buttons */
+    --navbutton-nrtextgap: 10px; /* gap between number and text in button */
+    --sidebar-anim-time: 0.2s;
 
     --h-title-full: 192px;
     --h-title-small: 52px;
@@ -110,11 +106,32 @@
     --title-rowgap: 30px; /* gap between title text and desc (up) */ 
     --title-columngap: 10px; /* gap between number and title */
 
+    /* closed cards */
     --card-cornerlen: 40px;
     --card-cornerlen-ext: 60px;
     --card-covershoot: 0.2;
 
+    /* open cards */
     --opencard-max-content-width: 720px;
+
+    --button-size: 32px;
+    --padding-lr: 20px;
+    --padding-ud: 20px;
+    --cosmetic-indent: 32px; /* for the year and write up titles */
+
+    --margintop-h1: 60px;
+    --margintop-h2: 40px;
+    --margintop-p: 10px;
+    --margintop-ulol: 15px;
+    --margintop-li: 7px;
+    --margintop-fig: 15px;
+
+    --listindent: 16px;
+    --listmarkerwidth: 16px;
+
+    /* figure stuff */
+    --fig-transitionwidth: 400px;
+    --margintop-caption: 7px;
 
     /* carousel */
     --height-thumbs: 40px; /* height of the little preview images */
@@ -211,7 +228,7 @@ html {
     /* precalculate some properties to make code more clear */
     --osh: calc(var(--INT-CORNERLEN)*var(--INT-CORNEROVERSHOOT)); /* absolute overshoot from global proportion */
     --fln: calc(var(--INT-CORNERLEN) + var(--corners-w) + var(--osh)); /* full bar length */
-    --ccl: var(--col-accent2); /* dummy corner color */
+    --ccl: var(--col-border3); /* dummy corner color */
 
     position: relative;
 
@@ -282,6 +299,8 @@ html {
 /* ================================================================================================================== */
 /* */ 
 body {
+    position: relative;
+
     display: flex;
     flex-direction: column;
 
@@ -291,7 +310,8 @@ body {
     hyphens: auto;
     letter-spacing: var(--root-letterspacing);
 }
-body:has(.opencard[open]) {
+body:has(.opencard[open]),
+body.sidebar-open {
     /* this prevents the background from scrolling when a card is opened */
     overflow: hidden;
 }
@@ -312,7 +332,6 @@ body:has(.opencard[open]) {
 /* */ 
 .navbox {
     z-index: 100;
-
     background-color: var(--col-bg1);
     border-bottom: var(--hairline-navbox) solid var(--col-border3);
 }
@@ -329,17 +348,21 @@ nav {
     margin-right: auto; /* takes up all the free space inside the flexbox */
     color: var(--col-tx1);
     font-family: var(--font-family-mono);
+    /* font-weight: var(--fwght-up1); */
+    line-height: 1;
 }
 .navbutton-link {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     text-decoration: inherit;
     color: inherit;
     font-family: var(--font-family-mono);
     font-weight: var(--fwght-up1);
 
-    padding-inline: var(--navbutton-paddinline);
-    padding-block: var(--navbutton-paddblock);
+    height: var(--button-size);
+    width: 132px;
     gap: var(--navbutton-nrtextgap);
 }
 .navbutton-nr {
@@ -362,6 +385,89 @@ nav {
 .navbutton:hover .faintborder {
     opacity: 1;
 }
+.navburger {
+    display: none;
+    color: var(--col-accent2);
+    cursor: pointer;
+
+    width: var(--button-size);
+    /* aspect-ratio: 1; */
+}
+@media (width <= 700px) {
+    .hideOnMobile {
+        display: none;
+    }
+    .showOnMobile {
+        display: block;
+    }
+}
+
+/* Sidebar ================================================================== */
+.sidebar {
+    z-index: 102;
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+
+    width: 280px;
+
+    overflow-y: auto; /* would scroll with many elements or on short screens */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--navbutton-gap);
+    background-color: var(--col-bg1);
+    border-left: var(--col-border3) solid var(--hairline-navbox);
+    
+    translate: 100% 0; /* initially move away */
+    box-shadow: 0 0 20px 10px transparent; /* animation starting point */
+    visibility: hidden;
+    transition: 
+        translate var(--sidebar-anim-time) ease,
+        box-shadow var(--sidebar-anim-time) ease,
+        visibility var(--sidebar-anim-time); /* waits for the other elements on closing automatically! */
+}
+.sidebar-open .sidebar {
+    translate: 0% 0;
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0); 
+    visibility: visible;
+
+
+}
+.sidebar-backdrop {
+    z-index: 101;
+    position: fixed;
+    inset: 0;
+    
+    background-color: transparent;
+    visibility: hidden;
+    transition:
+        background-color var(--sidebar-anim-time) ease,
+        visibility var(--sidebar-anim-time); /* waits for the other elements on closing automatically! */
+}
+.sidebar-open .sidebar-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    visibility: visible;
+}
+.sidebar > *:not(:first-child) {
+    /* all the buttons but not the close button */
+    margin-left: var(--page-gutter);
+}
+.sidebar-closebutton {
+    height: var(--h-navbar);
+    display: flex;
+    align-items: center;
+
+}
+.mybutton {
+    cursor: pointer;
+    background-color: var(--col-accent2);
+    width: var(--button-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin-left: var(--padding-lr);
+}
+
 /* */
 /* */
 /* */ 
@@ -521,8 +627,6 @@ nav {
 /* FOOTER =========================================================================================================== */
 /* ================================================================================================================== */
 /* */
-
-/* TODO: cleanup later */
 .footer {
     z-index: 3;
     container-type: inline;
@@ -586,6 +690,84 @@ nav {
 /* */
 /* */ 
 /* ================================================================================================================== */
+/* ABOUT ME ========================================================================================================= */
+/* ================================================================================================================== */
+/* */
+.aboutme {
+    --max-aboutme-width: 920px;
+
+    width: min(100%, var(--max-aboutme-width)); /* overrides the contentcolumn width, keeps its centering and gutter */
+    padding-block: 80px;
+}
+.aboutme-head {
+    display: flex;
+    flex-wrap: wrap; /* specs drop below the portrait once they run out of room */
+    justify-content: center; /* only visible when wrapped: centers the portrait alone on its line */
+    align-items: stretch; /* specs stretch to the portrait height */
+    column-gap: 40px;
+    row-gap: 40px;
+}
+.aboutme-portrait {
+    flex: none; /* fixed size, never shrinks */
+    align-self: flex-start; /* keeps its natural height, so the image never gets cropped */
+    width: 240px;
+}
+.aboutme-img {
+    width: 100%;
+    padding-inline: 16px;
+    padding-block: 24px;
+
+    object-fit: cover;
+    object-position: center;
+}
+.aboutme-cornermarks {
+    --INT-CORNERLEN: 40px;
+    --INT-CORNEROVERSHOOT: 0.2;
+    --ccl: var(--col-border3);
+}
+.aboutme-specs {
+    flex: 1 1 300px; /* grows to fill the row; wraps when narrower than 300px */
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr); /* label column only as wide as the longest label */
+    column-gap: 24px;
+    margin: 0;
+}
+.aboutme-specs > div {
+    /* one row per dt/dd pair: the border sits on the row, so it can't get out of line when a value wraps */
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid; /* reuses the parent columns, so all labels still share one width */
+    align-items: baseline; /* lines up the smaller mono label with the first line of the value */
+    align-content: center; /* centers the text vertically when the row gets stretched */
+
+    padding-block: 10px;
+    border-bottom: var(--col-border1) solid 1px;
+}
+.aboutme-specs > div:first-child {
+    border-top: var(--col-border1) solid 1px;
+}
+.aboutme-specs dt,
+.aboutme-specs dd {
+    margin: 0;
+}
+.aboutme-specs dt {
+    font-family: var(--font-family-mono);
+    font-size: var(--fsize-monocorr);
+    letter-spacing: 0.1em;
+    color: var(--col-tx1);
+}
+.aboutme-specs dd {
+    color: var(--col-tx2);
+    text-wrap: pretty;
+}
+.aboutme-text {
+    margin-top: 40px;
+    text-wrap: pretty;
+}
+/* */
+/* */
+/* */ 
+/* ================================================================================================================== */
 /* CARDS ============================================================================================================ */
 /* ================================================================================================================== */
 /* */
@@ -630,7 +812,6 @@ nav {
 .card.isAcademic .card-cover {
     aspect-ratio: calc(1/sqrt(2));
 }
-
 
 
 .card-title {
@@ -728,27 +909,7 @@ nav {
 
     width: min(var(--opencard-max-content-width), calc(100% - 40px));
     height: calc(100% - 40px);
-    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0);
-
-    --button-size: 32px;
-    --padding-lr: 20px;
-    --padding-ud: 20px;
-    --cosmetic-indent: 32px; /* for the year and write up titles */
-
-    --margintop-h1: 60px;
-    --margintop-h2: 40px;
-    --margintop-p: 10px;
-    --margintop-ulol: 15px;
-    --margintop-li: 7px;
-    --margintop-fig: 15px;
-
-    --listindent: 16px;
-    --listmarkerwidth: 16px;
-
-    /* figure stuff */
-    --fig-transitionwidth: 400px;
-    --margintop-caption: 7px;
-    
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0);    
 }
 .opencard::backdrop {
     background-color: rgba(0, 0, 0, 0.6);
@@ -1285,12 +1446,8 @@ Full list of tokens: https://github.com/rouge-ruby/rouge/blob/main/lib/rouge/tok
 /* RANDOM STUFF ===================================================================================================== */
 /* ================================================================================================================== */
 /* */
-.portrait {
-    width: 200px;
-    object-fit: cover;
-    object-position: center 20%;
-    border-radius: 10px;
-}
+
+
 
 /* show all boxes with a slight background and slight outline */
 /* * {

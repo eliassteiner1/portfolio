@@ -2,6 +2,19 @@
 // document.querySelectorAll("dialog")[9].showModal();
 
 
+// mobile sidebar ------------------------------------------------------------------------------------------------------
+const sidebar = document.querySelector(".sidebar");
+
+// the class lives on body so it can drive both the sidebar and its backdrop sibling, css does the animating
+const openSidebar = () => document.body.classList.add("sidebar-open");
+const closeSidebar = () => document.body.classList.remove("sidebar-open");
+
+document.querySelector(".navburger").addEventListener("click", openSidebar);
+sidebar.querySelector(".mybutton").addEventListener("click", closeSidebar);
+document.querySelector(".sidebar-backdrop").addEventListener("click", closeSidebar);
+sidebar.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeSidebar));
+
+
 // view transition -----------------------------------------------------------------------------------------------------
 let currentTransition = null; // the last started animation, so the next one can wait for it
 
@@ -54,6 +67,7 @@ document.querySelectorAll(".card").forEach((card) => {
         closeProject(card);
     });
 });
+
 
 // image carousels -----------------------------------------------------------------------------------------------------
 document.querySelectorAll(".carouselfig").forEach((carousel) => {

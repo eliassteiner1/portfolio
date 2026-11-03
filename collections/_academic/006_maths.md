@@ -1,7 +1,9 @@
 ---
 title: "Master Thesis"
-image: /assets/files/academic/maths/cover.png
+cover: /assets/files/academic/maths/cover.png
+image: /assets/files/academic/maths/image.jpg
 year: "2025"
+desc: "Exploring Aerial Manipulation with an Omnidirectional Hexacopter"
 ---
 
 # Abstract

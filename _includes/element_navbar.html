@@ -8,7 +8,7 @@
     <nav class="contentcolumn">
 
         <div class="navname">
-            elias steiner
+            elias<br>steiner
         </div>
     
         <!-- populates nav bar with all info found at the beginning; adding a button for each. add the "active" class to highlight the button of the page we're currently on. p.url is from iterating all pages and page.url is the url of the current site here -->
@@ -32,9 +32,44 @@
     
             
         {% endfor %}
+
+        <div class="navburger showOnMobile">
+            <svg viewBox="1 1 22 22" fill="none"><path d="M3 5H21" stroke="currentColor" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="currentColor" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="currentColor" stroke-width="3.0" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
         
     </nav>
 </div>
+
+<div class="sidebar"> 
+
+    <div class="sidebar-closebutton">
+        <div class="mybutton"></div>
+    </div>
+
+    {% for p in nav_pages %}
+    
+    <div class="navbutton gridstack {% if p.url == page.url %}active{% endif %}">
+        
+        <div class="navbutton-content">
+            <a class="navbutton-link" href="{{ p.url | relative_url }}">
+                <div class="navbutton-nr">[{{p.nav_order | prepend: "0" | slice: -2, 2}}]</div>
+                <div class="navbutton-title">{{p.title}}</div>
+            </a>
+        </div>
+
+        <div class="navbutton-decor gridstack">
+            <!-- this is the animatable faint grey border -->
+            <div class="navbutton-faintborder faintborder"></div>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+<div class="sidebar-backdrop"></div>
+
+
 
 
 
