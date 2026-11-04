@@ -3,6 +3,7 @@ TODO:
 - adjust mobile scaling (gutters, when to break cards, when to show sidebar, clear limits)
 - cleanup magic numbers
 - uniform color vars¨
+- grid alignment (with title, height, left-right and desc)
 - hover animations consistent (also on all interactiable elements, but very light)
 - cleanup css structure in general
 - finetune design, font sizes and colors
@@ -11,6 +12,7 @@ TODO:
 - cleanup footer css
 - reuse styles! (like button styles, font formatting like combinations of bold monosp etc, backdrops)
 - Sidebar!
+- footer as element!
 - contanct in footer?
 - small comment next to all the tunable vars (and rename them)
 - write aboutme text

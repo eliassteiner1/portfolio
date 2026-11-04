@@ -1,0 +1,107 @@
+---
+layout: top_page_wrapper
+title: Academic
+permalink: /academic
+nav_order: 4
+---
+
+<div class="page">
+    
+    <!-- TITLE ------------------------------------------------------------- -->
+    <div class="title gridstack">
+
+        <div class="title-content contentcolumn">
+            <div class="title-nr">[{{ page.nav_order | prepend: '0' }}]</div>
+            <div class="title-text">{{page.title}}</div>
+            <div class="title-desc">my academic work</div>
+        </div>
+
+        <div class="title-decor gridstack">
+            <div class="title-grid"></div>
+            <div class="title-fadertop fader"></div>
+        </div>
+
+    </div>
+    
+    <!-- CARDS ------------------------------------------------------------- -->
+
+    <div class="responsive-grid contentcolumn">
+
+        {% assign articles = site.academic | sort: "path" | reverse %}
+        {% for article in articles %}
+
+            <!-- these are the collapsed cards that automatically are filed into the grid -->
+            <div class="card gridstack isAcademic">
+
+                <div class="card-content">
+                    <img class="card-cover" src="{{ article.cover | relative_url }}">
+                    <div class="card-title">{{article.title}}</div>
+                </div>
+
+                <div class="card-decor gridstack">
+                    <div class="card-faintborder faintborder"></div>
+                    <div class="card-cornermarks cornermarks"></div>
+                    <div class="card-nr">AC-{{ forloop.rindex | prepend: '00' | slice: -3, 3 }}</div>
+                </div>
+                
+            </div>
+
+            <!-- this is the opened card. doesn't get put into grid as it's either display: none or position: fixed -->
+            <dialog class="opencard" autofocus>
+            <!-- needs extra wrapper for grid stacking as display: grid would mess with closed display: none -->
+            <div class="opencard-wrapper gridstack">
+                
+                    <div class="opencard-content">
+                        <div class="opencard-button"></div>
+
+                        <div class="opencard-body">
+                            <div class="opencard-faderwrapper">
+                                <div class="opencard-fadertop fader"></div>
+                                <div class="opencard-faderbot fader"></div>
+                            </div>
+                            <img class="opencard-cover" src="{{article.image | relative_url}}">
+                            <div class="opencard-year">[{{article.year}}]</div>
+                            <div class="opencard-title">{{article.title}}</div>
+                            <div class="opencard-desc">{{article.desc}}</div>
+                            <div class="opencard-writeup">
+                                <!-- this is gonna  be the markdownified article. makes links open in a new tab -->
+                                {{ article.content | markdownify | replace: '<a href', '<a target="_blank" rel="noopener" href' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opencard-decor gridstack">
+                        <div class="opencard-faintborder faintborder"></div>
+                        <div class="opencard-cornermarks cornermarks"></div>
+
+                    </div>
+
+            </div>
+            </dialog>
+
+
+
+        {% endfor %}
+
+    </div>
+
+    <!-- FOOTER ------------------------------------------------------------ -->
+    <div class="footer-faderbot fader"></div>
+
+    <div class="footer gridstack">
+
+        <div class="footer-content contentcolumn">
+            <div class="footer-copyright">© 2026 elias steiner</div>
+            <div class="footer-email">el.st@gmx.net</div>
+            <a class="footer-totop" href="#">↑ top</a>
+        </div>
+
+        <div class="footer-decor gridstack">
+            <div class="footer-grid"></div>
+        </div>
+
+    </div>
+
+</div>
+
+

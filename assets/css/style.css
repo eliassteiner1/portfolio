@@ -94,12 +94,14 @@
     --faintborder-w: 1px; /* for the faintborder */
     --corners-w: 2px; /* for the corners */
 
+    /* navbar */
     --h-navbar: 64px;
     --hairline-navbox: 1px; /* hairline width below navbox */
-    --navbutton-gap: 20px; /* flex gap between buttons */
-    --navbutton-nrtextgap: 10px; /* gap between number and text in button */
+    --navbutton-gap: 5px; /* flex gap between buttons */
+    --navbutton-nrtextgap: 8px; /* gap between number and text in button */
     --sidebar-anim-time: 0.2s;
 
+    /* titlebanner */
     --h-title-full: 192px;
     --h-title-small: 52px;
     --scrollpad: 50px; /* dont start the title scroll animation during these first pixels */
@@ -362,7 +364,7 @@ nav {
     font-weight: var(--fwght-up1);
 
     height: var(--button-size);
-    width: 132px;
+    width: 130px;
     gap: var(--navbutton-nrtextgap);
 }
 .navbutton-nr {
@@ -382,8 +384,10 @@ nav {
     /* relies on the faintborder utility */
     opacity: 0;
 }
-.navbutton:hover .faintborder {
-    opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+    .navbutton:hover .faintborder {
+        opacity: 1;    
+}
 }
 .navburger {
     display: none;
@@ -431,8 +435,6 @@ nav {
     translate: 0% 0;
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 1.0); 
     visibility: visible;
-
-
 }
 .sidebar-backdrop {
     z-index: 101;
@@ -452,6 +454,12 @@ nav {
 .sidebar > *:not(:first-child) {
     /* all the buttons but not the close button */
     margin-left: var(--page-gutter);
+}
+.sidebar .navbutton-link {
+    /* left-align content of sidebar button version */
+    justify-content: flex-start;
+    padding-left: var(--navbutton-nrtextgap);
+
 }
 .sidebar-closebutton {
     height: var(--h-navbar);
@@ -635,9 +643,13 @@ nav {
 }
 .footer-content {
     z-index: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 30px 30px;
+    grid-template-areas: 
+        "copyr totop"
+        "email x";
+
     padding-top: 20px;
 }
 .footer-decor {
@@ -645,10 +657,17 @@ nav {
     background-color: var(--col-bg1);
 }
 .footer-copyright {
+    grid-area: copyr;
+    font-family: var(--font-family-mono);
+    color: var(--col-tx2);
+}
+.footer-email {
+    grid-area: email;
     font-family: var(--font-family-mono);
     color: var(--col-tx2);
 }
 .footer-totop {
+    grid-area: totop;
     font-family: var(--font-family-mono);
     color: var(--col-tx2);
     font-weight: var(--fwght-up2);
@@ -856,15 +875,17 @@ nav {
     transition: 
         opacity var(--hover-anim-time) ease-in-out;
 }
-.card:hover .faintborder {
-    opacity: 1;
-}
-.card:hover .cornermarks {
-    --INT-CORNERLEN: var(--card-cornerlen-ext);
-    --INT-CORNEROVERSHOOT: 0.0;
-}
-.card:hover .card-nr {
-    opacity: 0;
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .faintborder {
+        opacity: 1;
+    }
+    .card:hover .cornermarks {
+        --INT-CORNERLEN: var(--card-cornerlen-ext);
+        --INT-CORNEROVERSHOOT: 0.0;
+    }
+    .card:hover .card-nr {
+        opacity: 0;
+    }    
 }
 /* */
 /* */
@@ -1096,8 +1117,10 @@ nav {
     border: none; /* remove focus border */
     outline: none; /* remove focus outline */
 }
-.opencard-writeup a:hover {
-    color: var(--col-accent2);
+@media (hover: hover) and (pointer: fine) {
+    .opencard-writeup a:hover {
+        color: var(--col-accent2);
+    }    
 }
 
 /* Lists -------------------------------------------------------------------- */
@@ -1125,7 +1148,7 @@ nav {
 }
 .opencard-writeup ul > li::before {
     /* just for the ul markers */
-    content: "⬦";
+    content: "⬥";
 }
 .opencard-writeup ol > li {
     counter-increment: list-item-nr;

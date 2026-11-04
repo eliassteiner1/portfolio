@@ -3,12 +3,16 @@ title: "TA Mechanics II - Teaching Materials"
 cover: /assets/files/academic/tamec/cover.png
 image: /assets/files/academic/tamec/image.jpg
 year: "2020-2024"
-desc: "Collection of self-developed teaching materials for the Mechanics II Lectures Prof. Dirk Mohr."
+desc: "Collection of self-developed teaching materials for the Mechanics II Lectures by Prof. Dirk Mohr."
 ---
 
 # Overview
 
 These theory sheets were created and refined over the period of four year (2020-2024) as part of the teaching assistance for Technical Mechanics II under Prof. Dirk Mohr at ETH Zürich. I don't claim that these documents cover the entire curriculum as they are intended as a summary and aim to be as intuitive as possible. All illustrations and texts were produced by me.
+
+# Links
+
+- [Theoriesheets Mechanik II (PDF)]({{ '/assets/files/academic/tamec/theoriesheets_mechanik_II.pdf' | relative_url}})
 
 # Sources
 
@@ -23,9 +27,5 @@ These theory sheets were created and refined over the period of four year (2020-
 - [SimScale - Für Simulationen von Querkraft und Torsion](https://www.simscale.com/)
 - [Berechnung Schubkorrekturfaktor](https://www.dasbestelexikon.de/de/wiki/Schubkorrekturfaktor)
 - [Schubflächenberechnung](https://www.dlubal.com/de/support-und-schulungen/support/knowledge-base/001405)
-- [Word Equation Editor Cheat Sheet](https://rti.etf.bg.ac.rs/rti/si1pkr/materijali/lab/word/EquationEditor.pdf)
+- [Word Equation Editor Cheat Sheet (rework)](https://rti.etf.bg.ac.rs/rti/si1pkr/materijali/lab/word/EquationEditor.pdf)
 - [Word Equation Editor Cheat Sheet (original)](https://mathiho.faculty.iun.edu/doc/equation-editor-shortcut-commands.pdf)
-
-# Links
-
-- [Theoriesheets Mechanik II (PDF)]({{ '/assets/files/academic/tamec/theoriesheets_mechanik_II.pdf' | relative_url}})

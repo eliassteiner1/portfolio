@@ -1,7 +1,7 @@
 ---
 layout: top_page_wrapper
-title: Academic
-permalink: /academic
+title: Digital
+permalink: /digital
 nav_order: 3
 ---
 
@@ -13,7 +13,7 @@ nav_order: 3
         <div class="title-content contentcolumn">
             <div class="title-nr">[{{ page.nav_order | prepend: '0' }}]</div>
             <div class="title-text">{{page.title}}</div>
-            <div class="title-desc">my academic work</div>
+            <div class="title-desc">my personal programming projects</div>
         </div>
 
         <div class="title-decor gridstack">
@@ -27,11 +27,11 @@ nav_order: 3
 
     <div class="responsive-grid contentcolumn">
 
-        {% assign articles = site.academic | sort: "path" | reverse %}
+        {% assign articles = site.digital | sort: "path" | reverse %}
         {% for article in articles %}
 
             <!-- these are the collapsed cards that automatically are filed into the grid -->
-            <div class="card gridstack isAcademic">
+            <div class="card gridstack isProject">
 
                 <div class="card-content">
                     <img class="card-cover" src="{{ article.cover | relative_url }}">
@@ -41,7 +41,7 @@ nav_order: 3
                 <div class="card-decor gridstack">
                     <div class="card-faintborder faintborder"></div>
                     <div class="card-cornermarks cornermarks"></div>
-                    <div class="card-nr">AC-{{ forloop.rindex | prepend: '00' | slice: -3, 3 }}</div>
+                    <div class="card-nr">PR-{{ forloop.rindex | prepend: '00' | slice: -3, 3 }}</div>
                 </div>
                 
             </div>
@@ -92,6 +92,7 @@ nav_order: 3
 
         <div class="footer-content contentcolumn">
             <div class="footer-copyright">© 2026 elias steiner</div>
+            <div class="footer-email">el.st@gmx.net</div>
             <a class="footer-totop" href="#">↑ top</a>
         </div>
 
@@ -102,5 +103,4 @@ nav_order: 3
     </div>
 
 </div>
-
 

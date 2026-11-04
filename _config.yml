@@ -2,7 +2,9 @@ title: Elias Steiner
 baseurl: "/portfolio"
 collections_dir: collections
 collections:
-    projects: 
+    physical: 
+        output: false # prevents jekyll from automatically generating a page for each .md
+    digital:
         output: false # prevents jekyll from automatically generating a page for each .md
     academic:
         output: false # prevents jekyll from automatically generating a page for each .md
