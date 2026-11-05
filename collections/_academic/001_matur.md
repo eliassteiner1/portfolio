@@ -1,5 +1,5 @@
 ---
-title: "Maturarbeit"
+title: "Maturitätsarbeit"
 cover: /assets/files/academic/matur/cover.png
 image: /assets/files/academic/matur/image.png
 year: "2016"
@@ -14,6 +14,6 @@ Ein einfaches Blechdosenmodell half mir zunächst wichtige Zusammenhänge zu ver
 
 # Links
 
-- [Maturarbeit (PDF)]({{ '/assets/files/academic/matur/maturarbeit_elias_steiner.pdf' | relative_url}})
+- [Maturitätsarbeit (PDF)]({{ '/assets/files/academic/matur/maturitätsarbeit_elias_steiner.pdf' | relative_url}})
 - [Demonstration Prototyp (Blechdosen-Stirlingmotor)](https://youtu.be/CKf1bin9Naw)
 - [Demonstration Stirlingmotor](https://youtu.be/IZPS30YnD6Q)

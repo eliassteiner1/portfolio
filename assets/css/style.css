@@ -771,13 +771,11 @@ nav {
 }
 .aboutme-specs dt {
     font-family: var(--font-family-mono);
-    font-size: var(--fsize-monocorr);
-    letter-spacing: 0.1em;
     color: var(--col-tx1);
 }
 .aboutme-specs dd {
     color: var(--col-tx2);
-    text-wrap: pretty;
+    text-align: left;
 }
 .aboutme-text {
     margin-top: 40px;
